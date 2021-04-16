@@ -1,21 +1,27 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id: number
-    
+    userId: number
+
     @Column()
-    userName: string
-    
+    username: string
+
     @Column()
     firstName: string
-    
+
     @Column()
     lastName: string
 
     @Column()
     email: string
+
+    @Column()
+    birthday: Date
+
+    @Column()
+    password: string
 
     // Will add questions, answers, userType(reward system -> accepted questions)
 }
