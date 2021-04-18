@@ -3,32 +3,32 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('users')
+@Controller('saas/architecture/users/')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) { }
+    constructor(private readonly usersService: UsersService) {}
 
     // Create new user
-    @Post('create')
+    @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
         return this.usersService.createUser(createUserDto);
     }
 
-    // Probably don't need this
+    // Find all users
     @Get()
-    findAll() {
-        return this.usersService.findAll();
+    findAllUsers() {
+        return this.usersService.findAllUsers();
     }
 
     // Find single user
     @Get(':userId')
-    findOne(@Param('userId') userId: number) {
-        return this.usersService.findOne(userId);
+    findOneUser(@Param('userId') userId: number) {
+        return this.usersService.findOneUser(userId);
     }
 
     // Update user
     @Patch(':userId')
-    update(@Param('userId') userId: number, @Body() updateUserDto: UpdateUserDto) {
-        return this.usersService.update(userId, updateUserDto);
+    updateUser(@Param('userId') userId: number, @Body() updateUserDto: UpdateUserDto) {
+        return this.usersService.updateUser(userId, updateUserDto);
     }
 
     // Delete user
@@ -36,4 +36,5 @@ export class UsersController {
     removeUser(@Param('userId') userId: number) {
         return this.usersService.removeUser(userId);
     }
+
 }
