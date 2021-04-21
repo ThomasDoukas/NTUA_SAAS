@@ -24,15 +24,14 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const credentials = {email: user.email, sub: user.userId };
-        return {
-            access_token: this.jwtService.sign(credentials),
-        };
+        const credentials = {email: user.email, userId: user.userId };
+        return { 
+            access_token: this.jwtService.sign(credentials), ...credentials };
     }
 
     async signup(user: any) {
         const newUser = await this.usersService.createUser(user);
-        const credentials = {email: newUser.email, sub: newUser.userId };
-        return { access_token: this.jwtService.sign(credentials)};
+        const credentials = {email: newUser.email, userId: newUser.userId };
+        return { access_token: this.jwtService.sign(credentials), ...credentials};
     }
 }

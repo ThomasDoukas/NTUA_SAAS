@@ -4,8 +4,8 @@ import { UsersController } from './users.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
-  controllers: [UsersController],
-  providers: [UsersService, JwtStrategy],
-  exports: [UsersService]
+    controllers: [UsersController],
+    providers: [UsersService, JwtStrategy],
+    exports: [UsersService]
 })
-export class UsersModule {}
+export class UsersModule { }

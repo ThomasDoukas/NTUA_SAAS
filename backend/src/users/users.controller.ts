@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, ConflictException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -34,6 +34,7 @@ export class UsersController {
         @Body() updateUserDto: UpdateUserDto,
         @Request() req
     ) {
+        if(userId != req.user.userId) throw new ConflictException('userId does not match jwt.userId')
         return this.usersService.updateUser(req.user.userId, updateUserDto);
     }
 
@@ -44,6 +45,7 @@ export class UsersController {
         @Param('userId') userId: number,
         @Request() req
     ) {
+        if(userId != req.user.userId) throw new ConflictException('userId does not match jwt.userId')
         return this.usersService.removeUser(req.user.userId);
     }
 

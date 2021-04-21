@@ -9,7 +9,7 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(10, {
-        message: 'Password is too short. Minimal length is $constraint1 characters, but actual is $value',
+        message: 'Password is too short. Minimal length is $constraint1 characters.',
     })
     readonly password: string;
 

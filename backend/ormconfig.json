@@ -7,4 +7,4 @@
     "database": "saas_dummy_users",
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "synchronize": true
-  }
+}

@@ -6,25 +6,39 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { QuestionsModule } from './questions/questions.module';
+import { User } from './users/entities/user.entity';
+import { Question } from './questions/entities/question.entity';
+import { Label } from './questions/entities/label.entity';
+import { Answer } from './questions/entities/answer.entity';
+
+const defaultOptions = {
+    type: 'postgres' as 'postgres',
+    port: 5432,
+    username: 'postgres',
+    password: 'root',
+    host: 'localhost',
+    synchronize: true,
+};
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
+    QuestionsModule,
     TypeOrmModule.forRoot({
-        // type: process.env.DB_TYPE as any,
-        // host: process.env.DB_HOST,
-        // port: parseInt(process.env.DB_PORT),
-        // username: process.env.USERNAME,
-        // password: process.env.PASSWORD,
-        // database: process.env.DATABASE,
-        // autoLoadEntities: true,
-        // synchronize: true,
+        ...defaultOptions,
+        database: 'saas_dummy_users',
+        entities: [User]
+    }),
+    TypeOrmModule.forRoot({
+        ...defaultOptions,
+        database: 'saas_dummy_questions',
+        entities: [Question, Label, Answer]
     }),
     ConfigModule.forRoot({
         isGlobal: true,
+        envFilePath: '../envFiles/.env',
     }),
-    QuestionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
