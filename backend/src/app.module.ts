@@ -10,7 +10,19 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     UsersModule,
     AuthModule,
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+        // type: process.env.DB_TYPE as any,
+        // host: process.env.DB_HOST,
+        // port: parseInt(process.env.DB_PORT),
+        // username: process.env.USERNAME,
+        // password: process.env.PASSWORD,
+        // database: process.env.DATABASE,
+        // autoLoadEntities: true,
+        // synchronize: true,
+    }),
+    ConfigModule.forRoot({
+        isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

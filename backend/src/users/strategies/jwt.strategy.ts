@@ -10,10 +10,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
             secretOrKey: jwtConstants.secret,
+            // secretOrKey: process.env.JWT_SECRET,
         });
     }
 
-    async validate(payload: any){ 
+    //Passport first verifies the JWT's signature and decodes the JSON.
+    //It then invokes validate() method passing the decoded JSON as its single parameter.
+    async validate(payload: any){
+        console.log(payload);
         return {userId: payload.sub, email: payload.email}
     }
 }

@@ -35,6 +35,7 @@ export class UsersService {
     }
 
     // Update user
+    // Needs guard
     async updateUser(userId: number, updateUserDto: UpdateUserDto) {
         return this.manager.transaction(async manager => {
             const userExists = await this.manager.findOne(User, userId);
@@ -51,6 +52,7 @@ export class UsersService {
     }
 
     // Delete user
+    // Needs Guard
     async removeUser(userId: number): Promise<any> {
         return this.manager.transaction(async manager => {
             const userExists = await manager.findOne(User, userId);
