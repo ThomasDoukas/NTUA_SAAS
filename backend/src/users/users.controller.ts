@@ -32,14 +32,18 @@ export class UsersController {
     updateUser(
         @Param('userId') userId: number,
         @Body() updateUserDto: UpdateUserDto,
-        @Request() req) {
+        @Request() req
+    ) {
         return this.usersService.updateUser(req.user.userId, updateUserDto);
     }
 
     // Delete user
     @UseGuards(JwtAuthGuard)
     @Delete(':userId')
-    removeUser(@Request() req) {
+    removeUser(
+        @Param('userId') userId: number,
+        @Request() req
+    ) {
         return this.usersService.removeUser(req.user.userId);
     }
 
