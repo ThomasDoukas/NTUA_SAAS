@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 //import './ByKeyword.css';
-import { Jumbotron, Col, Image, Container, Row } from 'react-bootstrap';
 
 class ByKeyword extends React.Component {
     render() {

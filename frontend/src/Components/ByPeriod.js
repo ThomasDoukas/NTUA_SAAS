@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 //import './ByPeriod.css';
-import { Jumbotron, Col, Image, Container, Row } from 'react-bootstrap';
 
 class ByPeriod extends React.Component {
     render() {

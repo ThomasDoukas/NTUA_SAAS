@@ -9,7 +9,7 @@ import AnswerQuestion from './Components/AnswerQuestion';
 import MyProfile from './Components/MyProfile';
 import ByPeriod from './Components/ByPeriod';
 import ByKeyword from './Components/ByKeyword';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 function App() {
   return (

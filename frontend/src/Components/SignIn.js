@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import './SignIn.css';
-import { Jumbotron, Col, Image, Container, Row } from 'react-bootstrap';
+import { Redirect } from 'react-router';
 
 class SignIn extends React.Component {
 
@@ -11,7 +11,8 @@ class SignIn extends React.Component {
         birthday: undefined,
         username: undefined,
         firstname: undefined,
-        lastname: undefined
+        lastname: undefined,
+        redirect: false
     }
     
     signinFunc = async (e) => {
@@ -40,45 +41,55 @@ class SignIn extends React.Component {
                 });
                 if (api_call.ok) {
                     const data = await api_call.json();
-                    console.log(data);
+                    const access_token = data.access_token;
+                    console.log(access_token);
+                    this.setState({
+                        redirect: true
+                    })
                 }
     }
 
     render() {
-        return (
-            <form onSubmit={this.signinFunc}>
-                <h3>Sign Up</h3>
-                <div className="form-group">
-                    <label> Email address </label>
-                    <input type="email" className="form-control" placeholder="ex. wena@indlovu.gr" name='email' />
-                </div>
-                <div className="form-group">
-                    <label> Password </label>
-                    <input type="password" className="form-control" placeholder="Enter password..." name='password' />
-                </div>
-                <div className="form-group">
-                    <label> Password Repeat </label>
-                    <input type="password" className="form-control" placeholder="Re-enter password..." name='password2' />
-                </div>
-                <div className="form-group">
-                    <label> First Name </label>
-                    <input type="username" className="form-control" name='firstname' />
-                </div>
-                <div className="form-group">
-                    <label> Last Name </label>
-                    <input type="username" className="form-control" name='lastname' />
-                </div>
-                <div className="form-group">
-                    <label> Username </label>
-                    <input type="username" className="form-control" name='username' />
-                </div>
-                <div className="form-group">
-                    <label> Birthday </label>
-                    <input type='timestamp' className="form-control" name='birthday' />
-                </div>
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
-            </form>
-        )
+        const redirection = this.state.redirect;
+        if (redirection) {
+            return <Redirect to="/"/>
+        }
+        else {
+            return (
+                <form onSubmit={this.signinFunc}>
+                    <h3>Sign Up</h3>
+                    <div className="form-group">
+                        <label> Email address </label>
+                        <input type="email" className="form-control" placeholder="ex. wena@indlovu.gr" name='email' />
+                    </div>
+                    <div className="form-group">
+                        <label> Password </label>
+                        <input type="password" className="form-control" placeholder="Enter password..." name='password' />
+                    </div>
+                    <div className="form-group">
+                        <label> Password Repeat </label>
+                        <input type="password" className="form-control" placeholder="Re-enter password..." name='password2' />
+                    </div>
+                    <div className="form-group">
+                        <label> First Name </label>
+                        <input type="username" className="form-control" name='firstname' />
+                    </div>
+                    <div className="form-group">
+                        <label> Last Name </label>
+                        <input type="username" className="form-control" name='lastname' />
+                    </div>
+                    <div className="form-group">
+                        <label> Username </label>
+                        <input type="username" className="form-control" name='username' />
+                    </div>
+                    <div className="form-group">
+                        <label> Birthday </label>
+                        <input type='timestamp' className="form-control" name='birthday' />
+                    </div>
+                    <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                </form>
+            )
+        }
     }
 }
 

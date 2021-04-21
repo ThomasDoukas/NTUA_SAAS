@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 //import './MyProfile.css';
-import { Jumbotron, Col, Image, Container, Row } from 'react-bootstrap';
 
 class MyProfile extends React.Component {
     render() {

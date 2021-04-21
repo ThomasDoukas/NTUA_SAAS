@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem, NavbarBrand, NavLink } from 'react-bootstrap';
 
 const check1 = false;
 

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './LogIn.css';
-import { Jumbotron, Col, Image, Container, Row } from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
+import { Redirect } from 'react-router';
 
 class LogIn extends React.Component {
 
     state = {
         email: undefined,
-        password: undefined
+        password: undefined,
+        redirect: false
     }
 
     loginFunc = async (e) => {
@@ -26,29 +28,37 @@ class LogIn extends React.Component {
                 });
                 if (api_call.ok) {
                     const data = await api_call.json();
-                    console.log(data);
+                    const access_token = data.access_token;
+                    console.log(access_token);
+                    this.setState({
+                        redirect: true
+                    })
                 }
-            console.log(email);
-            console.log(password);
             }
 
     render() {
-        return (
-            <Container bsPrefix='group1'>
-            <form onSubmit={this.loginFunc}>
-                <h3>Log In</h3>
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="ex. wena@indlovu.gr" name='email' />
-                </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password..." name='password' />
-                </div>
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
-            </form>
-            </Container>
-        )
+        const redirection = this.state.redirect;
+        if (redirection) {
+            return <Redirect to="/"/>
+        }
+        else {
+            return (
+                <Container bsPrefix='group1'>
+                <form onSubmit={this.loginFunc}>
+                    <h3>Log In</h3>
+                    <div className="form-group">
+                        <label> Email address </label>
+                        <input type="email" className="form-control" placeholder="ex. wena@indlovu.gr" name='email' />
+                    </div>
+                    <div className="form-group">
+                        <label> Password </label>
+                        <input type="password" className="form-control" placeholder="Enter password..." name='password' />
+                    </div>
+                    <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                </form>
+                </Container>
+            )
+        }
     }
 }
 
