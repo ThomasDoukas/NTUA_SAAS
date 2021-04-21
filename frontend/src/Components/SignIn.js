@@ -52,6 +52,7 @@ class SignIn extends React.Component {
     render() {
         const redirection = this.state.redirect;
         if (redirection) {
+            this.props.onLogIn(true);
             return <Redirect to="/"/>
         }
         else {

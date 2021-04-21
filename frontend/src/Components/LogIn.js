@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './LogIn.css';
+//import './LogIn.css';
 import {Container} from 'react-bootstrap';
 import { Redirect } from 'react-router';
 
@@ -39,6 +39,7 @@ class LogIn extends React.Component {
     render() {
         const redirection = this.state.redirect;
         if (redirection) {
+            this.props.onLogIn(true);
             return <Redirect to="/"/>
         }
         else {
