@@ -1,9 +1,8 @@
-import { type } from "node:os";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Answer } from "./answer.entity";
-import { Label } from "./label.entity";
+import { BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Answer } from './answer.entity';
+import { Label } from './label.entity';
 
-@Entity({name: "Questions"})
+@Entity({name: 'Questions'})
 export class Question {
     @PrimaryGeneratedColumn()
     questionId: number
@@ -14,29 +13,35 @@ export class Question {
     @Column()
     body: string
 
-    // createdBy userId or email? 
+    // createdBy email? 
     @Column()
     createdBy: string
 
-    @Column()
-    timeCreatedBy: Date
+    @CreateDateColumn()
+    timeCreated: Date
 
-    // @Column()
-    // modifiedBy: string
+    @CreateDateColumn()
+    timeModified: Date
 
-    // @Column()
-    // timeModifiedBy: Date
+    @BeforeUpdate()
+    updateModTime() {
+        this.timeModified = new Date;
+    }
 
     // use different database for Labels? 
-    @Column()
-    label: string
-
-    @Column()
+    // @Column({nullable: true})
+    // label: string
+    
+    @Column({default: false})
     closed: boolean
-
+    
     @OneToMany(type => Answer, answer => answer.question)
     answers: Answer[];
-
-    @OneToMany(type => Label, label => label.question)
+    
+    @ManyToMany(type => Label, label => label.questions, {cascade: ["insert", "update"]})
+    @JoinTable({name: 'Question_has_Labels'})
     labels: Label[];
+
+    // More ideas up-voters(like labels)
+
 }

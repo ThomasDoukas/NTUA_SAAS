@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectEntityManager() private manager: EntityManager) { }
+    constructor(@InjectEntityManager('usersConnection') private manager: EntityManager) { }
 
     // Create single user
     async createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -18,13 +18,13 @@ export class UsersService {
             const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
             const newUserDto = {...createUserDto, password: hashedPassword};
             const newUser = await this.manager.create(User, newUserDto);
-            return this.manager.save(newUser);
+            return await this.manager.save(newUser);
         })
     }
 
     // Returns all users in database
     async findAllUsers(): Promise<User[]> {
-        return this.manager.find(User)
+        return await this.manager.find(User)
     }
 
     // Returns userId
@@ -46,7 +46,7 @@ export class UsersService {
                 if (emailUsed) throw new ConflictException(`Email ${updateUserDto.email} already being used!`);
             }
             manager.merge(User, userExists, updateUserDto);
-            return manager.save(userExists);
+            return await manager.save(userExists);
         })
     }
 
@@ -59,6 +59,7 @@ export class UsersService {
         })
     }
 
+    // Use email to find user
     async findUserFromEmail(email: string): Promise<User> {
         const userExists = await this.manager.findOne(User, {where: {email: email}});
         if(!userExists) throw new NotFoundException(`User not found`);

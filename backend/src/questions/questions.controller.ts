@@ -3,32 +3,47 @@ import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
-@Controller('questions')
+@Controller('saas/architecture/questions/')
 export class QuestionsController {
-  constructor(private readonly questionsService: QuestionsService) {}
+    constructor(private readonly questionsService: QuestionsService) { }
 
-  @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionsService.create(createQuestionDto);
-  }
+    // Create question
+    @Post()
+    createQuestion(@Body() createQuestionDto: CreateQuestionDto) {
+        return this.questionsService.createQuestion(createQuestionDto);
+    }
 
-  @Get()
-  findAll() {
-    return this.questionsService.findAll();
-  }
+    // Find all questions
+    @Get()
+    findAllQuestions() {
+        return this.questionsService.findAllQuestions();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
-  }
+    // Find all questions
+    @Get('/getlabels')
+    findAllLabels() {
+        return this.questionsService.findAllLabels();
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
-    return this.questionsService.update(+id, updateQuestionDto);
-  }
+    @Get(':questionId')
+    findOneQuestion(@Param('questionId') questionId: number) {
+        return this.questionsService.findOneQuestion(questionId);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questionsService.remove(+id);
-  }
+    @Patch(':questionId')
+    updateQuestion(@Param('questionId') questionId: number, @Body() updateQuestionDto: UpdateQuestionDto) {
+        return this.questionsService.updateQuestion(questionId, updateQuestionDto);
+    }
+
+    // Delete question
+    @Delete(':questionId')
+    removeQuestion(@Param('questionId') questionId: number) {
+        return this.questionsService.removeQuestion(questionId);
+    }
+
+    // // Delete label
+    // @Delete('dellabels')
+    // removeLabel(@Body('labelTitle') labelTitle: string[]) {
+    //     return this.questionsService.removeLabel(labelTitle);
+    // }
 }

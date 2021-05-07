@@ -1,15 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Question } from "./question.entity";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Question } from './question.entity';
 
-@Entity({name: "Labels"})
+@Entity({name: 'Labels'})
 export class Label {
-    @PrimaryGeneratedColumn()
-    labelId: number
+    // @PrimaryGeneratedColumn()
+    // labelId: number
 
-    @Column()
+    @PrimaryColumn()
     labelTitle: string
 
-    @ManyToOne(() => Question, question => question.labels, {onDelete: "CASCADE"})
-    @JoinColumn({name: 'questionId' })
-    question: Question
+    @ManyToMany(type => Question, question => question.labels, {onDelete: "CASCADE"})
+    questions: Question[]
 }
