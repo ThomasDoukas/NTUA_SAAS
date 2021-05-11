@@ -19,17 +19,19 @@ export class QuestionsController {
         return this.questionsService.findAllQuestions();
     }
 
-    // Find all questions
+    // Find all labels
     @Get('/getlabels')
     findAllLabels() {
         return this.questionsService.findAllLabels();
     }
 
+    // Find single question
     @Get(':questionId')
     findOneQuestion(@Param('questionId') questionId: number) {
         return this.questionsService.findOneQuestion(questionId);
     }
 
+    // Update question
     @Patch(':questionId')
     updateQuestion(@Param('questionId') questionId: number, @Body() updateQuestionDto: UpdateQuestionDto) {
         return this.questionsService.updateQuestion(questionId, updateQuestionDto);
@@ -41,9 +43,4 @@ export class QuestionsController {
         return this.questionsService.removeQuestion(questionId);
     }
 
-    // // Delete label
-    // @Delete('dellabels')
-    // removeLabel(@Body('labelTitle') labelTitle: string[]) {
-    //     return this.questionsService.removeLabel(labelTitle);
-    // }
 }

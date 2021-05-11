@@ -4,12 +4,12 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
 import { QuestionsModule } from './questions/questions.module';
 import { User } from './users/entities/user.entity';
 import { Label } from './questions/entities/label.entity';
-import { Answer } from './questions/entities/answer.entity';
+import { Answer } from './answers/entities/answer.entity';
 import { Question } from './questions/entities/question.entity';
+import { AnswersModule } from './answers/answers.module';
 
 const defaultOptions = {
     type: 'postgres' as 'postgres',
@@ -25,11 +25,12 @@ const defaultOptions = {
     UsersModule,
     AuthModule,
     QuestionsModule,
+    AnswersModule,
     TypeOrmModule.forRoot({
         ...defaultOptions,
         name: 'usersConnection',
         database: 'saas_dummy_users',
-        // entities: ["dist/**/*.entity{.ts,.js}"]
+        // entities: ['dist/**/*.entity{.ts,.js}']
         entities: [User]
     }),
     TypeOrmModule.forRoot({
@@ -37,7 +38,7 @@ const defaultOptions = {
         name: 'questionsConnection',
         database: 'saas_dummy_questions',
         entities: [Question, Label, Answer]
-        // entities: ["dist/**/*.entity{.ts,.js}"] 
+        // entities: ['dist/**/*.entity{.ts,.js}'] 
     }),
     // ConfigModule.forRoot({
     //     isGlobal: true,

@@ -27,12 +27,12 @@ export class QuestionsService {
     }
 
     // Find single question
-    async findOneQuestion(questionId: number) {
+    async findOneQuestion(questionId: number): Promise<Question> {
         return await this.manager.findOne(Question, questionId, { relations: ['labels'] });
     }
 
     // Update question
-    async updateQuestion(questionId: number, updateQuestionDto: UpdateQuestionDto) {
+    async updateQuestion(questionId: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
         return this.manager.transaction(async manager => {
             const questionExists = await this.manager.findOne(Question, questionId);
             if (!questionExists) throw new NotFoundException(`Question ${questionId} not found`);
@@ -41,19 +41,44 @@ export class QuestionsService {
         })
     }
 
+    
     // Delete question
-    async removeQuestion(questionId: number) {
+    async removeQuestion(questionId: number): Promise<any> {
         return this.manager.transaction(async manager => {
             const questionExists = await manager.findOne(Question, questionId, { relations: ['labels'] });
             if (!questionExists) throw new NotFoundException('Question not found');
             const deletedQuestion = await manager.delete(Question, questionId);
-            for (let i = 0; i < questionExists.labels.length; i++){
-                const test = await manager.findOne(Label, questionExists.labels[i], {relations: ['questions']});
-                if(test.questions.length === 0)
-                    await manager.delete(Label, test.labelTitle)
-            }
+
+            // Check wether or not we should delete this question's labels.
+            // Find all labels of deleted question
+            const questionLabels = await manager.find(Label, { 
+                where: [
+                    ...questionExists.labels
+                ],
+                relations: ['questions'] 
+            })
+
+            // For each label check the corresponding questions
+            const deleteLabels = questionLabels
+                .filter(
+                    (el: {labelTitle: string, questions: Question[]}) => {
+                        return el.questions.length === 0;
+                })
+                .map( (el: {labelTitle: string, questions: Question[]}) => {
+                    return {labelTitle: el.labelTitle};
+                })
+            // Delete all labels with no questions (empty questions array)
+            if(deleteLabels) await manager.delete(Label, [...deleteLabels]);
+
+            // Running
+            // for (let i = 0; i < questionExists.labels.length; i++){
+            //     const test = await manager.findOne(Label, questionExists.labels[i], {relations: ['questions']});
+            //     if(test.questions.length === 0)
+            //         await manager.delete(Label, test.labelTitle)
+            // }
+
             return deletedQuestion;
         });
     }
-
+    
 }

@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Question } from "./question.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Question } from '../../questions/entities/question.entity';
 
-@Entity({name: "Answers"})
+@Entity({name: 'Answers'})
 export class Answer {
     @PrimaryGeneratedColumn()
     answerId: number
@@ -19,7 +19,7 @@ export class Answer {
     @Column()
     upVotes: number
 
-    @ManyToOne(() => Question, question => question.answers, {onDelete: "CASCADE"})
+    @ManyToOne(() => Question, question => question.answers, {onDelete: 'CASCADE'})
     @JoinColumn({name: 'questionId' })
     question: Question
 }

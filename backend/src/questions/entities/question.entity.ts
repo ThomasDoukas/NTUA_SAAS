@@ -1,5 +1,5 @@
 import { BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Answer } from './answer.entity';
+import { Answer } from '../../answers/entities/answer.entity';
 import { Label } from './label.entity';
 
 @Entity({name: 'Questions'})
@@ -27,10 +27,6 @@ export class Question {
     updateModTime() {
         this.timeModified = new Date;
     }
-
-    // use different database for Labels? 
-    // @Column({nullable: true})
-    // label: string
     
     @Column({default: false})
     closed: boolean
@@ -38,7 +34,7 @@ export class Question {
     @OneToMany(type => Answer, answer => answer.question)
     answers: Answer[];
     
-    @ManyToMany(type => Label, label => label.questions, {cascade: ["insert", "update"]})
+    @ManyToMany(type => Label, label => label.questions, {cascade: ['insert', 'update']})
     @JoinTable({name: 'Question_has_Labels'})
     labels: Label[];
 
