@@ -26,7 +26,7 @@ export class QuestionsService {
 
     // Returns all questions
     async findAllQuestions(): Promise<Question[]> {
-        return await this.manager.find(Question, { relations: ['labels'] })
+        return await this.manager.find(Question, { relations: ['labels', 'answers'] })
     }
 
     // Returns all labels
@@ -36,7 +36,7 @@ export class QuestionsService {
 
     // Find single question
     async findOneQuestion(questionId: number): Promise<Question> {
-        const questionExists = await this.manager.findOne(Question, questionId, { relations: ['labels'] });
+        const questionExists = await this.manager.findOne(Question, questionId, { relations: ['labels', 'answers'] });
         if(!questionExists) throw new NotFoundException('Question does not exist!');
         return questionExists;
     }
