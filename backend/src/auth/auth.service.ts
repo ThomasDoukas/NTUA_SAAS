@@ -14,10 +14,10 @@ export class AuthService {
     // Should return a user object if validation is successfully (as described in local.strategy)
     async validateUser(email: string, pass: string): Promise<any> {
         // console.log('Second! validateUser in auth.service.ts');
-        const user = await this.usersService.findUserFromEmail(email);
-        const passwordIsValid = await bcrypt.compare(pass, user.password);
-        if (user && passwordIsValid) {
-            const { password, ...result } = user;
+        const userExists = await this.usersService.findUserFromEmail(email);
+        const passwordIsValid = await bcrypt.compare(pass, userExists.password);
+        if (userExists && passwordIsValid) {
+            const { password, ...result } = userExists;
             return result;
         }
         else

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Question } from '../../questions/entities/question.entity';
 
 @Entity({name: 'Answers'})
@@ -9,14 +9,17 @@ export class Answer {
     @Column()
     body: string
 
-    // createdBy userId or email? 
+    // createdBy email? 
     @Column()
     createdBy: string
 
-    @Column()
+    @CreateDateColumn()
     timeCreated: Date
 
-    @Column()
+    @UpdateDateColumn()
+    timeModified: Date
+
+    @Column({default: 0})
     upVotes: number
 
     @ManyToOne(() => Question, question => question.answers, {onDelete: 'CASCADE'})

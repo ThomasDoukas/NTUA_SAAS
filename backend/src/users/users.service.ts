@@ -17,8 +17,8 @@ export class UsersService {
             if (userExists) throw new ConflictException(`Email ${createUserDto.email} already exists!`);
             const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
             const newUserDto = {...createUserDto, password: hashedPassword};
-            const newUser = await this.manager.create(User, newUserDto);
-            return await this.manager.save(newUser);
+            const newUser = await manager.create(User, newUserDto);
+            return await manager.save(newUser);
         })
     }
 
@@ -37,12 +37,12 @@ export class UsersService {
     // Update user
     async updateUser(userId: number, updateUserDto: UpdateUserDto) {
         return this.manager.transaction(async manager => {
-            const userExists = await this.manager.findOne(User, userId);
+            const userExists = await manager.findOne(User, userId);
             if (!userExists) throw new NotFoundException(`User ${userId} not found`);
             // To update email
             if (updateUserDto.email && updateUserDto.email !== userExists.email) {
                 // We need to know whether new mail is being used or not
-                const emailUsed = await this.manager.findOne(User, { where: { email: updateUserDto.email } });
+                const emailUsed = await manager.findOne(User, { where: { email: updateUserDto.email } });
                 if (emailUsed) throw new ConflictException(`Email ${updateUserDto.email} already being used!`);
             }
             manager.merge(User, userExists, updateUserDto);

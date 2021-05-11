@@ -1,4 +1,4 @@
-import { BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Answer } from '../../answers/entities/answer.entity';
 import { Label } from './label.entity';
 
@@ -13,27 +13,22 @@ export class Question {
     @Column()
     body: string
 
-    // createdBy email? 
+    // createdBy email
     @Column()
     createdBy: string
 
     @CreateDateColumn()
     timeCreated: Date
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     timeModified: Date
-
-    @BeforeUpdate()
-    updateModTime() {
-        this.timeModified = new Date;
-    }
     
     @Column({default: false})
     closed: boolean
     
     @OneToMany(type => Answer, answer => answer.question)
     answers: Answer[];
-    
+
     @ManyToMany(type => Label, label => label.questions, {cascade: ['insert', 'update']})
     @JoinTable({name: 'Question_has_Labels'})
     labels: Label[];

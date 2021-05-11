@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
+import { UsersService } from 'src/users/users.service';
 import { EntityManager } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -8,12 +9,19 @@ import { Question } from './entities/question.entity';
 
 @Injectable()
 export class QuestionsService {
-    constructor(@InjectEntityManager('questionsConnection') private manager: EntityManager) { }
+    constructor(
+        @InjectEntityManager('questionsConnection') private manager: EntityManager,
+        private usersService: UsersService
+        ) { }
 
     // Create new question
     async createQuestion(createQuestionDto: CreateQuestionDto): Promise<Question> {
-        const newQuestion = await this.manager.create(Question, createQuestionDto);
-        return await this.manager.save(newQuestion);
+        return this.manager.transaction(async manager => {
+            // findUserFromEmail already takes care of the exception if needed!
+            await this.usersService.findUserFromEmail(createQuestionDto.createdBy);
+            const newQuestion = await manager.create(Question, createQuestionDto);
+            return await manager.save(newQuestion);
+        })
     }
 
     // Returns all questions
@@ -28,25 +36,26 @@ export class QuestionsService {
 
     // Find single question
     async findOneQuestion(questionId: number): Promise<Question> {
-        return await this.manager.findOne(Question, questionId, { relations: ['labels'] });
+        const questionExists = await this.manager.findOne(Question, questionId, { relations: ['labels'] });
+        if(!questionExists) throw new NotFoundException('Question does not exist!');
+        return questionExists;
     }
 
     // Update question
     async updateQuestion(questionId: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
         return this.manager.transaction(async manager => {
-            const questionExists = await this.manager.findOne(Question, questionId);
-            if (!questionExists) throw new NotFoundException(`Question ${questionId} not found`);
+            const questionExists = await manager.findOne(Question, questionId);
+            if (!questionExists) throw new NotFoundException(`Question ${questionId} not found!`);
             manager.merge(Question, questionExists, updateQuestionDto);
             return await manager.save(questionExists);
         })
     }
-
     
     // Delete question
     async removeQuestion(questionId: number): Promise<any> {
         return this.manager.transaction(async manager => {
             const questionExists = await manager.findOne(Question, questionId, { relations: ['labels'] });
-            if (!questionExists) throw new NotFoundException('Question not found');
+            if (!questionExists) throw new NotFoundException('Question not found!');
             const deletedQuestion = await manager.delete(Question, questionId);
 
             // Check wether or not we should delete this question's labels.

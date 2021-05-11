@@ -31,7 +31,7 @@ export class QuestionsController {
         return this.questionsService.findOneQuestion(questionId);
     }
 
-    // Update question
+    // Update question 
     @Patch(':questionId')
     updateQuestion(@Param('questionId') questionId: number, @Body() updateQuestionDto: UpdateQuestionDto) {
         return this.questionsService.updateQuestion(questionId, updateQuestionDto);

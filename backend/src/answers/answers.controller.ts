@@ -27,8 +27,10 @@ export class AnswersController {
 
     // Update answer
     @Patch(':answerId')
-    update(@Param('answerId') answerId: number, @Body() updateAnswerDto: UpdateAnswerDto) {
-        return this.answersService.update(+answerId, updateAnswerDto);
+    update(
+        @Param('answerId') answerId: number,
+        @Body() updateAnswerDto: UpdateAnswerDto) {
+        return this.answersService.update(answerId, updateAnswerDto);
     }
 
     // Delete answer
