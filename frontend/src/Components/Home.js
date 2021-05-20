@@ -26,14 +26,14 @@ class Home extends React.Component {
                     <div class="card-body">
                         <h5 class="card-title">AskMe</h5>
                         <p class="card-text">Ask the world a new question! </p>
-                        <a href="/byperiod" class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}}>Go!</a>
+                        <a href="/ask" class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}}>Go!</a>
                     </div>
                     </div>
                     <div class="card" style={{width: "18rem"}}>
                     <div class="card-body">
                         <h5 class="card-title">Answer a Question</h5>
                         <p class="card-text">Show the world what you know! </p>
-                        <a href="/byperiod" class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}}>Go!</a>
+                        <a href="/browse" class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}}>Go!</a>
                     </div>
                     </div>
                 </div>  
