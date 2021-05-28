@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { SearchQuestionDto } from './dto/search-question.dto';
 
 @Controller('saas/architecture/questions/')
 export class QuestionsController {
@@ -13,17 +14,48 @@ export class QuestionsController {
         return this.questionsService.createQuestion(createQuestionDto);
     }
 
-    // Find all questions
+    // // Find all questions REPLACED BY Search Questions
+    // @Get()
+    // findAllQuestions() {
+    //     return this.questionsService.findAllQuestions();
+    // }
+    
+    // Search Questions
     @Get()
-    findAllQuestions() {
-        return this.questionsService.findAllQuestions();
+    searchQuestions(@Body() searchQuestionDto: SearchQuestionDto) {
+        return this.questionsService.searchQuestions(searchQuestionDto);
     }
 
-    // Find all labels
-    @Get('/getlabels')
-    findAllLabels() {
-        return this.questionsService.findAllLabels();
+    // Find all labels DO NOT NEED THIS
+    // @Get('/getLabels')
+    // findAllLabels() {
+    //     return this.questionsService.findAllLabels();
+    // }
+
+    // Get Users Questions
+    @Get('/userQuestions')
+    findUserQuestions(@Body() searchQuestionDto: SearchQuestionDto){
+        return this.questionsService.findUserQuestions(searchQuestionDto);
     }
+
+    // Get Label Questions for Statistics
+    @Get('/labelQuestions')
+    findLabelQuestions(){
+        return this.questionsService.findLabelQuestions();
+    }
+
+    // Get Date Questions for Statistics
+    @Get('/dateQuestions')
+    findDateQuestions(@Body() searchQuestionDto: SearchQuestionDto){
+        return this.questionsService.findDateQuestions(searchQuestionDto);
+    }
+
+    // Get Daily Contribution for Statistics
+    @Get('/myContr')
+    findDailyContribution(@Body() searchQuestionDto: SearchQuestionDto){
+        return this.questionsService.findDailyContribution(searchQuestionDto);
+    }
+    
 
     // Find single question
     @Get(':questionId')

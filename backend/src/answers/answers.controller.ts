@@ -19,12 +19,18 @@ export class AnswersController {
         return this.answersService.findAllAnswers();
     }
 
+    // Find users answers
+    @Get('usersAnswers')
+    findUserAnswers(@Body() updateAnswerDto: UpdateAnswerDto){
+        return this.answersService.findUserAnswers(updateAnswerDto);
+    }
+
     // Find single answer
     @Get(':answerId')
     findOne(@Param('answerId') answerId: number) {
         return this.answersService.findOne(answerId);
     }
-
+    
     // Update answer
     @Patch(':answerId')
     update(

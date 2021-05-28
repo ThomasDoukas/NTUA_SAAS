@@ -17,8 +17,4 @@ export class CreateQuestionDto {
     @IsOptional()
     readonly labels: []
 
-    @IsBoolean()
-    @IsOptional()
-    readonly closed: boolean
-
 }

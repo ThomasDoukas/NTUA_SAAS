@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Answer } from '../../answers/entities/answer.entity';
 import { Label } from './label.entity';
 
@@ -7,9 +7,11 @@ export class Question {
     @PrimaryGeneratedColumn()
     questionId: number
 
+    @Index({fulltext: true})
     @Column()
     title: string
 
+    @Index({fulltext: true})
     @Column()
     body: string
 
@@ -17,14 +19,11 @@ export class Question {
     @Column()
     createdBy: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({type: 'timestamptz'})
     timeCreated: Date
-
-    @UpdateDateColumn()
+ 
+    @UpdateDateColumn({type: 'timestamptz'})
     timeModified: Date
-    
-    @Column({default: false})
-    closed: boolean
     
     @OneToMany(type => Answer, answer => answer.question)
     answers: Answer[];

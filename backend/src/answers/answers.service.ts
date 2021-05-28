@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { Question } from 'src/questions/entities/question.entity';
 import { QuestionsService } from 'src/questions/questions.service';
@@ -31,7 +31,7 @@ export class AnswersService {
 
     // Return all answers with their corresponding question
     async findAllAnswers(): Promise<Answer[]> {
-        return this.manager.find(Answer, {relations: ['question']});
+        return this.manager.find(Answer, {relations: ['question', 'question.labels']});
     }
 
     // Find single answer
@@ -39,7 +39,17 @@ export class AnswersService {
         const answerExists = await this.manager.findOne(Answer, answerId, { relations: ['question'] });
         if(!answerExists) throw new NotFoundException('Answer does not exist!');
         return answerExists;
-        
+    }
+
+    // Get Users Answers
+    async findUserAnswers(updateAnswerDto: UpdateAnswerDto): Promise<Answer[]> {
+        return this.manager.transaction(async manager => {
+            // findUserFromEmail already takes care of the exception if needed!
+            if(!updateAnswerDto.createdBy) throw new BadRequestException('Please provide user email')
+            await this.usersService.findUserFromEmail(updateAnswerDto.createdBy);
+            const userQuestions = manager.find(Answer, {where: {createdBy: updateAnswerDto.createdBy}, relations: ['question', 'question.labels']}) 
+            return userQuestions;
+        })
     }
 
     // Update answer

@@ -5,6 +5,7 @@ export class User {
     @PrimaryGeneratedColumn()
     userId: number
 
+    // @Column({unique: true})
     @Column()
     username: string
 

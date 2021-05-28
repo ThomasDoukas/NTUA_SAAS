@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Question } from '../../questions/entities/question.entity';
 
 @Entity({name: 'Answers'})
@@ -6,6 +6,7 @@ export class Answer {
     @PrimaryGeneratedColumn()
     answerId: number
 
+    @Index({fulltext: true})
     @Column()
     body: string
 
@@ -13,10 +14,10 @@ export class Answer {
     @Column()
     createdBy: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({type: 'timestamptz'})
     timeCreated: Date
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({type: 'timestamptz'})
     timeModified: Date
 
     @Column({default: 0})
