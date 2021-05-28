@@ -20,7 +20,7 @@ export class AnswersController {
     }
 
     // Find users answers
-    @Get('usersAnswers')
+    @Post('usersAnswers')
     findUserAnswers(@Body() updateAnswerDto: UpdateAnswerDto){
         return this.answersService.findUserAnswers(updateAnswerDto);
     }

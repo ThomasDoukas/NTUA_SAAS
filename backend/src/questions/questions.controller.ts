@@ -21,9 +21,15 @@ export class QuestionsController {
     // }
     
     // Search Questions
-    @Get()
+    @Post('/search')
     searchQuestions(@Body() searchQuestionDto: SearchQuestionDto) {
         return this.questionsService.searchQuestions(searchQuestionDto);
+    }
+
+    // Get Daily Contribution for Statistics
+    @Post('/myContr')
+    findDailyContribution(@Body() searchQuestionDto: SearchQuestionDto){
+        return this.questionsService.findDailyContribution(searchQuestionDto);
     }
 
     // Find all labels DO NOT NEED THIS
@@ -33,7 +39,7 @@ export class QuestionsController {
     // }
 
     // Get Users Questions
-    @Get('/userQuestions')
+    @Post('/userQuestions')
     findUserQuestions(@Body() searchQuestionDto: SearchQuestionDto){
         return this.questionsService.findUserQuestions(searchQuestionDto);
     }
@@ -49,13 +55,6 @@ export class QuestionsController {
     findDateQuestions(@Body() searchQuestionDto: SearchQuestionDto){
         return this.questionsService.findDateQuestions(searchQuestionDto);
     }
-
-    // Get Daily Contribution for Statistics
-    @Get('/myContr')
-    findDailyContribution(@Body() searchQuestionDto: SearchQuestionDto){
-        return this.questionsService.findDailyContribution(searchQuestionDto);
-    }
-    
 
     // Find single question
     @Get(':questionId')

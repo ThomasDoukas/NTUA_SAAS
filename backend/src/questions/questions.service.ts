@@ -148,14 +148,14 @@ export class QuestionsService {
             return res.map(el => {
                 return {
                     // 'timeCreated': `${el.timeCreated.getUTCFullYear()}-${el.timeCreated.getUTCMonth()}-${el.timeCreated.getUTCDate()}`,
-                    'timeCreated': new Date(el.timeCreated.setHours(el.timeCreated.getHours() + 3)),
+                    'timeCreated': new Date(el.timeCreated.setHours( el.timeCreated.getHours() - (el.timeCreated.getTimezoneOffset() / 60))),
                     'questionsCounter': el.questionCounter
                 }
             })
         })
     }
 
-    // Get questions for each date - statistic purposes
+    // Get user contribution per date - statistic purposes
     async findDailyContribution(searchQuestionDto: SearchQuestionDto): Promise<any> {
         return this.manager.transaction(async manager => {
             if (!searchQuestionDto.email) throw new BadRequestException('Please provide user email!')
@@ -182,13 +182,13 @@ export class QuestionsService {
                 'questions': questions.map(el => {
                     return {
                         // 'timeCreated': `${el.timeCreated.getUTCFullYear()}-${el.timeCreated.getUTCMonth()}-${el.timeCreated.getUTCDate()}`,
-                        'timeCreated': new Date(el.timeCreated.setHours( el.timeCreated.getHours() + 3)),
+                        'timeCreated': new Date(el.timeCreated.setHours( el.timeCreated.getHours() - (el.timeCreated.getTimezoneOffset() / 60))),
                         'questionsCounter': el.questionCounter
                     }
                 }),
                 'answers': answers.map(el => {
                     return{
-                        'timeCreated': new Date(el.timeCreated.setHours( el.timeCreated.getHours() + 3)),
+                        'timeCreated': new Date(el.timeCreated.setHours( el.timeCreated.getHours() - (el.timeCreated.getTimezoneOffset() / 60))),
                         'answersCounter': el.answerCounter
                     }
                 })
