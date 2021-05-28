@@ -1,22 +1,21 @@
-import { getDefaultNormalizer } from '@testing-library/dom';
-import React, { Component } from 'react';
-//import './AskQuestion.css';
-import { Jumbotron, Col, Image, Container, Row } from 'react-bootstrap';
+import React, { useRef, useContext } from 'react';
+import AuthContext from '../source/auth-context';
 
-class AskQuestion extends React.Component {
+const AskQuestion = () => {
 
-    state = {
-        title: undefined,
-        body: undefined,
-        labels: undefined
-    }
+    const titleInputRef = useRef();
+    const bodyInputRef = useRef();
+    const labelsInputRef = useRef();
 
-    submitFunc = async (e) => {
+    const authCtx = useContext(AuthContext);
+
+    const submitFunc = async (e) => {
         if (e) e.preventDefault();
-        const title = e.target.elements.title.value;
-        const body = e.target.elements.body.value;
-        const labels = e.target.elements.labels.value;
-        const api_call = await fetch('http://localhost:3000/saas/architecture/questions/',
+        const title = titleInputRef.current.value;
+        const body = bodyInputRef.current.value;
+        const labels = labelsInputRef.current.value;
+        const jwt = authCtx.jwt;
+        fetch('http://localhost:3000/saas/architecture/questions',
                 {
                     method: 'POST',
                     headers: {
@@ -25,38 +24,43 @@ class AskQuestion extends React.Component {
                     body: JSON.stringify({
                         title: title,
                         body: body,
-                        createdBy: 'tom.doukas7@gmail.com',
-                        labels: [{labelTitle: "programming"}]
+                        createdBy: authCtx.email,
+                        labels: [{labelTitle: labels}]
                     })
+                }).then(res => {
+                    if (res.ok) {
+                        alert('Question submitted succesfully!');
+                        return res.json();
+                    } else {
+                        return res.json().then((data) => {
+                        alert(data.message);
+                        });
+                    }
                 });
-                if (api_call.ok) {
-                    const data = await api_call.json();
-                    console.log(data);
-                }
+                
             }
 
-    render() {
         return (
-            <form onSubmit={this.submitFunc}>
+            <form onSubmit={submitFunc}>
             <div class="col-md-4 mb-3">
             <h1>Ask a Question</h1>
             </div>
             <div class="col-md-4 mb-3">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Question Title</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name='title'></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name='title' required ref={titleInputRef} />
             </div>
             </div>
             <div class="col-md-5">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Question Text</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name='body'></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name='body' required ref={bodyInputRef} />
             </div>
             </div>
             <div class="col-md-4 mb-3">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Labels</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name='labels'></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name='labels' required ref={labelsInputRef} />
             </div>
             </div>
             <div class="form-row">
@@ -70,6 +74,6 @@ class AskQuestion extends React.Component {
             </form>            
         )
     }
-}
+
 
 export default AskQuestion;

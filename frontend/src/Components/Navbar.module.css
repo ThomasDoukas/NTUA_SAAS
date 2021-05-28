@@ -1,0 +1,25 @@
+.actions a {
+    cursor: pointer;
+    font: inherit;
+    color: #343a40;
+    background-color: #06EEAA;
+    border: 1px solid #06EEAA;
+    border-radius: 4px;
+    /* padding: 0.5rem 2.5rem; */
+  }
+  
+  .actions a:hover {
+    background-color: #05a575;
+    border-color: #05a575;
+  }
+
+  .btn-primary {
+    color: #fff;
+    background-color: #0495c9;
+    border-color: #357ebd; /*set the color you want here*/
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #00b3db;
+    border-color: #285e8e; /*set the color you want here*/
+}

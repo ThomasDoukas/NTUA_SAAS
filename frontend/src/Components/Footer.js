@@ -1,7 +1,7 @@
 import classes from './Footer.css';
 import React from 'react';
 
-import { FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaFacebook, FaInstagram, FaSpotify } from 'react-icons/fa';
 
 const Footer = () => {
     return (
@@ -19,37 +19,10 @@ const Footer = () => {
                     <a class="btn btn-white btn-floating m-1" href="#!" role="button">
                         <FaInstagram style={{color: "#06EEAA"}}/>
                     </a>
+                    <a class="btn btn-white btn-floating m-1" onClick={()=> window.open("https://open.spotify.com/track/2sxi3UJLbsIs6p281rARgi?si=415467acb1c148d4", "_blank")}role="button">
+                        <FaSpotify style={{color: "#06EEAA"}}/>
+                    </a>
                 </section>
-
-                {/* <section class="">
-                    <form action="">
-
-                        <div class="row d-flex justify-content-center">
-
-                            <div class="col-auto">
-                                <p class="pt-2">
-                                    <strong>Sign up for our newsletter</strong>
-                                </p>
-                            </div>
-
-                            <div class="col-md-5 col-12">
-                                <div class="form-outline form-white mb-4">
-                                    <input type="email" id="form5Example2" class="form-control" />
-                                    <label class="form-label" for="form5Example2">Email address</label>
-                                </div>
-                            </div>
-
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-outline-light mb-4">
-                                    Subscribe
-                                </button>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </section> */}
-
 
                 <div class="row" style={{ color: "#06EEAA" }}>
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">

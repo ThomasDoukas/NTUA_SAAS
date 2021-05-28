@@ -1,36 +1,113 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Question from './Question';
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import {useLocation} from 'react-router-dom'
+import Answer from './Answer';
+import AuthContext from '../source/auth-context';
 
-class AnswerQuestion extends React.Component {
-    render() {
+const AnswerQuestion = () => {
+
+    const bodyInputRef = useRef();
+    const authCtx = useContext(AuthContext);
+
+    const [answers, setAnswers] = useState([]);
+
+    const getAnswers = async (e) => {
+        if (e) e.preventDefault();
+        await fetch('http://localhost:3000/saas/architecture/answers',
+                {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        return res.json().then((data) => {
+                            setAnswers(data);
+                            });
+                    } else {
+                        return res.json().then((data) => {
+                        alert(data.message);
+                        });
+                    }
+                });
+                
+            };
+
+         useEffect(() => {
+                 getAnswers();
+             }, []);
+
+        const location = useLocation();
+
+
+        const submitFunc = async (e) => {
+            if (e) e.preventDefault();
+            const createdBy = authCtx.email;
+            const body = bodyInputRef.current.value;
+            const id = location.state.id;
+            const jwt = authCtx.jwt;
+            fetch('http://localhost:3000/saas/architecture/answers',
+                    {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            createdBy: createdBy,
+                            body: body,
+                            questionId: id
+                        })
+                    }).then(res => {
+                        if (res.ok) {
+                            alert('Answer submitted succesfully!');
+                            return res.json();
+                        } else {
+                            return res.json().then((data) => {
+                            alert(data.message);
+                            });
+                        }
+                    });
+                
+                window.location.reload();   
+                }
+
+        
         return (
-            <form>
+            <form onSubmit={submitFunc}>
                 <div class='row-auto'>
                     <div class="col-md-4 mb-3">
-                        <h1> {this.props.location.state.title} </h1>
+                        <h1> {location.state.title} </h1>
                     </div>
                 </div>
                 <div class='row-auto'>
                     <div class="col-md-4 mb-3">
-                        <p1> {this.props.location.state.body} </p1>
+                        <p> {location.state.body} </p>
                     </div>
                 </div>
                 <div class='row-auto'>
                     <div class="col-md-4 mb-3">
-                        <p1> Tags: {this.props.location.state.labels}</p1>
+                        <p> Tags: {location.state.labels}</p>
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Other answers</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name='others'></textarea>
+                        {answers.map(answers => <row>
+                            <br/>
+                            <Answer
+                                id = {answers.answerId}
+                                createdBy = {answers.createdBy}
+                                body = {answers.body}
+                                upvotes = {answers.upvotes} 
+                                />
+                            <br/>
+                        </row>
+                        )}
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">My Answer</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name='body'></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name='body' required ref={bodyInputRef}/>
                     </div>
                 </div>
                 <div class="form-row">
@@ -44,6 +121,5 @@ class AnswerQuestion extends React.Component {
             </form>
         )
     }
-}
 
 export default AnswerQuestion;
