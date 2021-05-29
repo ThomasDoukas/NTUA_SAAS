@@ -5,12 +5,12 @@ class Question extends React.Component {
 
     render() {
         return (
-            <div class='card' style={{backgroundColor: "##E0BCEF", borderColor: "##E0BCEF", width: "25rem"}}>
+            <div class='card' style={{backgroundColor: "##E0BCEF", borderColor: "##E0BCEF", width: "30rem"}}>
                 <div class="card-body">
-                <h2 class="card-title"> {this.props.title} </h2>
+                <p class="card-title font-weight-bold"> {this.props.title} </p>
                 <p class="card-text"> {this.props.body} </p>
                 <p class="card-text"> Tags: {this.props.labels} </p>
-                <p class="card-text"> Creation date: {this.props.timeCreated.split('T')[0]} </p>
+                <p class="card-text text-muted"> Posted by: {this.props.createdBy} on {this.props.timeCreated.split('T')[0]} </p>
                 <Link class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}} 
                 to={{
                 pathname: "/answer",

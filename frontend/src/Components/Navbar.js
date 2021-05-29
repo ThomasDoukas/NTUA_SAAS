@@ -28,7 +28,8 @@ const NavBar = (props) => {
                 <ul class="navbar-nav mr-auto" />
                 <div class="navbar-nav">
                     {!isLoggedIn && <a class="nav-item nav-link active" href="/auth" style={{ color: "#343a40"}}> Login </a>}
-                    {isLoggedIn && <a class="nav-item nav-link active" onClick={logoutHandler} style={{ color: "#343a40", }}> Logout </a>}
+                    {isLoggedIn && <a class="nav-item nav-link active" href="/myprofile" type='button' style={{ color: "#343a40", }}> MyProfile </a>}
+                    {isLoggedIn && <a class="nav-item nav-link active" onClick={logoutHandler} type='button' style={{ color: "#343a40", }}> Logout </a>}
                 </div>
             </div>
         </nav>

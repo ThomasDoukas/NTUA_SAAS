@@ -7,12 +7,14 @@ const AnswerQuestion = () => {
 
     const bodyInputRef = useRef();
     const authCtx = useContext(AuthContext);
+    
+    const location = useLocation();
 
     const [answers, setAnswers] = useState([]);
 
     const getAnswers = async (e) => {
         if (e) e.preventDefault();
-        await fetch('http://localhost:3000/saas/architecture/answers',
+        await fetch(`http://localhost:3000/saas/architecture/questions/${location.state.id}`,
                 {
                     method: 'GET',
                     headers: {
@@ -21,7 +23,8 @@ const AnswerQuestion = () => {
                 }).then(res => {
                     if (res.ok) {
                         return res.json().then((data) => {
-                            setAnswers(data);
+                            console.log(data);
+                            setAnswers(data.answers);
                             });
                     } else {
                         return res.json().then((data) => {
@@ -35,8 +38,6 @@ const AnswerQuestion = () => {
          useEffect(() => {
                  getAnswers();
              }, []);
-
-        const location = useLocation();
 
 
         const submitFunc = async (e) => {
@@ -97,7 +98,8 @@ const AnswerQuestion = () => {
                                 id = {answers.answerId}
                                 createdBy = {answers.createdBy}
                                 body = {answers.body}
-                                upvotes = {answers.upvotes} 
+                                upvotes = {answers.upvotes}
+                                timeCreated = {answers.timeCreated} 
                                 />
                             <br/>
                         </row>

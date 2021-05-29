@@ -10,6 +10,9 @@ import BrowseQuestions from './Containers/BrowseQuestions';
 import Layout from './hoc/Layout';
 import AuthContext from './source/auth-context';
 import AuthForm from './Components/Auth/AuthForm';
+import MyQuestions from './Containers/MyQuestions';
+import MyAnswers from './Containers/MyAnswers';
+import ContribPerDay from './Containers/ContribPerDay';
 
 const App = (props) => {
 
@@ -36,6 +39,18 @@ const App = (props) => {
             </Route>
             <Route exact path="/myprofile">
                 {isLoggedIn && <MyProfile/>}
+                {!isLoggedIn && <Redirect to='/auth'/>}
+            </Route>
+            <Route exact path="/myprofile/myquestions">
+                {isLoggedIn && <MyQuestions/>}
+                {!isLoggedIn && <Redirect to='/auth'/>}
+            </Route>
+            <Route exact path="/myprofile/myanswers">
+                {isLoggedIn && <MyAnswers/>}
+                {!isLoggedIn && <Redirect to='/auth'/>}
+            </Route>
+            <Route exact path="/myprofile/contrib">
+                {isLoggedIn && <ContribPerDay/>}
                 {!isLoggedIn && <Redirect to='/auth'/>}
             </Route>
             <Route exact path="/byperiod" component={ByPeriod} />

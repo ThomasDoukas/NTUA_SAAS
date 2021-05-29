@@ -1,15 +1,18 @@
 import React, { useRef, useContext } from 'react';
+import {useHistory} from 'react-router-dom';
+import { Redirect } from 'react-router';
 import AuthContext from '../source/auth-context';
 
 const AskQuestion = () => {
-
+    const history = useHistory();
+    
     const titleInputRef = useRef();
     const bodyInputRef = useRef();
     const labelsInputRef = useRef();
 
     const authCtx = useContext(AuthContext);
 
-    const submitFunc = async (e) => {
+    const submitFunc = (e) => {
         if (e) e.preventDefault();
         const title = titleInputRef.current.value;
         const body = bodyInputRef.current.value;
@@ -30,6 +33,7 @@ const AskQuestion = () => {
                 }).then(res => {
                     if (res.ok) {
                         alert('Question submitted succesfully!');
+                        history.replace('/')
                         return res.json();
                     } else {
                         return res.json().then((data) => {

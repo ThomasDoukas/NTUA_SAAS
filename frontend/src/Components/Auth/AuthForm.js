@@ -53,7 +53,7 @@ const AuthForm = () => {
                 })
                 .then((data) => {
                     authCtx.login(data.access_token, email);
-                    history.replace('/');
+                    history.replace('/myprofile');
                 })
                 .catch((err) => {
                     alert(err.message);
