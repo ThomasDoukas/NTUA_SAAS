@@ -2,7 +2,7 @@
     position: absolute;
     bottom: 100px;
     width: 100%;
-    background-color: #06EEAA;
+    background-color: #06eeaa;
     @media only screen and (max-width: 600px) {
         height: 80%;
     }

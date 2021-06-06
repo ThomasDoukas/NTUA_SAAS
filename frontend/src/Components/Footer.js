@@ -10,21 +10,21 @@ const Footer = () => {
             <div class="container p-4">
 
                 <section class="mb-4">
-                    <a class="btn btn-white btn-floating m-1" href="#!" role="button">
-                        <FaGithub style={{color: "#06EEAA"}}/>
+                    <a class="btn btn-white btn-floating m-1" onClick={()=> window.open("https://github.com/ThomasDoukas/Saas_2021_ntua", "_blank")} role="button">
+                        <FaGithub style={{color: "#06eeaa"}}/>
                     </a>
                     <a class="btn btn-white btn-floating m-1" href="#!" role="button">
-                        <FaFacebook style={{color: "#06EEAA"}}/>
+                        <FaFacebook style={{color: "#06eeaa"}}/>
                     </a>
                     <a class="btn btn-white btn-floating m-1" href="#!" role="button">
-                        <FaInstagram style={{color: "#06EEAA"}}/>
+                        <FaInstagram style={{color: "#06eeaa"}}/>
                     </a>
-                    <a class="btn btn-white btn-floating m-1" onClick={()=> window.open("https://open.spotify.com/track/2sxi3UJLbsIs6p281rARgi?si=415467acb1c148d4", "_blank")}role="button">
-                        <FaSpotify style={{color: "#06EEAA"}}/>
+                    <a class="btn btn-white btn-floating m-1" onClick={()=> window.open("https://open.spotify.com/track/2sxi3UJLbsIs6p281rARgi?si=415467acb1c148d4", "_blank")} role="button">
+                        <FaSpotify style={{color: "#06eeaa"}}/>
                     </a>
                 </section>
 
-                <div class="row" style={{ color: "#06EEAA" }}>
+                <div class="row" style={{ color: "#06eeaa" }}>
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                         <h5 class="text-uppercase">About</h5>
 
@@ -53,13 +53,13 @@ const Footer = () => {
 
                         <ul class="list-unstyled mb-0">
                             <li>
-                                <a href="#!" class="text" style={{ color: "#06EEAA" }}>YouTrack</a>
+                                <a href="#!" class="text" style={{ color: "#06eeaa" }}>YouTrack</a>
                             </li>
                             <li>
-                                <a href="#!" class="text" style={{ color: "#06EEAA" }}>UpSource</a>
+                                <a href="#!" class="text" style={{ color: "#06eeaa" }}>UpSource</a>
                             </li>
                             <li>
-                                <a href="#!" class="text" style={{ color: "#06EEAA" }}>GitHub</a>
+                                <a href="https://github.com/ThomasDoukas/Saas_2021_ntua" class="text" style={{ color: "#06eeaa" }}>GitHub</a>
                             </li>
                         </ul>
                     </div>
@@ -69,19 +69,19 @@ const Footer = () => {
 
                         <ul class="list-unstyled mb-0">
                             <li>
-                                <div> ReactJS </div>
+                                <a href="https://reactjs.org/" class="text" style={{ color: "#06eeaa" }}>ReactJS</a>
                             </li>
                             <li>
-                                <div> Bootstrap </div>
+                                <a href="https://getbootstrap.com/" class="text" style={{ color: "#06eeaa" }}>Bootstrap</a>
                             </li>
                             <li>
-                                <div> NestJS </div>
+                                <a href="https://nestjs.com/" class="text" style={{ color: "#06eeaa" }}>NestJS</a>
                             </li>
                             <li>
-                                <div> TypeORM </div>
+                                <a href="https://typeorm.io/#/" class="text" style={{ color: "#06eeaa" }}>TypeORM</a>
                             </li>
                             <li>
-                                <div> Postgresql </div>
+                                <a href="https://www.postgresql.org/" class="text" style={{ color: "#06eeaa" }}>PostgreSQL</a>
                             </li>
                         </ul>
                     </div>
@@ -89,7 +89,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div class="text-center text-dark p-3" style={{ backgroundColor: "#06EEAA" }}>
+            <div class="text-center text-dark p-3" style={{ backgroundColor: "#06eeaa" }}>
                 © 2021 Copyright: Software As A Service - NTUA
             </div>
 
@@ -154,7 +154,7 @@ const Footer = () => {
          </div>
      </section>
 
-     <div class="text-center p-4" style={{ backgroundColor: "#06EEAA" }}>
+     <div class="text-center p-4" style={{ backgroundColor: "#06eeaa" }}>
          © 2021 Copyright: Software As A Service - NTUA
          </div>
  </footer > */}

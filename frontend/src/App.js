@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+// import React, { useState, useContext } from 'react';
+import React, {useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Home from './Containers/Home';
 import AskQuestion from './Containers/AskQuestion';
@@ -16,8 +17,8 @@ import ContribPerDay from './Containers/ContribPerDay';
 
 const App = (props) => {
 
-        const authCtx = useContext(AuthContext);
-        const isLoggedIn = authCtx.isLoggedIn;
+    const authCtx = useContext(AuthContext);
+    const isLoggedIn = authCtx.isLoggedIn;
 
     return (
         <Layout>

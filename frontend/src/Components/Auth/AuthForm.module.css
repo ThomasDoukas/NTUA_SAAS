@@ -12,7 +12,7 @@
   
   .auth h1 {
     text-align: center;
-    color: #06EEAA;
+    color: #06eeaa;
   }
   
   .control {
@@ -21,7 +21,7 @@
   
   .control label {
     display: block;
-    color: #06EEAA;
+    color: #06eeaa;
     font-weight: bold;
     margin-bottom: 0.5rem;
   }
@@ -48,8 +48,8 @@
     cursor: pointer;
     font: inherit;
     color: #343a40;
-    background-color: #06EEAA;
-    border: 1px solid #06EEAA;
+    background-color: #06eeaa;
+    border: 1px solid #06eeaa;
     border-radius: 4px;
     padding: 0.5rem 2.5rem;
   }
@@ -62,7 +62,7 @@
   .actions .toggle {
     margin-top: 1rem;
     background-color: transparent;
-    color: #06EEAA;
+    color: #06eeaa;
     border: none;
     padding: 0.15rem 1.5rem;
   }

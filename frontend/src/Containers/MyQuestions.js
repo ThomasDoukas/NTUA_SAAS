@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Question from './Question';
 import AuthContext from '../source/auth-context';
+import classes from '../Components/UI/CustomCard.module.css'
 
 const MyQuestions = () => {
 
-    
     const authCtx = useContext(AuthContext);
     const [questions, setQuestions] = useState([]);
 
@@ -38,13 +38,14 @@ const MyQuestions = () => {
     }, []);
 
     return (
-        <div>
-            <div class="col-md-4 mb-3">
-                <div class="form-group">
+        <div class="container">
+            {/* <div class="col-md-4 mb-3"> */}
+            <section>
+                <div>
                     <br/>
                     <h1 for="questionTitle" name='title'>My Questions</h1>
-                    {questions.map(questions => <row>
-                        <br/>
+                    {questions.map(questions => 
+                    <div>
                         <Question
                             id = {questions.questionId}
                             timeCreated = {questions.timeCreated}
@@ -53,17 +54,17 @@ const MyQuestions = () => {
                             body = {questions.body}
                             labels = {questions.labels.map(el => {return `#${el.labelTitle}, `})} 
                             />
-                        <br/>
-                    </row>
+                    </div>
                     )}
                 </div>
-            </div>
+            {/* </div> */}
+            </section>
 
-            <div class="col-md-4 mb-3">
+            {/* <div class="col-md-4 mb-3">
                 <div class="form-group">
                     <input class="form-control" type="text" name='labels' placeholder="Keywords (read only)" readonly />
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

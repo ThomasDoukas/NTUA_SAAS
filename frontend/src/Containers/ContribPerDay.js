@@ -53,7 +53,7 @@ class ContribPerDay extends React.Component {
             datasets: [
               {
                 label: "Answers",
-                backgroundColor: "#06EEAA",
+                backgroundColor: "#06eeaa",
                 borderColor: "rgba(0,0,0,1)",
                 borderWidth: 1,
                 data: [`${this.state.answersCounter}`],
