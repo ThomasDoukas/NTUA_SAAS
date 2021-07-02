@@ -9,7 +9,8 @@ class BrowseQuestions extends React.Component {
         fromDate: undefined,
         toDate: undefined,
         email: undefined,
-        textSearch: undefined
+        textSearch: undefined,
+        labelsList:[""]
     }
 
     getAllQuestions = async (e) => {
@@ -50,7 +51,7 @@ class BrowseQuestions extends React.Component {
                     fromDate: (this.state.fromDate ? `${this.state.fromDate}` : undefined),
                     toDate: (this.state.toDate ? `${this.state.toDate}` : undefined),
                     email: (this.state.email ? `${this.state.email}` : undefined),
-                    labels: (this.state.labels ? this.state.labels : undefined),
+                    labels: (this.state.labelsList ? this.state.labelsList : undefined),
                     textSearch: (this.state.textSearch ? `${this.state.textSearch}` : undefined)
                 })
             }).then(res => {
@@ -68,6 +69,32 @@ class BrowseQuestions extends React.Component {
                 }
             });
     }
+
+    handleInputChange = (e, index) => {
+        const { value } = e.target;
+        const list = [...this.state.labelsList];
+        list[index] = value;
+        this.setState({
+            labelsList:list
+        });
+      };
+       
+      // handle click event of the Remove button
+    handleRemoveClick = index => {
+        const list = [...this.state.labelsList];
+        list.splice(index, 1);
+        this.setState({
+            labelsList:list
+        });
+      };
+       
+      // handle click event of the Add button
+    handleAddClick = () => {
+        const list = [...this.state.labelsList];
+        this.setState({
+            labelsList:[list, ""]
+        });
+      };
 
     handleChange = (e) => {
         this.setState({
@@ -118,7 +145,7 @@ class BrowseQuestions extends React.Component {
                                             title={questions.title}
                                             createdBy={questions.createdBy}
                                             body={questions.body}
-                                            labels={questions.labels.map(el => { return `#${el.labelTitle}, ` })}
+                                            labels={questions.labels.map(el => { return `#${el.labelTitle} ` })}
                                         />
                                     </row>
                                 )}
@@ -135,11 +162,6 @@ class BrowseQuestions extends React.Component {
                                 </div>
                                 <br />
                                 <div>
-                                    <label>Keywords:</label>
-                                    <input class="form-control" type="text" name='labels' placeholder="Input keyword" onChange={this.handleChange} />
-                                </div>
-                                <br />
-                                <div>
                                     <label>Text Search:</label>
                                     <input class="form-control" type="text" name='textSearch' placeholder="Type a word to search from question body" onChange={this.handleChangeText} />
                                 </div>
@@ -153,6 +175,24 @@ class BrowseQuestions extends React.Component {
                                     <label>To:</label>
                                     <input type='date' className="form-control" name='toDate' onChange={this.handleChangeTo} />
                                 </div>
+                                <br />
+                                {this.state.labelsList.map((x, i) => {
+                                return(
+                                <div className="box">
+                                    <input
+                                    rows="1"
+                                    class="form-control"
+                                    placeholder='Add a keyword'
+                                    value={x}
+                                    onChange={e => this.handleInputChange(e, i)}
+                                    />
+                                    <div className="btn-box">
+                                    {this.state.labelsList.length !== 1 && <button className="button" onClick={() => this.handleRemoveClick(i)}>Remove</button>}
+                                    {this.state.labelsList.length - 1 === i && <button className="button" onClick={this.handleAddClick} >Add</button>}
+                                    </div>
+                                </div>
+                                );
+                                })}
                                 <br />
                                 <button
                                     type='button'

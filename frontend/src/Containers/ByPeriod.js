@@ -41,7 +41,7 @@ class ByPeriod extends React.Component {
     return (
       <div>
         <br />
-        <h1>Questions by Keyword</h1>
+        <h1>Questions by Period</h1>
         <br />
         <Bar
           data={{
