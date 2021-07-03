@@ -1,10 +1,13 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
+import classes from '../Components/Auth/AuthForm.module.css'
 
 class ByPeriod extends React.Component {
   state = {
     questionsCounter: [],
     timeCreated: [],
+    fromDate: undefined,
+    toDate: undefined
   };
 
   getQuestions = async (e) => {
@@ -12,10 +15,14 @@ class ByPeriod extends React.Component {
     await fetch(
       "http://localhost:3000/saas/architecture/questions/dateQuestions",
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          fromDate: (this.state.fromDate ? `${this.state.fromDate}` : undefined),
+          toDate: (this.state.toDate ? `${this.state.toDate}` : undefined)
+      })
       }
     ).then((res) => {
       if (res.ok) {
@@ -37,9 +44,22 @@ class ByPeriod extends React.Component {
     this.getQuestions();
   }
 
+  handleChangeFrom = (e) => {
+    this.setState({
+        fromDate: [`${e.target.value}`]
+    });
+};
+
+handleChangeTo = (e) => {
+    this.setState({
+        toDate: [`${e.target.value}`]
+    });
+};
+
   render() {
     return (
       <div>
+      <section>
         <br />
         <h1>Questions by Period</h1>
         <br />
@@ -78,6 +98,33 @@ class ByPeriod extends React.Component {
             },
           }}
         />
+        </section>
+
+        <section className={classes.auth}>
+          <div>
+            <h1>Filters</h1>
+              <div class="form-group">
+                <div>
+                  <label>From:</label>
+                  <input type='date' className="form-control" name='fromDate' onChange={this.handleChangeFrom} />
+                </div>
+                <br />
+                <div>
+                    <label>To:</label>
+                    <input type='date' className="form-control" name='toDate' onChange={this.handleChangeTo} />
+                </div>
+                <br />
+                <button
+                  type='button'
+                  class="btn btn-primary"
+                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
+                  onClick={this.getQuestions}
+                >
+                  Filter questions
+                </button>
+              </div>
+          </div>
+        </section>
       </div>
     );
   }
