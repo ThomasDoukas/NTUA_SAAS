@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { Answer } from 'src/answers/entities/answer.entity';
 import { UsersService } from 'src/users/users.service';
@@ -17,10 +17,11 @@ export class QuestionsService {
     ) { }
 
     // Create new question
-    async createQuestion(createQuestionDto: CreateQuestionDto): Promise<Question> {
+    async createQuestion(createQuestionDto: CreateQuestionDto, user): Promise<Question> {
         return this.manager.transaction(async manager => {
             // findUserFromEmail already takes care of the exception if needed!
             // await this.usersService.findUserFromEmail(createQuestionDto.createdBy);
+            if(user.email != createQuestionDto.createdBy) throw new ConflictException('User cannot create question for another email');
             const newQuestion = await manager.create(Question, createQuestionDto);
             return await manager.save(newQuestion);
         })
@@ -199,31 +200,34 @@ export class QuestionsService {
     // }
 
     // Get Users Questions
-    async findUserQuestions(searchQuestionDto: SearchQuestionDto): Promise<Question[]> {
+    async findUserQuestions(searchQuestionDto: SearchQuestionDto, user): Promise<Question[]> {
         return this.manager.transaction(async manager => {
             // findUserFromEmail already takes care of the exception if needed!
             if (!searchQuestionDto.email) throw new BadRequestException('Please provide user email')
-            await this.usersService.findUserFromEmail(searchQuestionDto.email);
+            // await this.usersService.findUserFromEmail(searchQuestionDto.email);
+            if (user.email != searchQuestionDto.email) throw new ConflictException('User cannot search questions created by another account from here');
             const userQuestions = manager.find(Question, { where: { createdBy: searchQuestionDto.email }, relations: ['labels', 'answers'] })
             return userQuestions;
         })
     }
 
     // Update question
-    async updateQuestion(questionId: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
+    async updateQuestion(questionId: number, updateQuestionDto: UpdateQuestionDto, user): Promise<Question> {
         return this.manager.transaction(async manager => {
             const questionExists = await manager.findOne(Question, questionId);
             if (!questionExists) throw new NotFoundException(`Question ${questionId} not found!`);
+            if (user.email != updateQuestionDto.createdBy) throw new ConflictException('User can only create or update his own questions');
             manager.merge(Question, questionExists, updateQuestionDto);
             return await manager.save(questionExists);
         })
     }
 
     // Delete question
-    async removeQuestion(questionId: number): Promise<any> {
+    async removeQuestion(questionId: number, user): Promise<any> {
         return this.manager.transaction(async manager => {
             const questionExists = await manager.findOne(Question, questionId, { relations: ['labels'] });
             if (!questionExists) throw new NotFoundException('Question not found!');
+            if(user.email != questionExists.createdBy) throw new ConflictException('User cannot delete questions created by another user');
             const deletedQuestion = await manager.delete(Question, questionId);
 
             // Check wether or not we should delete this question's labels.

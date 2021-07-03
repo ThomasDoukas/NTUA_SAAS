@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { services } from './services';
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3000/'
@@ -37,6 +38,10 @@ export class EsbService {
 		.then(res => res.data)
 		.catch(err => err);
 		return response
+	}
+
+	async serviceDiscovery(){
+		return services
 	}
 
 }

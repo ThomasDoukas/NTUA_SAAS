@@ -10,11 +10,13 @@ export class QuestionsController {
     constructor(private readonly questionsService: QuestionsService) { }
 
     // Create question
+    @UseGuards(JwtAuthGuard)
     @Post()
     createQuestion(
-        @Body() createQuestionDto: CreateQuestionDto    
+        @Body() createQuestionDto: CreateQuestionDto,
+        @Request() req
     ) {
-        return this.questionsService.createQuestion(createQuestionDto);
+        return this.questionsService.createQuestion(createQuestionDto, req.user);
     }
 
     // // Find all questions REPLACED BY Search Questions
@@ -22,7 +24,7 @@ export class QuestionsController {
     // findAllQuestions() {
     //     return this.questionsService.findAllQuestions();
     // }
-    
+
     // Search Questions
     @Post('/search')
     searchQuestions(@Body() searchQuestionDto: SearchQuestionDto) {
@@ -41,10 +43,14 @@ export class QuestionsController {
     //     return this.questionsService.findAllLabels();
     // }
 
-    // Get Users Questions
+    // Get Users Questions DO NOT NEED THIS, CAN BE REPLACED BY CUSTOM SEARCH
+    @UseGuards(JwtAuthGuard)
     @Post('/userQuestions')
-    findUserQuestions(@Body() searchQuestionDto: SearchQuestionDto){
-        return this.questionsService.findUserQuestions(searchQuestionDto);
+    findUserQuestions(
+        @Body() searchQuestionDto: SearchQuestionDto,
+        @Request() req
+    ) {
+        return this.questionsService.findUserQuestions(searchQuestionDto, req.user);
     }
 
     // // Get Label Questions for Statistics
@@ -65,16 +71,25 @@ export class QuestionsController {
         return this.questionsService.findOneQuestion(questionId);
     }
 
-    // Update question 
+    // Update question
+    @UseGuards(JwtAuthGuard)
     @Patch(':questionId')
-    updateQuestion(@Param('questionId') questionId: number, @Body() updateQuestionDto: UpdateQuestionDto) {
-        return this.questionsService.updateQuestion(questionId, updateQuestionDto);
+    updateQuestion(
+        @Param('questionId') questionId: number,
+        @Body() updateQuestionDto: UpdateQuestionDto,
+        @Request() res
+    ) {
+        return this.questionsService.updateQuestion(questionId, updateQuestionDto, res.user);
     }
 
     // Delete question
+    @UseGuards(JwtAuthGuard)
     @Delete(':questionId')
-    removeQuestion(@Param('questionId') questionId: number) {
-        return this.questionsService.removeQuestion(questionId);
+    removeQuestion(
+        @Param('questionId') questionId: number,
+        @Request() req
+        ) {
+        return this.questionsService.removeQuestion(questionId, req.user);
     }
 
 }

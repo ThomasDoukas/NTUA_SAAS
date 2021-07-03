@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { SearchQuestionDto } from './dto/search-question.dto';
 import { Answer } from 'src/answers/entities/answer.entity';
 import { Label } from 'src/questions/entities/label.entity';
 import { Question } from 'src/questions/entities/question.entity';
+import { SearchQuestionDto } from './dto/search-question.dto';
 
 @Injectable()
 export class AnalyticsService {
@@ -73,9 +73,10 @@ export class AnalyticsService {
     }
 
     // Get user contribution per date - statistic purposes
-    async findDailyContribution(searchQuestionDto: SearchQuestionDto): Promise<any> {
+    async findDailyContribution(searchQuestionDto: SearchQuestionDto, user): Promise<any> {
         return this.manager.transaction(async manager => {
             if (!searchQuestionDto.email) throw new BadRequestException('Please provide user email!')
+            if(searchQuestionDto.email != user.email) throw new ConflictException('User email does not match jwt email.')
 
             const questions: {timeCreated: Date, questionCounter: string}[] = await manager.getRepository(Question)
                 .createQueryBuilder('q')
@@ -110,7 +111,7 @@ export class AnalyticsService {
                     }
                 })
             }
-
+            
             return res
         })
     }
