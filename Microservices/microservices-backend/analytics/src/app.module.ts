@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { Question } from './entities/question.entity';
+import { Label } from './entities/label.entity';
 
 const defaultOptions = {
 	type: 'postgres' as 'postgres',

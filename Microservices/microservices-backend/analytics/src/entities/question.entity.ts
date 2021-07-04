@@ -1,5 +1,5 @@
 import { BeforeInsert, Column, CreateDateColumn, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Answer } from '../../answers/entities/answer.entity';
+import { Answer } from './answer.entity';
 import { Label } from './label.entity';
 
 @Entity({name: 'Questions'})
