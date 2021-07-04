@@ -18,7 +18,7 @@ export class AnswersController {
         return this.answersService.createAnswer(createAnswerDto, req.user);
     }
 
-    // Find all answers
+    // Find all answers DO NOT NEED THIS
     @Get()
     findAllAnswers() {
         return this.answersService.findAllAnswers();
@@ -55,8 +55,8 @@ export class AnswersController {
     @UseGuards(JwtAuthGuard)
     @Delete(':answerId')
     removeAnswer(@Param('answerId') answerId: number,
-    @Request() req
-) {
+        @Request() req
+    ) {
         return this.answersService.removeAnswer(answerId, req.user);
     }
 }

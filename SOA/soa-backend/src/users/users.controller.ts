@@ -45,7 +45,7 @@ export class UsersController {
         @Param('userId') userId: number,
         @Request() req
     ) {
-        console.log(req.headers);
+        // console.log(req.headers);
         
         // console.log(userId);
         // console.log(req.user.userId);

@@ -95,7 +95,7 @@ export const services = {
                 "parameters": "User email as request parameter.",
                 "results": "A JSON object with multiple questions created by the same user",
                 "url_destination": BASE_URL + "saas/soa/questions/usersQuestions",
-                "comment": "Requires valid JWT. This endpoint is deprecated. Use custom search questions as seen above."
+                "comment": "Requires valid JWT."
             },
             {
                 "endpoint_title": "Find single question",
