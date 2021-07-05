@@ -9,12 +9,15 @@ import { User } from './users/entities/user.entity';
 import { Question } from './questions/entities/question.entity';
 import { Label } from './questions/entities/label.entity';
 import { Answer } from './answers/entities/answer.entity';
+import { JwtStrategy } from './users/strategies/strategies';
+
+require('dotenv').config();
 
 const defaultOptions = {
     type: 'postgres' as 'postgres',
     port: 5432,
     username: 'postgres',
-    password: 'root',
+    password: process.env.DATABASE_PASSWORD,
     host: 'localhost',
     synchronize: true,
 };
@@ -38,6 +41,6 @@ const defaultOptions = {
         }),
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, JwtStrategy],
 })
 export class AppModule { }

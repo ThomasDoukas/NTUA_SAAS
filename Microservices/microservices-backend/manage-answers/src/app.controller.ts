@@ -4,7 +4,7 @@ import { CreateAnswerDto } from './entities/create-answer.dto';
 import { UpdateAnswerDto } from './entities/update-answer.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
-@Controller()
+@Controller('saas/microservices/manageAnswers/')
 export class AppController {
     answersService: any;
     constructor(private readonly appService: AppService) { }

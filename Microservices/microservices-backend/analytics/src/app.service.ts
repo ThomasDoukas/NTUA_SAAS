@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ClientProxy, ClientProxyFactory } from '@nestjs/microservices';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { SearchQuestionDto } from './dto/search-question.dto';
@@ -8,9 +9,12 @@ import { Question } from './entities/question.entity';
 
 @Injectable()
 export class AppService {
+    private client = ClientProxy;
+
     constructor(
         @InjectEntityManager('mAnalyticsQuestionsConnection') private manager: EntityManager
-    ) { }
+    ) {
+    }
 
     // // Create new question
     // async createQuestion(createQuestionDto: CreateQuestionDto, user): Promise<Question> {

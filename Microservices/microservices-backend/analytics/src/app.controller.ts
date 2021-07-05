@@ -2,9 +2,10 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SearchQuestionDto } from './dto/search-question.dto';
 
-@Controller()
+@Controller('saas/microservices/browse/analytics')
 export class AppController {
     constructor(private readonly appService: AppService) { }
+    
 
     // // Create question
     // @UseGuards(JwtAuthGuard)
@@ -88,4 +89,5 @@ export class AppController {
     //     ) {
     //     return this.questionsService.removeQuestion(questionId, req.user);
     // }
+
 }

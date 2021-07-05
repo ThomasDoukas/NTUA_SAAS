@@ -3,7 +3,7 @@ import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
 import { SearchQuestionDto } from './dto/search-question.dto';
 import { QuestionsService } from './questions.service';
 
-@Controller('questions')
+@Controller('saas/microservices/browse/questions')
 export class QuestionsController {
     constructor(private readonly questionsService: QuestionsService) { }
 

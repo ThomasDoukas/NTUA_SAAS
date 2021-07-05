@@ -7,12 +7,13 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { Question } from './entities/question.entity';
 import { Label } from './entities/label.entity';
+import { JwtStrategy } from './users/strategies/jwt.strategy';
 
 const defaultOptions = {
 	type: 'postgres' as 'postgres',
 	port: 5432,
 	username: 'postgres',
-	password: 'root',
+	password: process.env.DATABASE_PASSWORD,
 	host: 'localhost',
 	synchronize: true,
 };
@@ -34,6 +35,6 @@ const defaultOptions = {
 		}),
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [AppService, JwtStrategy],
 })
 export class AppModule { }
