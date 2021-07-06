@@ -11,8 +11,10 @@ export class UsersService {
     // Remove findAllUsers
 
     async createUser(createUserDto: CreateUserDto): Promise<User> {
-        const newUser = await this.manager.create(User, createUserDto);
-        return await this.manager.save(newUser);
+        return this.manager.transaction(async manager => {
+            const newUser = await manager.create(User, createUserDto);
+            return await manager.save(newUser);
+        })
     }
 
     async updateUser(payload): Promise<User> {

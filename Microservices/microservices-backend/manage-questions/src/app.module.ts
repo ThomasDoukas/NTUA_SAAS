@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -33,6 +34,16 @@ const defaultOptions = {
             database: 'saas_ms_manage_questions_questions',
             entities: [Question, Label],
         }),
+        ClientsModule.register([
+            {
+                name: "MANAGE_QUESTIONS",
+                transport: Transport.REDIS,
+                options: {
+                    url: process.env.REDIS_URL,
+                    password: process.env.REDIS_PASSWORD
+                }
+            }
+        ]),
         UsersModule
     ],
     controllers: [AppController],

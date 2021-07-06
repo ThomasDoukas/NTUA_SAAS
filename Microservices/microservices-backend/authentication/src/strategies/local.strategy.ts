@@ -17,7 +17,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     // According to Passport, here we should return a user object.
     // The returned value by validate() callback will be assigned to the Request object as req.user
     async validate(email: string, password: string): Promise<any> {
-        console.log('First! validate in local.strategy.ts');
+        // console.log('First! validate in local.strategy.ts');
         const user = await this.appService.validateUser(email, password);
         if (!user) throw new UnauthorizedException('Invalid credentials');
         return user;

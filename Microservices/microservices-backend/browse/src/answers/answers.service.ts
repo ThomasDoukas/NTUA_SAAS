@@ -10,6 +10,28 @@ export class AnswersService {
     constructor(@InjectEntityManager('msBrowseQuestionsConnection') private manager: EntityManager
     ) { }
 
+    async createAnswer(createAnswerDto: CreateAnswerDto): Promise<Answer> {
+        return this.manager.transaction(async manager => {
+            const newAnswer = await manager.create(Answer, createAnswerDto);
+            return await manager.save(newAnswer);
+        })
+    }
+
+    async updateAnswer(payload): Promise<Answer> {
+        // payload = {AnswerId, updateAnswer}
+        return this.manager.transaction(async manager => {
+            const answerExists = await manager.findOne(Answer, payload.answerId, { relations: ['question'] });
+            manager.merge(Answer, answerExists, payload.updateAnswerDto);
+            return await manager.save(answerExists);
+        })
+    }
+
+    async deleteAnswer(payload): Promise<any> {
+        return this.manager.transaction(async manager => {
+            return await manager.delete(Answer, payload);
+        })
+    }
+
     // // Create new answer
     // // Check wether user and question exist. If so, create new answer.
     // async createAnswer(createAnswerDto: CreateAnswerDto, user): Promise<Answer> {

@@ -4,7 +4,7 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
-@Controller('saas/microservices/manageQuestion/')
+@Controller('saas/microservices/manageQuestions/')
 export class AppController {
     constructor(private readonly appService: AppService) { }
 

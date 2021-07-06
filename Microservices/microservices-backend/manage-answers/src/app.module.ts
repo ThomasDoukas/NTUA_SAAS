@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Answer } from './dto/answer.entity';
-import { Question } from './dto/question.entity';
-import { User } from './dto/user.entity';
+import { Answer } from './entities/answer.entity';
+import { Question } from './entities/question.entity';
+import { User } from './entities/user.entity';
 import { QuestionsModule } from './questions/questions.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from './users/users.module';
@@ -35,7 +36,17 @@ const defaultOptions = {
             name: 'msManageAnswersQuestionsConnection',
             database: 'saas_ms_manage_answers_questions',
             entities: [Question, Answer],
-        })
+        }),
+        ClientsModule.register([
+            {
+                name: 'MANAGE_ANSWERS',
+                transport: Transport.REDIS,
+                options: {
+                    url: process.env.REDIS_URL,
+                    password: process.env.REDIS_PASSWORD
+                }
+            }
+        ])
     ],
     controllers: [AppController],
     providers: [AppService, JwtStrategy],

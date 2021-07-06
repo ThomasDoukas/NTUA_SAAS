@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards, Request, Param, Patch, Delete } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateAnswerDto } from './entities/create-answer.dto';
-import { UpdateAnswerDto } from './entities/update-answer.dto';
+import { CreateAnswerDto } from './dto/create-answer.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('saas/microservices/manageAnswers/')
@@ -16,7 +16,7 @@ export class AppController {
         @Body() createAnswerDto: CreateAnswerDto,
         @Request() req
     ) {
-        return this.answersService.createAnswer(createAnswerDto, req.user);
+        return this.appService.createAnswer(createAnswerDto, req.user);
     }
 
     // // Find all answers DO NOT NEED THIS

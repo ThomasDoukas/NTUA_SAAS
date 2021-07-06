@@ -1,7 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory } from '@nestjs/microservices';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
+import { CreateAnswerDto } from './dto/create-answer.dto';
+import { CreateQuestionDto } from './dto/create-question.dto';
 import { SearchQuestionDto } from './dto/search-question.dto';
 import { Answer } from './entities/answer.entity';
 import { Label } from './entities/label.entity';
@@ -14,6 +16,69 @@ export class AppService {
     constructor(
         @InjectEntityManager('mAnalyticsQuestionsConnection') private manager: EntityManager
     ) {
+    }
+
+    async createQuestion(createQuestionDto: CreateQuestionDto): Promise<Question>{
+        return this.manager.transaction(async manager => {
+            const newQuestion = await manager.create(Question, createQuestionDto);
+            return await manager.save(newQuestion);
+        })
+    }
+
+    async updateQuestion(payload): Promise<Question> {
+        // payload = {QuestionId, updateQuestion}
+        return this.manager.transaction(async manager => {
+            const questionExists = await manager.findOne(Question, payload.questionId);
+            manager.merge(Question, questionExists, payload.updateQuestionDto);
+            return await manager.save(questionExists)
+        })
+    }
+
+    async deleteQuestion(payload): Promise<any> {
+        return this.manager.transaction(async manager => {
+            const questionExists = await manager.findOne(Question, payload, { relations: ['labels'] });
+            const deletedQuestion = await manager.delete(Question, payload);
+            const questionLabels = await manager.find(Label, {
+                where: [
+                    ...questionExists.labels
+                ],
+                relations: ['questions']
+            })
+            const deleteLabels = questionLabels
+                .filter(
+                    (el: { labelTitle: string, questions: Question[] }) => {
+                        return el.questions.length === 0;
+                    })
+                .map((el: { labelTitle: string, questions: Question[] }) => {
+                    return { labelTitle: el.labelTitle };
+                })
+            // Delete all labels with no questions (empty questions array)
+            if (deleteLabels) await manager.delete(Label, [...deleteLabels]);
+
+            return deletedQuestion;
+        })
+    }
+
+    async createAnswer(createAnswerDto: CreateAnswerDto): Promise<Answer> {
+        return this.manager.transaction(async manager => {
+            const newAnswer = await manager.create(Answer, createAnswerDto);
+            return await manager.save(newAnswer);
+        })
+    }
+
+    async updateAnswer(payload): Promise<Answer> {
+        // payload = {AnswerId, updateAnswer}
+        return this.manager.transaction(async manager => {
+            const answerExists = await manager.findOne(Answer, payload.answerId, { relations: ['question'] });
+            manager.merge(Answer, answerExists, payload.updateAnswerDto);
+            return await manager.save(answerExists);
+        })
+    }
+
+    async deleteAnswer(payload): Promise<any> {
+        return this.manager.transaction(async manager => {
+            return await manager.delete(Answer, payload);
+        })
     }
 
     // // Create new question

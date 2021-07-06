@@ -1,8 +1,10 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { Brackets, EntityManager } from 'typeorm';
+import { CreateQuestionDto } from './dto/create-question.dto';
 import { SearchQuestionDto } from './dto/search-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { Label } from './entities/label.entity';
 import { Question } from './entities/question.entity';
 
 @Injectable()
@@ -10,6 +12,46 @@ export class QuestionsService {
     constructor(
         @InjectEntityManager('msBrowseQuestionsConnection') private manager: EntityManager
     ) { }
+
+    async createQuestion(createQuestionDto: CreateQuestionDto): Promise<Question>{
+        return this.manager.transaction(async manager => {
+            const newQuestion = await manager.create(Question, createQuestionDto);
+            return await manager.save(newQuestion);
+        })
+    }
+
+    async updateQuestion(payload): Promise<Question> {
+        // payload = {QuestionId, updateQuestion}
+        return this.manager.transaction(async manager => {
+            const questionExists = await manager.findOne(Question, payload.questionId);
+            manager.merge(Question, questionExists, payload.updateQuestionDto);
+            return await manager.save(questionExists)
+        })
+    }
+
+    async deleteQuestion(payload): Promise<any> {
+        return this.manager.transaction(async manager => {
+            const questionExists = await manager.findOne(Question, payload, { relations: ['labels'] });
+            const deletedQuestion = await manager.delete(Question, payload);
+            const questionLabels = await manager.find(Label, {
+                where: [
+                    ...questionExists.labels
+                ],
+                relations: ['questions']
+            })
+            const deleteLabels = questionLabels
+                .filter(
+                    (el: { labelTitle: string, questions: Question[] }) => {
+                        return el.questions.length === 0;
+                    })
+                .map((el: { labelTitle: string, questions: Question[] }) => {
+                    return { labelTitle: el.labelTitle };
+                })
+            if (deleteLabels) await manager.delete(Label, [...deleteLabels]);
+
+            return deletedQuestion;
+        })
+    }
 
     // // Create new question
     // async createQuestion(createQuestionDto: CreateQuestionDto, user): Promise<Question> {

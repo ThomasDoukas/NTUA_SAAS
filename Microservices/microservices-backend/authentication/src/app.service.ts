@@ -60,7 +60,7 @@ export class AppService {
 
             const pattern = {cmd: 'create_user' };
             try {
-                const subscribeUser = await this.publishUsers(newUser, pattern);
+                const publishedUser = await this.publishUsers(newUser, pattern);
                 logger.log('Executing' + pattern.cmd);
             } catch (error) {
                 logger.log(error.message);
@@ -100,7 +100,7 @@ export class AppService {
             const pattern = {cmd: 'update_user' };
             const payload = {updateUserDto, userId: userId}
             try {
-                const subscribeUser = await this.publishUsers(payload, pattern);
+                const publishedUser = await this.publishUsers(payload, pattern);
                 logger.log('Executing ' + pattern.cmd);
             } catch (error) {
                 logger.log(error.message);
@@ -120,7 +120,7 @@ export class AppService {
 
             const pattern = {cmd: 'delete_user'};
             try {
-                const subscribeUser = await this.publishUsers(userId, pattern);
+                const publishedUser = await this.publishUsers(userId, pattern);
                 logger.log('Executing ' + pattern.cmd);
             } catch (error) {
                 logger.log(error.message);
