@@ -1,6 +1,8 @@
 import React from 'react';
 import Question from './Question';
 import classes from '../Components/Auth/AuthForm.module.css'
+import AuthContext from "../source/auth-context";
+
 class BrowseQuestions extends React.Component {
 
     state = {
@@ -8,12 +10,16 @@ class BrowseQuestions extends React.Component {
         labels: undefined,
         fromDate: undefined,
         toDate: undefined,
-        email: undefined,
+        createdBy: undefined,
         textSearch: undefined,
         labelsList:[""]
     }
 
+    static contextType = AuthContext;
+
     getAllQuestions = async (e) => {
+        console.log(this.context)
+        console.log('this was thw getAllQuestions one')
         if (e) e.preventDefault();
         await fetch('http://localhost:3000/saas/soa/esb',
             {
@@ -52,7 +58,7 @@ class BrowseQuestions extends React.Component {
                 body: JSON.stringify({
                     fromDate: (this.state.fromDate ? `${this.state.fromDate}` : undefined),
                     toDate: (this.state.toDate ? `${this.state.toDate}` : undefined),
-                    email: (this.state.email ? `${this.state.email}` : undefined),
+                    email: (this.state.createdBy ? `${this.state.createdBy}` : undefined),
                     labels: (this.state.labelsList ? this.state.labelsList : undefined),
                     textSearch: (this.state.textSearch ? `${this.state.textSearch}` : undefined)
                 })
@@ -70,6 +76,31 @@ class BrowseQuestions extends React.Component {
                     });
                 }
             });
+    }
+
+    deleteQuestion = async (e, id) => {
+        if (e) e.preventDefault();
+        console.log(id);
+        await fetch(`http://localhost:3000/saas/soa/esb`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "url-destination": `saas/soa/questions/${id}`,
+                        'Authorization': 'Bearer ' + `${this.context.jwt}`
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        return res.json().then(
+                            this.getQuestions()
+                        );
+                    } else {
+                        return res.json().then((data) => {
+                        console.log(data)
+                        alert(data.message);
+                        });
+                    }
+                });
     }
 
     handleInputChange = (e, index) => {
@@ -118,7 +149,7 @@ class BrowseQuestions extends React.Component {
 
     handleChangeEmail = (e) => {
         this.setState({
-            email: `${e.target.value}`
+            createdBy: `${e.target.value}`
         });
     };
 
@@ -148,6 +179,7 @@ class BrowseQuestions extends React.Component {
                                             createdBy={questions.createdBy}
                                             body={questions.body}
                                             labels={questions.labels.map(el => { return `#${el.labelTitle} ` })}
+                                            deleteQuestion = {this.deleteQuestion}
                                         />
                                     </row>
                                 )}
@@ -160,7 +192,7 @@ class BrowseQuestions extends React.Component {
                             <div class="form-group">
                                 <div>
                                     <label>User:</label>
-                                    <input class="form-control" type="email" name='email' placeholder="ex. wena@indlovu.gr" onChange={this.handleChangeEmail} />
+                                    <input class="form-control" type="email" name='createdBy' placeholder="ex. wena@indlovu.gr" onChange={this.handleChangeEmail} />
                                 </div>
                                 <br />
                                 <div>

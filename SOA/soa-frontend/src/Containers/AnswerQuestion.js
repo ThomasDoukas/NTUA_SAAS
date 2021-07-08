@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import Answer from './Answer';
 import AuthContext from '../source/auth-context';
 
 const AnswerQuestion = () => {
+    const history = useHistory();
 
     const bodyInputRef = useRef();
     const authCtx = useContext(AuthContext);
@@ -24,7 +25,6 @@ const AnswerQuestion = () => {
             }).then(res => {
                 if (res.ok) {
                     return res.json().then((data) => {
-                        console.log(data);
                         setAnswers(data.answers);
                     });
                 } else {
@@ -36,6 +36,31 @@ const AnswerQuestion = () => {
 
     };
 
+    const deleteAnswer = async (e, id) => {
+        if (e) e.preventDefault();
+        console.log(id);
+        await fetch(`http://localhost:3000/saas/soa/esb`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "url-destination": `saas/soa/answers/${id}`,
+                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        return res.json().then(
+                            getAnswers()
+                        );
+                    } else {
+                        return res.json().then((data) => {
+                        console.log(data)
+                        alert(data.message);
+                        });
+                    }
+                });
+    }
+
     useEffect(() => {
         getAnswers();
     }, []);
@@ -45,7 +70,6 @@ const AnswerQuestion = () => {
         if (e) e.preventDefault();
         const createdBy = authCtx.email;
         const body = bodyInputRef.current.value;
-        const id = location.state.id;
         const jwt = authCtx.jwt;
         fetch('http://localhost:3000/saas/soa/esb',
             {
@@ -56,13 +80,14 @@ const AnswerQuestion = () => {
                     'Authorization': 'Bearer ' + authCtx.jwt
                 },
                 body: JSON.stringify({
-                    createdBy: createdBy,
+                    createdBy: authCtx.email,
                     body: body,
-                    questionId: id
+                    questionId: location.state.id
                 })
             }).then(res => {
                 if (res.ok) {
                     alert('Answer submitted succesfully!');
+                    history.replace('/browse')
                     return res.json();
                 } else {
                     return res.json().then((data) => {
@@ -71,7 +96,6 @@ const AnswerQuestion = () => {
                 }
             });
 
-        window.location.reload();
     }
 
 
@@ -110,9 +134,14 @@ const AnswerQuestion = () => {
                             id={answers.answerId}
                             createdBy={answers.createdBy}
                             body={answers.body}
-                            upvotes={answers.upvotes}
                             timeCreated={answers.timeCreated}
+                            questionTitle={location.state.title}
+                            questionBody={location.state.body}
+                            questionLabels = {location.state.labels.map(el => { return `#${el.labelTitle}, ` })}
+                            questionTimeCreated={location.state.timeCreated}
+                            questionId={location.state.id}
                             disableButton={true}
+                            deleteAnswer={deleteAnswer}
                         />
                     </row>
                     )}

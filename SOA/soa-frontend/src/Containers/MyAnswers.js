@@ -36,6 +36,31 @@ const MyAnswers = () => {
             });
     }
 
+    const deleteAnswer = async (e, id) => {
+        if (e) e.preventDefault();
+        console.log(id);
+        await fetch(`http://localhost:3000/saas/soa/esb`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "url-destination": `saas/soa/answers/${id}`,
+                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        return res.json().then(
+                            getAnswers()
+                        );
+                    } else {
+                        return res.json().then((data) => {
+                        console.log(data)
+                        alert(data.message);
+                        });
+                    }
+                });
+    }
+
     useEffect(() => {
         getAnswers();
     }, []);
@@ -52,13 +77,14 @@ const MyAnswers = () => {
                                 id={answers.answerId}
                                 createdBy={answers.createdBy}
                                 body={answers.body}
-                                upvotes={answers.upvotes}
                                 timeCreated={answers.timeCreated}
                                 questionTitle={answers.question.title}
+                                disableButton={true}
                                 questionBody={answers.question.body}
                                 questionLabels = {answers.question.labels.map(el => { return `#${el.labelTitle}, ` })}
                                 questionTimeCreated={answers.question.timeCreated}
                                 questionId={answers.question.questionId}
+                                deleteAnswer={deleteAnswer}
                                 
                             />
                         </div>

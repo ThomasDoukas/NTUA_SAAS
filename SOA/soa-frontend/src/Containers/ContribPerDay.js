@@ -49,6 +49,7 @@ class ContribPerDay extends React.Component {
   render() {
     return (
       <div>
+        {console.log(this.context)}
         <h1>Contributions per day page</h1>
         <Bar
           data={{

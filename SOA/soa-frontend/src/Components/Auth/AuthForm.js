@@ -53,7 +53,8 @@ const AuthForm = () => {
                     }
                 })
                 .then((data) => {
-                    authCtx.login(data.access_token, email);
+                    console.log(data.userId);
+                    authCtx.login(data.access_token, email, data.userId);
                     history.replace('/myprofile');
                 })
                 .catch((err) => {
@@ -94,7 +95,7 @@ const AuthForm = () => {
                         });
                     }
                 }).then((res) => {
-                    authCtx.login(res.access_token, email);
+                    authCtx.login(res.access_token, email, res.userId);
                     history.replace('/');
                 })
                 .catch((err) => {

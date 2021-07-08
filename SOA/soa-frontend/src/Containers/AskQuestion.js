@@ -102,6 +102,7 @@ const AskQuestion = () => {
                     );
                     })}
                 <br/>
+                {console.log(authCtx)}
 
                 <div class="form-row">
                     <div class="col-auto">

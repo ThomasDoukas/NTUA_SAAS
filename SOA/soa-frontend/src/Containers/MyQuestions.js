@@ -37,6 +37,31 @@ const MyQuestions = () => {
                 });
             }
 
+    const deleteQuestion = async (e, id) => {
+        if (e) e.preventDefault();
+        console.log(id);
+        await fetch(`http://localhost:3000/saas/soa/esb`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "url-destination": `saas/soa/questions/${id}`,
+                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        return res.json().then(
+                            getQuestions()
+                        );
+                    } else {
+                        return res.json().then((data) => {
+                        console.log(data)
+                        alert(data.message);
+                        });
+                    }
+                });
+    }
+
     useEffect(() => {
         getQuestions();
     }, []);
@@ -55,7 +80,8 @@ const MyQuestions = () => {
                             title = {questions.title}
                             createdBy = {questions.createdBy}
                             body = {questions.body}
-                            labels = {questions.labels.map(el => {return `#${el.labelTitle}, `})} 
+                            labels = {questions.labels.map(el => {return `#${el.labelTitle}, `})}
+                            deleteQuestion = {deleteQuestion}
                             />
                     </div>
                     )}
