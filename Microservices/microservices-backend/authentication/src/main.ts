@@ -25,6 +25,7 @@ async function bootstrap() {
 
     await app.startAllMicroservicesAsync();
     await app.listen(3010);
+    app.enableCors();
     logger.log('Authentication Microservice is listening...')
 }
 bootstrap();

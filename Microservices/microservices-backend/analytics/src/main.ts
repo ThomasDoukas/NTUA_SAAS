@@ -25,6 +25,7 @@ async function bootstrap() {
 
     await app.startAllMicroservicesAsync();
     await app.listen(3011);
+    app.enableCors();
     logger.log('Analytics Microservice is listening...')
 }
 bootstrap();

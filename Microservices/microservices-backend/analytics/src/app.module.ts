@@ -9,6 +9,8 @@ import { Question } from './entities/question.entity';
 import { Label } from './entities/label.entity';
 import { JwtStrategy } from './users/strategies/jwt.strategy';
 
+require('dotenv').config();
+
 const defaultOptions = {
 	type: 'postgres' as 'postgres',
 	port: 5432,

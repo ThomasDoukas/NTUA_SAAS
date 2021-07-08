@@ -49,7 +49,7 @@ export class AppController {
         @Body() updateAnswerDto: UpdateAnswerDto,
         @Request() req
     ) {
-        return this.answersService.updateAnswer(answerId, updateAnswerDto, req.user);
+        return this.appService.updateAnswer(answerId, updateAnswerDto, req.user);
     }
 
     // Delete answer
@@ -58,7 +58,7 @@ export class AppController {
     removeAnswer(@Param('answerId') answerId: number,
         @Request() req
     ) {
-        return this.answersService.removeAnswer(answerId, req.user);
+        return this.appService.removeAnswer(answerId, req.user);
     }
 
 }
