@@ -172,7 +172,7 @@ export const services = {
                 "request_type": "DELETE",
                 "parameters": "Answer Id as URL param.",
                 "results": "-",
-                "url_destination": BASE_URL + "saas/soa/questions/:questionId",
+                "url_destination": BASE_URL + "saas/soa/answers/:questionId",
                 "comment": "Requires valid JWT."
             },
         ]

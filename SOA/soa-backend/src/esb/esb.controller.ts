@@ -30,8 +30,8 @@ export class EsbController {
     /*
         Execute all post requests
         users: createUser
-        questions: createQuestion, searchQuestions, findDailyContribution, findUserQuestion, findDatequestions
-        answers: createAnswer, findUserAnsers
+        questions: createQuestion, searchQuestions, findDailyContribution, findUserQuestion, findDateQuestions
+        answers: createAnswer, findUserAnswers
         auth: login, signup
     */
     @Post()
@@ -39,8 +39,6 @@ export class EsbController {
         @Headers() headers,
         @Body() body
     ) {
-        console.log('here');
-        
         const result = await this.esbService.executePostRequests(headers, body);
         return result;
     }
@@ -48,8 +46,8 @@ export class EsbController {
     /*
         Execute all delete requests
         users: deleteUser
-        questionσ: deleteQuestion
-        answerσ: deleteAnswer
+        questions: deleteQuestion
+        answers: deleteAnswer
     */
     @Delete()
     async executeDeleteRequests(@Headers() headers) {

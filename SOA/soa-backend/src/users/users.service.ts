@@ -47,7 +47,10 @@ export class UsersService {
                 const emailUsed = await manager.findOne(User, { where: { email: updateUserDto.email } });
                 if (emailUsed) throw new ConflictException(`Email ${updateUserDto.email} already being used!`);
             }
-            manager.merge(User, userExists, updateUserDto);
+            const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+            const {password, ...userNoPass} = updateUserDto;
+            const newUser = {...userNoPass, hashedPassword}
+            manager.merge(User, userExists, newUser);
             return await manager.save(userExists);
         })
     }
