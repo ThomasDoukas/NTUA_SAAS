@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Question from './Question';
 import AuthContext from '../source/auth-context';
-import classes from '../Components/UI/CustomCard.module.css'
 
 const MyQuestions = () => {
 
@@ -26,7 +25,6 @@ const MyQuestions = () => {
                     console.log(res);
                     if (res.ok) {
                         return res.json().then((data) => {
-                            console.log(data);
                             setQuestions(data);
                             });
                     } else {
@@ -39,27 +37,25 @@ const MyQuestions = () => {
 
     const deleteQuestion = async (e, id) => {
         if (e) e.preventDefault();
-        console.log(id);
         await fetch(`http://localhost:3000/saas/soa/esb`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "url-destination": `saas/soa/questions/${id}`,
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
-                    }
-                }).then(res => {
-                    if (res.ok) {
-                        return res.json().then(
-                            getQuestions()
-                        );
-                    } else {
-                        return res.json().then((data) => {
-                        console.log(data)
-                        alert(data.message);
-                        });
-                    }
-                });
+            {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "url-destination": `saas/soa/questions/${id}`,
+                    'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                }
+            }).then(res => {
+                if (res.ok) {
+                    return res.json().then(
+                        this.getQuestions()
+                    );
+                } else {
+                    return res.json().then((data) => {
+                    alert(data.message);
+                    });
+                }
+            });  
     }
 
     useEffect(() => {

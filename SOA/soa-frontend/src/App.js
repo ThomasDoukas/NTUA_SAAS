@@ -1,4 +1,3 @@
-// import React, { useState, useContext } from 'react';
 import React, {useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Home from './Containers/Home';
@@ -14,6 +13,9 @@ import AuthForm from './Components/Auth/AuthForm';
 import MyQuestions from './Containers/MyQuestions';
 import MyAnswers from './Containers/MyAnswers';
 import ContribPerDay from './Containers/ContribPerDay';
+import EditQuestion from './Containers/EditQuestion';
+import EditAnswer from './Containers/EditAnswer';
+import EditProfile from './Containers/EditProfile';
 
 const App = (props) => {
 
@@ -30,8 +32,16 @@ const App = (props) => {
                 {isLoggedIn && <AskQuestion/>}
                 {!isLoggedIn && <Redirect to='/auth'/>}
             </Route>
+            <Route exact path="/editquestion">
+                {isLoggedIn && <EditQuestion/>}
+                {!isLoggedIn && <Redirect to='/auth'/>}
+            </Route>
             <Route exact path="/answer">
                 {isLoggedIn && <AnswerQuestion/>}
+                {!isLoggedIn && <Redirect to='/auth'/>}
+            </Route>
+            <Route exact path="/editanswer">
+                {isLoggedIn && <EditAnswer/>}
                 {!isLoggedIn && <Redirect to='/auth'/>}
             </Route>
             <Route exact path="/browse">
@@ -52,6 +62,10 @@ const App = (props) => {
             </Route>
             <Route exact path="/myprofile/contrib">
                 {isLoggedIn && <ContribPerDay/>}
+                {!isLoggedIn && <Redirect to='/auth'/>}
+            </Route>
+            <Route exact path="/myprofile/editprofile">
+                {isLoggedIn && <EditProfile/>}
                 {!isLoggedIn && <Redirect to='/auth'/>}
             </Route>
             <Route exact path="/byperiod" component={ByPeriod} />

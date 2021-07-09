@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef } from 'react';
 import classes from './AuthForm.module.css';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import AuthContext from '../../source/auth-context';
 
 const AuthForm = () => {
@@ -8,7 +8,6 @@ const AuthForm = () => {
 
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
-    const password2InputRef = useRef();
     const fnameInputRef = useRef();
     const lnameInputRef = useRef();
     const unameInputRef = useRef();
@@ -53,7 +52,6 @@ const AuthForm = () => {
                     }
                 })
                 .then((data) => {
-                    console.log(data.userId);
                     authCtx.login(data.access_token, email, data.userId);
                     history.replace('/myprofile');
                 })
@@ -63,7 +61,6 @@ const AuthForm = () => {
 
         } else {
 
-            const password2 = password2InputRef.current.value;
             const firstname = fnameInputRef.current.value;
             const lastname = lnameInputRef.current.value;
             const username = unameInputRef.current.value;
@@ -116,10 +113,6 @@ const AuthForm = () => {
                     <label> Password </label>
                     <input type="password" className="form-control" placeholder="Enter password..." name='password' required ref={passwordInputRef} />
                 </div>
-                {!isLogin && <div className={classes.control}>
-                    <label> Password Repeat </label>
-                    <input type="password" className="form-control" placeholder="Re-enter password..." name='password2' required ref={password2InputRef}/>
-                </div>}
                 {!isLogin && <div className={classes.control}>
                     <label> First Name </label>
                     <input type="username" className="form-control" placeholder="Rick" name='firstname' required ref={fnameInputRef} />

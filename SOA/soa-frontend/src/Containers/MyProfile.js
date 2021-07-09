@@ -1,7 +1,5 @@
 import React from 'react';
-import classes from '../Components/UI/Card.css'
 import { Link } from 'react-router-dom';
-import { Redirect } from "react-router-dom";
 import AuthContext from "../source/auth-context";
 
 class MyProfile extends React.Component {

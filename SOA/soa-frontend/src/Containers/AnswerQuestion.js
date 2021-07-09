@@ -54,7 +54,6 @@ const AnswerQuestion = () => {
                         );
                     } else {
                         return res.json().then((data) => {
-                        console.log(data)
                         alert(data.message);
                         });
                     }
@@ -68,9 +67,7 @@ const AnswerQuestion = () => {
 
     const submitFunc = async (e) => {
         if (e) e.preventDefault();
-        const createdBy = authCtx.email;
         const body = bodyInputRef.current.value;
-        const jwt = authCtx.jwt;
         fetch('http://localhost:3000/saas/soa/esb',
             {
                 method: 'POST',
@@ -114,6 +111,11 @@ const AnswerQuestion = () => {
             <div class='row-auto'>
                 <div class="col-md-4 mb-3">
                     <p> Tags: {location.state.labels}</p>
+                </div>
+            </div>
+            <div class='row-auto'>
+                <div class="col-md-4 mb-3">
+                    <p> Created by : {location.state.createdBy} </p>
                 </div>
             </div>
             <div class="col-md-5">

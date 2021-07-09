@@ -29,7 +29,6 @@ class ByKeyword extends React.Component {
               return el.labelTitle;
             }),
           });
-          console.log(this.state.questionsCounter);
         });
       } else {
         return res.json().then((data) => {

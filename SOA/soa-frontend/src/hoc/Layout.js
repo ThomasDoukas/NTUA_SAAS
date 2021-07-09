@@ -17,13 +17,6 @@ const Layout = (props) => {
             </div>
             <Footer />
         </div>
-        // <div style={{ position: "relative", minHeight: "100vh" }}>
-        //     <NavBar />
-        //     <main style={{paddingBottom: "25vh"}}>
-        //         {props.children}
-        //     </main>
-        //     <Footer />
-        // </div>
     )
 }
 

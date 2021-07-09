@@ -1,6 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
-import { Redirect } from 'react-router';
 import AuthContext from '../source/auth-context';
 import classes from '../Components/UI/AskQuestionForm.module.css'
 
@@ -10,7 +9,6 @@ const EditQuestion = () => {
     
     const titleInputRef = useRef();
     const bodyInputRef = useRef();
-    const labelsInputRef = useRef();
 
     const authCtx = useContext(AuthContext);
 
@@ -21,7 +19,6 @@ const EditQuestion = () => {
         const list = [...labelsList];
         list[index][name] = value;
         setLabelsList(list);
-        //console.log(labelsList);
       };
        
       // handle click event of the Remove button
@@ -40,7 +37,6 @@ const EditQuestion = () => {
         if (e) e.preventDefault();
         const title = titleInputRef.current.value;
         const body = bodyInputRef.current.value;
-        const jwt = authCtx.jwt;
         fetch('http://localhost:3000/saas/soa/esb',
                 {
                     method: 'PATCH',
@@ -86,7 +82,7 @@ const EditQuestion = () => {
                     
                     {labelsList.map((x, i) => {
                     return(
-                    <div className="box">
+                    <div className={classes.actions}>
                         <input
                         name="labelTitle"
                         rows="1"
@@ -95,6 +91,7 @@ const EditQuestion = () => {
                         value={x.labelTitle}
                         onChange={e => handleInputChange(e, i)}
                         />
+                        <br/>
                         <div className="btn-box">
                         {labelsList.length !== 1 && <button className="button" onClick={() => handleRemoveClick(i)}>Remove</button>}
                         {labelsList.length - 1 === i && <button className="button" onClick={handleAddClick} >Add</button>}

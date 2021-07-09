@@ -10,6 +10,33 @@ class ByPeriod extends React.Component {
     toDate: undefined
   };
 
+  getAllQuestions = async (e) => {
+    if (e) e.preventDefault();
+    await fetch('http://localhost:3000/saas/soa/esb',
+        {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "url-destination": "saas/soa/analytics/dateQuestions"
+            },
+            body: JSON.stringify({
+            })
+        }).then(res => {
+            if (res.ok) {
+                return res.json().then((data) => {
+                    this.setState({
+                      questionsCounter: data.map((el) => {return el.questionsCounter}),
+                      timeCreated: data.map((el) => {return el.timeCreated.split("T")[0]})
+                    });
+                });
+            } else {
+                return res.json().then((data) => {
+                    alert(data.message);
+                });
+            }
+        });
+}
+
   getQuestions = async (e) => {
     if (e) e.preventDefault();
     await fetch(
@@ -21,8 +48,8 @@ class ByPeriod extends React.Component {
           "url-destination": "saas/soa/analytics/dateQuestions"
         },
         body: JSON.stringify({
-          fromDate: (this.state.fromDate ? `${this.state.fromDate}` : undefined),
-          toDate: (this.state.toDate ? `${this.state.toDate}` : undefined)
+          fromDate: ((this.state.fromDate && this.state.fromDate != "") ? `${this.state.fromDate}` : undefined),
+          toDate: ((this.state.toDate && this.state.toDate != "") ? `${this.state.toDate}` : undefined)
       })
       }
     ).then((res) => {
@@ -118,10 +145,18 @@ handleChangeTo = (e) => {
                 <button
                   type='button'
                   class="btn btn-primary"
-                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
+                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                   onClick={this.getQuestions}
                 >
                   Filter questions
+                </button>
+                <button
+                  type='button'
+                  class="btn btn-primary"
+                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
+                  onClick={this.getAllQuestions}
+                >
+                  Clear Filters
                 </button>
               </div>
           </div>
