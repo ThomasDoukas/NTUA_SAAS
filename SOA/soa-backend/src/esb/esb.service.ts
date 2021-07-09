@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { services } from './services';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/'
-
+const BASE_URL = 'https://saas21-team47-soa-frontend.herokuapp.com/'
 
 @Injectable()
 export class EsbService {
