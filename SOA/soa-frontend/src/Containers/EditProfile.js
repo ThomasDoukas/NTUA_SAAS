@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import classes from '../Components/Auth/AuthForm.module.css'
-import { Redirect, useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 import AuthContext from "../source/auth-context";
 
 const EditProfile = () => {
@@ -42,7 +42,6 @@ const EditProfile = () => {
                         });
                     } else {
                         return res.json().then((data) => {
-                        console.log(data)
                         alert(data.message);
                         });
                     }
@@ -127,7 +126,7 @@ const EditProfile = () => {
                 </div>
                 <div className={classes.control}>
                     <label> Birthday </label>
-                    <input type='date' className="form-control" /* defaultValue={prevBirthday} */ name='birthday' required ref={bdayInputRef} />
+                    <input type='date' className="form-control" name='birthday' required ref={bdayInputRef} />
                 </div>
                 <div className={classes.actions}>
                     <button> Apply Changes </button>

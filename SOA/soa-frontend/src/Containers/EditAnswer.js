@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation, useHistory } from 'react-router-dom'
-import Answer from './Answer';
 import AuthContext from '../source/auth-context';
 
 const EditAnswer = () => {
@@ -36,9 +35,9 @@ const EditAnswer = () => {
 
     };
 
-    /* useEffect(() => {
+    useEffect(() => {
         getAnswers();
-    }, []); */
+    }, []);
 
 
     const submitFunc = async (e) => {
@@ -49,11 +48,10 @@ const EditAnswer = () => {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
-                    "url-destination": `saas/soa/answers/${location.state.id}`,
+                    "url-destination": `saas/soa/answers/${location.state.questionId}`,
                     'Authorization': 'Bearer ' + authCtx.jwt
                 },
                 body: JSON.stringify({
-                    //createdBy: authCtx.email,
                     body: body
                 })
             }).then(res => {
@@ -73,6 +71,8 @@ const EditAnswer = () => {
 
     return (
         <form onSubmit={submitFunc}>
+            {console.log(location.state.questionId)}
+            {console.log(location.state.id)}
             <div class='row-auto'>
                 <div class="col-md-4 mb-3">
                     <h1> {location.state.questionTitle} </h1>
@@ -88,38 +88,6 @@ const EditAnswer = () => {
                     <p> Tags: {location.state.questionLabels}</p>
                 </div>
             </div>
-
-           {/*  <div class="col-md-5">
-                <div class="form-group">
-
-                    {answers.length > 0 ?
-                        <label for="exampleFormControlTextarea1">
-                            Other answers
-                        </label>
-                        :
-                        <label for="exampleFormControlTextarea1">
-                            No answers for this question!
-                        </label>
-                    }
-
-                    {answers.map(answers => <row>
-                        <Answer
-                            id={answers.answerId}
-                            createdBy={answers.createdBy}
-                            body={answers.body}
-                            timeCreated={answers.timeCreated}
-                            questionTitle={location.state.title}
-                            questionBody={location.state.body}
-                            questionLabels = {location.state.labels.map(el => { return `#${el.labelTitle}, ` })}
-                            questionTimeCreated={location.state.timeCreated}
-                            questionId={location.state.id}
-                            disableButton={true}
-                            //deleteAnswer={deleteAnswer}
-                        />
-                    </row>
-                    )}
-                </div>
-            </div> */}
             
             <div class="col-md-5">
                 <div class="form-group">

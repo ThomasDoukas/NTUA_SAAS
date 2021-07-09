@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Answer from './Answer';
 import AuthContext from '../source/auth-context';
-import { Link } from 'react-router-dom';
 
 const MyAnswers = () => {
 
@@ -25,7 +24,6 @@ const MyAnswers = () => {
             }).then(res => {
                 if (res.ok) {
                     return res.json().then((data) => {
-                        console.log(data);
                         setAnswers(data);
                     });
                 } else {
@@ -54,7 +52,6 @@ const MyAnswers = () => {
                         );
                     } else {
                         return res.json().then((data) => {
-                        console.log(data)
                         alert(data.message);
                         });
                     }

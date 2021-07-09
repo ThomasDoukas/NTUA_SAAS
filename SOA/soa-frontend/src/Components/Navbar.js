@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import AuthContext from '../source/auth-context';
-import AuthForm from './Auth/AuthForm';
 
 const check1 = false;
 

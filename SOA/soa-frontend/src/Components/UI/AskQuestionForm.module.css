@@ -46,6 +46,8 @@
   }
   
   .actions button {
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
     cursor: pointer;
     font: inherit;
     color: #343a40;
@@ -72,3 +74,5 @@
     background-color: transparent;
     color: #05a575;
   }
+
+  

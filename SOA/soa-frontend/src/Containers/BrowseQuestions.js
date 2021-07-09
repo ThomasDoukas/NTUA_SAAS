@@ -2,6 +2,7 @@ import React from 'react';
 import Question from './Question';
 import classes from '../Components/Auth/AuthForm.module.css'
 import AuthContext from "../source/auth-context";
+import classes2 from '../Components/UI/AskQuestionForm.module.css'
 
 class BrowseQuestions extends React.Component {
 
@@ -12,14 +13,12 @@ class BrowseQuestions extends React.Component {
         toDate: undefined,
         createdBy: undefined,
         textSearch: undefined,
-        labelsList:[""]
+        labelsList: ['']
     }
 
     static contextType = AuthContext;
 
     getAllQuestions = async (e) => {
-        console.log(this.context)
-        console.log('this was thw getAllQuestions one')
         if (e) e.preventDefault();
         await fetch('http://localhost:3000/saas/soa/esb',
             {
@@ -33,7 +32,6 @@ class BrowseQuestions extends React.Component {
             }).then(res => {
                 if (res.ok) {
                     return res.json().then((data) => {
-                        console.log(data);
                         this.setState({
                             questions: data
                         });
@@ -48,6 +46,11 @@ class BrowseQuestions extends React.Component {
 
     getQuestions = async (e) => {
         if (e) e.preventDefault();
+        var labels = undefined
+        console.log(labels)
+        if (this.state.labelsList[0] !== '') {
+            labels = this.state.labelsList
+        }
         await fetch('http://localhost:3000/saas/soa/esb',
             {
                 method: 'POST',
@@ -56,16 +59,15 @@ class BrowseQuestions extends React.Component {
                     "url-destination": "saas/soa/questions/search"
                 },
                 body: JSON.stringify({
-                    fromDate: (this.state.fromDate ? `${this.state.fromDate}` : undefined),
-                    toDate: (this.state.toDate ? `${this.state.toDate}` : undefined),
+                    fromDate: ((this.state.fromDate && this.state.fromDate != "") ? `${this.state.fromDate}` : undefined),
+                    toDate: ((this.state.toDate && this.state.toDate != "") ? `${this.state.toDate}` : undefined),
                     email: (this.state.createdBy ? `${this.state.createdBy}` : undefined),
-                    labels: (this.state.labelsList ? this.state.labelsList : undefined),
+                    labels: labels,
                     textSearch: (this.state.textSearch ? `${this.state.textSearch}` : undefined)
                 })
             }).then(res => {
                 if (res.ok) {
                     return res.json().then((data) => {
-                        console.log(data);
                         this.setState({
                             questions: data
                         });
@@ -80,27 +82,25 @@ class BrowseQuestions extends React.Component {
 
     deleteQuestion = async (e, id) => {
         if (e) e.preventDefault();
-        console.log(id);
         await fetch(`http://localhost:3000/saas/soa/esb`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "url-destination": `saas/soa/questions/${id}`,
-                        'Authorization': 'Bearer ' + `${this.context.jwt}`
-                    }
-                }).then(res => {
-                    if (res.ok) {
-                        return res.json().then(
-                            this.getQuestions()
-                        );
-                    } else {
-                        return res.json().then((data) => {
-                        console.log(data)
-                        alert(data.message);
-                        });
-                    }
-                });
+            {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "url-destination": `saas/soa/questions/${id}`,
+                    'Authorization': 'Bearer ' + `${this.context.jwt}`
+                }
+            }).then(res => {
+                if (res.ok) {
+                    return res.json().then(
+                        this.getQuestions()
+                    );
+                } else {
+                    return res.json().then((data) => {
+                    alert(data.message);
+                    });
+                }
+            });        
     }
 
     handleInputChange = (e, index) => {
@@ -212,7 +212,7 @@ class BrowseQuestions extends React.Component {
                                 <br />
                                 {this.state.labelsList.map((x, i) => {
                                 return(
-                                <div className="box">
+                                <div className={classes2.actions}>
                                     <input
                                     rows="1"
                                     class="form-control"
@@ -220,6 +220,7 @@ class BrowseQuestions extends React.Component {
                                     value={x}
                                     onChange={e => this.handleInputChange(e, i)}
                                     />
+                                    <br/>
                                     <div className="btn-box">
                                     {this.state.labelsList.length !== 1 && <button className="button" onClick={() => this.handleRemoveClick(i)}>Remove</button>}
                                     {this.state.labelsList.length - 1 === i && <button className="button" onClick={this.handleAddClick} >Add</button>}
@@ -231,10 +232,18 @@ class BrowseQuestions extends React.Component {
                                 <button
                                     type='button'
                                     class="btn btn-primary"
-                                    style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
+                                    style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                                     onClick={this.getQuestions}
                                 >
                                     Filter questions
+                                </button>
+                                <button
+                                    type='button'
+                                    class="btn btn-primary"
+                                    style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
+                                    onClick={this.getAllQuestions}
+                                >
+                                    Clear Filters
                                 </button>
                             </div>
                         </div>
