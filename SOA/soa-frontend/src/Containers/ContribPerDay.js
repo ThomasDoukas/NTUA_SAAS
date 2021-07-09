@@ -14,7 +14,7 @@ class ContribPerDay extends React.Component {
 
   getContribs = async (e) => {
     if (e) e.preventDefault();
-    await fetch("http://localhost:3000/saas/soa/esb", {
+    await fetch("https://saas21-team47-soa.herokuapp.com/saas/soa/esb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

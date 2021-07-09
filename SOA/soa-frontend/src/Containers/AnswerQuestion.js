@@ -15,7 +15,7 @@ const AnswerQuestion = () => {
 
     const getAnswers = async (e) => {
         if (e) e.preventDefault();
-        await fetch('http://localhost:3000/saas/soa/esb',
+        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'GET',
                 headers: {
@@ -39,7 +39,7 @@ const AnswerQuestion = () => {
     const deleteAnswer = async (e, id) => {
         if (e) e.preventDefault();
         console.log(id);
-        await fetch(`http://localhost:3000/saas/soa/esb`,
+        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -68,7 +68,7 @@ const AnswerQuestion = () => {
     const submitFunc = async (e) => {
         if (e) e.preventDefault();
         const body = bodyInputRef.current.value;
-        fetch('http://localhost:3000/saas/soa/esb',
+        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'POST',
                 headers: {

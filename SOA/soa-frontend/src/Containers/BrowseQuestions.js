@@ -20,7 +20,7 @@ class BrowseQuestions extends React.Component {
 
     getAllQuestions = async (e) => {
         if (e) e.preventDefault();
-        await fetch('http://localhost:3000/saas/soa/esb',
+        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'POST',
                 headers: {
@@ -51,7 +51,7 @@ class BrowseQuestions extends React.Component {
         if (this.state.labelsList[0] !== '') {
             labels = this.state.labelsList
         }
-        await fetch('http://localhost:3000/saas/soa/esb',
+        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'POST',
                 headers: {
@@ -82,7 +82,7 @@ class BrowseQuestions extends React.Component {
 
     deleteQuestion = async (e, id) => {
         if (e) e.preventDefault();
-        await fetch(`http://localhost:3000/saas/soa/esb`,
+        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
             {
                 method: 'DELETE',
                 headers: {

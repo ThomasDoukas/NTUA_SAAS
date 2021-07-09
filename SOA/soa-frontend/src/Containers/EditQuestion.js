@@ -37,7 +37,7 @@ const EditQuestion = () => {
         if (e) e.preventDefault();
         const title = titleInputRef.current.value;
         const body = bodyInputRef.current.value;
-        fetch('http://localhost:3000/saas/soa/esb',
+        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
                 {
                     method: 'PATCH',
                     headers: {

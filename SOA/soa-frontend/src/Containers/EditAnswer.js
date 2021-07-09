@@ -14,7 +14,7 @@ const EditAnswer = () => {
 
     const getAnswers = async (e) => {
         if (e) e.preventDefault();
-        await fetch('http://localhost:3000/saas/soa/esb',
+        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'GET',
                 headers: {
@@ -43,7 +43,7 @@ const EditAnswer = () => {
     const submitFunc = async (e) => {
         if (e) e.preventDefault();
         const body = bodyInputRef.current.value;
-        fetch('http://localhost:3000/saas/soa/esb',
+        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'PATCH',
                 headers: {
