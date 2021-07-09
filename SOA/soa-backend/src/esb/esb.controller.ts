@@ -38,7 +38,7 @@ export class EsbController {
     async executePostRequests(
         @Headers() headers,
         @Body() body
-    ) {
+    ) {        
         const result = await this.esbService.executePostRequests(headers, body);
         return result;
     }

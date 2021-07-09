@@ -21,7 +21,7 @@ export const typeOrmUsersConfig: TypeOrmModuleOptions = {
 }
 
 export const typeOrmQuestionsConfig: TypeOrmModuleOptions = {
-    ssl: process.env.PROD=='false' ? false: true || false,
+    ssl: process.env.PROD=='false' ? false: true,
     extra: {
         ssl: process.env.PROD ? {rejectUnauthorized: false} : null
     },

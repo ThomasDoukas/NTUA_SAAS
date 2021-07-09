@@ -45,7 +45,7 @@ export class QuestionsController {
 
     // Get Users Questions DO NOT NEED THIS, CAN BE REPLACED BY CUSTOM SEARCH
     @UseGuards(JwtAuthGuard)
-    @Post('/userQuestions')
+    @Post('/usersQuestions')
     findUserQuestions(
         @Body() searchQuestionDto: SearchQuestionDto,
         @Request() req

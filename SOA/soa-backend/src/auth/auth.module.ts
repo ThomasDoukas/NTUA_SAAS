@@ -7,15 +7,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { UsersService } from 'src/users/users.service';
 
-require('dotenv').config();
-
-
 @Module({
     imports: [
         UsersModule,
         PassportModule,
         JwtModule.register({
-            secret: process.env.JWT_SECRET,
+            secret: process.env.JWT_SECRET || 'saasSecretKey',
             // secret: jwtConstants.secret,
             signOptions: {expiresIn: '6000s'}
         }),
