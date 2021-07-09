@@ -12,15 +12,16 @@ import { Answer } from './answers/entities/answer.entity';
 import { Question } from './questions/entities/question.entity';
 import { EsbModule } from './esb/esb.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { typeOrmUsersConfig, typeOrmQuestionsConfig } from './config/typeorm.config'
 
-const defaultOptions = {
-    type: 'postgres' as 'postgres',
-    port: 5432,
-    username: 'postgres',
-    password: 'root',
-    host: 'localhost',
-    synchronize: true,
-};
+// const defaultOptions = {
+//     type: 'postgres' as 'postgres',
+//     port: 5432,
+//     username: 'postgres',
+//     password: process.env.DATABASE_PASSWORD || 'root',
+//     host: 'localhost',
+//     synchronize: true,
+// };
 
 @Module({
     imports: [
@@ -30,28 +31,30 @@ const defaultOptions = {
         AnswersModule,
         AnalyticsModule,
         EsbModule,
-        TypeOrmModule.forRoot({
-            ...defaultOptions,
-            name: 'usersConnection',
-            database: 'saas_dummy_users',
-            entities: [User],
+        TypeOrmModule.forRoot(
+            typeOrmUsersConfig
+            // {...defaultOptions,
+            // name: 'usersConnection',
+            // database: 'saas_dummy_users',
+            // entities: [User],
             // migrationsTableName: 'users_migration_table',
             // migrations: ['dist/migration/users/*{.ts,.js}'],
             // cli: {
             //     'migrationsDir': 'dist/migration/users'
-            // }
-        }),
-        TypeOrmModule.forRoot({
-            ...defaultOptions,
-            name: 'questionsConnection',
-            database: 'saas_dummy_questions',
-            entities: [Question, Label, Answer],
+            // }}
+            ),
+        TypeOrmModule.forRoot(
+            typeOrmQuestionsConfig
+            // {...defaultOptions,
+            // name: 'questionsConnection',
+            // database: 'saas_dummy_questions',
+            // entities: [Question, Label, Answer],
             // migrationsTableName: 'questions_migration_table',
             // migrations: ['dist/migration/questions/*{.ts,.js}'],
             // cli: {
             //     'migrationsDir': 'dist/migration/questions'
-            // }
-        })
+            // }}
+        )
     ],
     controllers: [AppController],
     providers: [AppService],
