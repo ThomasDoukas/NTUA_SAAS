@@ -15,7 +15,8 @@ export const typeOrmUsersConfig: TypeOrmModuleOptions = {
     password: process.env.DATABASE_PASSWORD || 'root',
     host: process.env.DATABASE_HOST || 'localhost',
     name: 'usersConnection',
-    database: process.env.DATABASE_NAME || 'saas_dummy_questions',
+    database: process.env.DATABASE_NAME || 'saas_dummy_users',
+    synchronize: true,
     entities: [User]
 }
 
@@ -31,5 +32,6 @@ export const typeOrmQuestionsConfig: TypeOrmModuleOptions = {
     host: process.env.DATABASE_HOST || 'localhost',
     name: 'questionsConnection',
     database: process.env.DATABASE_NAME || 'saas_dummy_questions',
+    synchronize: true,
     entities: [Question, Label, Answer]
 }
