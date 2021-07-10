@@ -24,8 +24,12 @@ async function bootstrap() {
     app.connectMicroservice(microserviceOptions);
 
     await app.startAllMicroservicesAsync();
-    await app.listen( process.env.PORT || 3010);
-    app.enableCors();
+    await app.listen(process.env.PORT || 3010);
+    app.enableCors({
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        allowedHeaders: "Content-Type, Accept",
+    });
     logger.log('Authentication Microservice is listening...')
 }
 bootstrap();
