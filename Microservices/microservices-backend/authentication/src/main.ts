@@ -20,16 +20,12 @@ async function bootstrap() {
     //     logger.log('Authentication Microservice is listening...')
     // });
 
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { cors: true });
     app.connectMicroservice(microserviceOptions);
 
     await app.startAllMicroservicesAsync();
     await app.listen(process.env.PORT || 3010);
-    app.enableCors({
-        origin: "*",
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        allowedHeaders: "Content-Type, Accept",
-    });
+    // app.enableCors();
     logger.log('Authentication Microservice is listening...')
 }
 bootstrap();
