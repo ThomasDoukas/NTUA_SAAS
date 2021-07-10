@@ -10,35 +10,42 @@ import { Question } from './questions/entities/question.entity';
 import { Label } from './questions/entities/label.entity';
 import { Answer } from './answers/entities/answer.entity';
 import { JwtStrategy } from './users/strategies/strategies';
+import { typeOrmQuestionsConfig, typeOrmUsersConfig } from './config/tyoeorm.config';
 
 require('dotenv').config();
 
-const defaultOptions = {
-    type: 'postgres' as 'postgres',
-    port: 5432,
-    username: 'postgres',
-    password: process.env.DATABASE_PASSWORD,
-    host: 'localhost',
-    synchronize: true,
-};
+// const defaultOptions = {
+//     type: 'postgres' as 'postgres',
+//     port: 5432,
+//     username: 'postgres',
+//     password: process.env.DATABASE_PASSWORD,
+//     host: 'localhost',
+//     synchronize: true,
+// };
 
 @Module({
     imports: [
         UsersModule,
         QuestionsModule,
         AnswersModule,
-        TypeOrmModule.forRoot({
-            ...defaultOptions,
-            name: 'msBrowseUsersConnection',
-            database: 'saas_ms_browse_users',
-            entities: [User],
-        }),
-        TypeOrmModule.forRoot({
-            ...defaultOptions,
-            name: 'msBrowseQuestionsConnection',
-            database: 'saas_ms_browse_questions',
-            entities: [Question, Label, Answer],
-        }),
+        TypeOrmModule.forRoot(
+            typeOrmUsersConfig
+            // {
+            //     ...defaultOptions,
+            //     name: 'msBrowseUsersConnection',
+            //     database: 'saas_ms_browse_users',
+            //     entities: [User],
+            // }
+        ),
+        TypeOrmModule.forRoot(
+            typeOrmQuestionsConfig
+            // {
+            //     ...defaultOptions,
+            //     name: 'msBrowseQuestionsConnection',
+            //     database: 'saas_ms_browse_questions',
+            //     entities: [Question, Label, Answer],
+            // }
+        ),
     ],
     controllers: [AppController],
     providers: [AppService, JwtStrategy],
