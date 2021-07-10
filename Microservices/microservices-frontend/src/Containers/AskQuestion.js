@@ -1,6 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
 import {useHistory} from 'react-router-dom';
-import { Redirect } from 'react-router';
 import AuthContext from '../source/auth-context';
 import classes from '../Components/UI/AskQuestionForm.module.css'
 
@@ -9,7 +8,6 @@ const AskQuestion = () => {
     
     const titleInputRef = useRef();
     const bodyInputRef = useRef();
-    const labelsInputRef = useRef();
 
     const authCtx = useContext(AuthContext);
 
@@ -39,19 +37,22 @@ const AskQuestion = () => {
         if (e) e.preventDefault();
         const title = titleInputRef.current.value;
         const body = bodyInputRef.current.value;
-        const jwt = authCtx.jwt;
-        fetch('http://localhost:3014/saas/microservices/manageQuestions/',
+        const list = labelsList;
+        const help = list.filter(function(item) {
+            return item.labelTitle !== ""
+        });
+        fetch('https://saas21-team47-ms-mng-questions.herokuapp.com/saas/microservices/manageQuestions/',
                 {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     },
                     body: JSON.stringify({
                         title: title,
                         body: body,
                         createdBy: authCtx.email,
-                        labels: labelsList
+                        labels: help
                     })
                 }).then(res => {
                     if (res.ok) {
@@ -72,19 +73,19 @@ const AskQuestion = () => {
 
                 <h1>Ask a Question</h1>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1">Question Title</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder='Add a title' rows="1" name='title' required ref={titleInputRef} />
+                        <textarea className="form-control" id="exampleFormControlTextarea1" placeholder='Add a title' rows="1" name='title' required ref={titleInputRef} />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1">Question Text</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder='Add a question body' rows="5" name='body' required ref={bodyInputRef} />
+                        <textarea className="form-control" id="exampleFormControlTextarea1" placeholder='Add a question body' rows="5" name='body' required ref={bodyInputRef} />
                     </div>
 
                     {labelsList.map((x, i) => {
                     return(
-                    <div className="box">
+                    <div className={classes.actions}>
                         <input
                         name="labelTitle"
                         rows="1"
@@ -93,6 +94,7 @@ const AskQuestion = () => {
                         value={x.labelTitle}
                         onChange={e => handleInputChange(e, i)}
                         />
+                        <br/>
                         <div className="btn-box">
                         {labelsList.length !== 1 && <button className="button" onClick={() => handleRemoveClick(i)}>Remove</button>}
                         {labelsList.length - 1 === i && <button className="button" onClick={handleAddClick} >Add</button>}
@@ -101,15 +103,14 @@ const AskQuestion = () => {
                     );
                     })}
                 <br/>
-                {console.log(authCtx)}
 
-                <div class="form-row">
-                    <div class="col-auto">
-                        <button class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}} type="submit">Submit</button>
+                <div className="form-row">
+                    <div className="col-auto">
+                        <button className="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}} type="submit">Submit</button>
                     </div>
 
-                    <div class="col-auto">
-                        <a class="btn btn-danger" exact href="/" role="button">Cancel</a>
+                    <div className="col-auto">
+                        <a className="btn btn-danger" exact href="/" role="button">Cancel</a>
                     </div>
                 </div>
             </form>            

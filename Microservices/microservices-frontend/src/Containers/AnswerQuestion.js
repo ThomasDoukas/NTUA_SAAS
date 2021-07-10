@@ -15,7 +15,7 @@ const AnswerQuestion = () => {
 
     const getAnswers = async (e) => {
         if (e) e.preventDefault();
-        await fetch(`http://localhost:3012/saas/microservices/browse/questions/${location.state.id}`,
+        await fetch(`https://saas21-team47-ms-browse.herokuapp.com/saas/microservices/browse/questions/${location.state.id}`,
             {
                 method: 'GET',
                 headers: {
@@ -37,13 +37,12 @@ const AnswerQuestion = () => {
 
     const deleteAnswer = async (e, id) => {
         if (e) e.preventDefault();
-        console.log(id);
-        await fetch(`http://localhost:3013/saas/microservices/manageAnswers/${id}`,
+        await fetch(`https://saas21-team47-ms-mng-answers.herokuapp.com/saas/microservices/manageAnswers/${id}`,
                 {
                     method: 'DELETE',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     }
                 }).then(res => {
                     if (res.ok) {
@@ -52,7 +51,6 @@ const AnswerQuestion = () => {
                         );
                     } else {
                         return res.json().then((data) => {
-                        console.log(data)
                         alert(data.message);
                         });
                     }
@@ -61,20 +59,19 @@ const AnswerQuestion = () => {
 
     useEffect(() => {
         getAnswers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
     const submitFunc = async (e) => {
         if (e) e.preventDefault();
-        const createdBy = authCtx.email;
         const body = bodyInputRef.current.value;
-        const jwt = authCtx.jwt;
-        fetch('http://localhost:3013/saas/microservices/manageAnswers/',
+        fetch('https://saas21-team47-ms-mng-answers.herokuapp.com/saas/microservices/manageAnswers/',
             {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authCtx.jwt
+                    'Authorization': `Bearer ${authCtx.jwt}`
                 },
                 body: JSON.stringify({
                     createdBy: authCtx.email,
@@ -98,23 +95,28 @@ const AnswerQuestion = () => {
 
     return (
         <form onSubmit={submitFunc}>
-            <div class='row-auto'>
-                <div class="col-md-4 mb-3">
+            <div className='row-auto'>
+                <div className="col-md-4 mb-3">
                     <h1> {location.state.title} </h1>
                 </div>
             </div>
-            <div class='row-auto'>
-                <div class="col-md-4 mb-3">
+            <div className='row-auto'>
+                <div className="col-md-4 mb-3">
                     <p> {location.state.body} </p>
                 </div>
             </div>
-            <div class='row-auto'>
-                <div class="col-md-4 mb-3">
+            <div className='row-auto'>
+                <div className="col-md-4 mb-3">
                     <p> Tags: {location.state.labels}</p>
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="form-group">
+            <div className='row-auto'>
+                <div className="col-md-4 mb-3">
+                    <p> Created by : {location.state.createdBy} </p>
+                </div>
+            </div>
+            <div className="col-md-5">
+                <div className="form-group">
 
                     {answers.length > 0 ?
                         <label for="exampleFormControlTextarea1">
@@ -144,18 +146,18 @@ const AnswerQuestion = () => {
                     )}
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="form-group">
+            <div className="col-md-5">
+                <div className="form-group">
                     <label for="exampleFormControlTextarea1">My Answer</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name='body' required ref={bodyInputRef} />
+                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="5" name='body' required ref={bodyInputRef} />
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col-auto">
-                    <button class="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }} type="submit"> Submit Answer </button>
+            <div className="form-row">
+                <div className="col-auto">
+                    <button className="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }} type="submit"> Submit Answer </button>
                 </div>
-                <div class="col-auto">
-                    <a class="btn btn-danger" exact href="/browse" role="button"> Nevermind </a>
+                <div className="col-auto">
+                    <a className="btn btn-danger" exact href="/browse" role="button"> Nevermind </a>
                 </div>
             </div>
         </form>

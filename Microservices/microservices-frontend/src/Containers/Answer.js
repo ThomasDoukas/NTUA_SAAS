@@ -11,16 +11,18 @@ class Answer extends React.Component {
                 <br />
                 <p> Answered by: {this.props.createdBy} on {this.props.timeCreated.split('T')[0]} </p>
                 
+                {((this.context.email === this.props.createdBy) && 
+                <div>
                 <button
                     type='button'
-                    class="btn btn-primary"
-                    style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
+                    className ="btn btn-primary"
+                    style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem'}}
                     onClick={e => this.props.deleteAnswer(e, this.props.id)}
                     >
                 Delete
                 </button>
                     
-                <Link class="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
+                <Link className ="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem'}}
                     to={{ 
                     pathname: "/editanswer", 
                     state: {
@@ -36,6 +38,8 @@ class Answer extends React.Component {
                     }}>
                 Edit
                 </Link>
+                </div>
+                )}
 
             </div>
         )

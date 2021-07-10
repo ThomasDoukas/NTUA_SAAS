@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import Answer from "./Answer";
+import React from "react";
 import AuthContext from "../source/auth-context";
 import { Bar } from "react-chartjs-2";
 
@@ -14,11 +13,11 @@ class ContribPerDay extends React.Component {
 
   getContribs = async (e) => {
     if (e) e.preventDefault();
-    await fetch("http://localhost:3011/saas/microservices/browse/analytics/myContr", {
+    await fetch("https://saas21-team47-ms-analytics.herokuapp.com/saas/microservices/browse/analytics/myContr", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + this.context.jwt
+        'Authorization': `Bearer ${this.context.jwt}`
       },
       body: JSON.stringify({
         email: this.context.email,
@@ -31,7 +30,6 @@ class ContribPerDay extends React.Component {
             questionsCounter: data.questions[0].questionsCounter,
             answersCounter: data.answers[0].answersCounter,
           });
-          console.log(this.state.timeCreated);
         });
       } else {
         return res.json().then((data) => {
@@ -48,7 +46,6 @@ class ContribPerDay extends React.Component {
   render() {
     return (
       <div>
-        {console.log(this.context)}
         <h1>Contributions per day page</h1>
         <Bar
           data={{

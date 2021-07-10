@@ -1,4 +1,3 @@
-// import React, { useState, useContext } from 'react';
 import React, {useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Home from './Containers/Home';

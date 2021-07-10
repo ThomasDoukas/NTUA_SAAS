@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Answer from './Answer';
 import AuthContext from '../source/auth-context';
-import { Link } from 'react-router-dom';
 
 const MyAnswers = () => {
 
@@ -11,12 +10,12 @@ const MyAnswers = () => {
 
     const getAnswers = async (e) => {
         if (e) e.preventDefault();
-        await fetch('http://localhost:3012/saas/microservices/browse/answers/usersAnswers',
+        await fetch('https://saas21-team47-ms-browse.herokuapp.com/saas/microservices/browse/answers/usersAnswers',
             {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authCtx.jwt
+                    'Authorization': `Bearer ${authCtx.jwt}`
                 },
                 body: JSON.stringify({
                     createdBy: authCtx.email
@@ -24,7 +23,6 @@ const MyAnswers = () => {
             }).then(res => {
                 if (res.ok) {
                     return res.json().then((data) => {
-                        console.log(data);
                         setAnswers(data);
                     });
                 } else {
@@ -37,13 +35,12 @@ const MyAnswers = () => {
 
     const deleteAnswer = async (e, id) => {
         if (e) e.preventDefault();
-        console.log(id);
-        await fetch(`http://localhost:3013/saas/microservices/manageAnswers/${id}`,
+        await fetch(`https://saas21-team47-ms-mng-answers.herokuapp.com/saas/microservices/manageAnswers/${id}`,
                 {
                     method: 'DELETE',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     }
                 }).then(res => {
                     if (res.ok) {
@@ -52,7 +49,6 @@ const MyAnswers = () => {
                         );
                     } else {
                         return res.json().then((data) => {
-                        console.log(data)
                         alert(data.message);
                         });
                     }
@@ -61,10 +57,11 @@ const MyAnswers = () => {
 
     useEffect(() => {
         getAnswers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div class="container">
+        <div className="container">
             <section>
                 <div>
                     <br />

@@ -10,18 +10,44 @@ class ByPeriod extends React.Component {
     toDate: undefined
   };
 
+  getAllQuestions = async (e) => {
+    if (e) e.preventDefault();
+    await fetch("http://localhost:3011/saas/microservices/browse/analytics/dateQuestions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+            body: JSON.stringify({
+            })
+        }).then(res => {
+            if (res.ok) {
+                return res.json().then((data) => {
+                    this.setState({
+                      questionsCounter: data.map((el) => {return el.questionsCounter}),
+                      timeCreated: data.map((el) => {return el.timeCreated.split("T")[0]})
+                    });
+                });
+            } else {
+                return res.json().then((data) => {
+                    alert(data.message);
+                });
+            }
+        });
+}
+
   getQuestions = async (e) => {
     if (e) e.preventDefault();
     await fetch(
-      "http://localhost:3011/saas/microservices/browse/analytics/dateQuestions",
+      "https://saas21-team47-ms-analytics.herokuapp.com/saas/microservices/browse/analytics/dateQuestions",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          fromDate: (this.state.fromDate ? `${this.state.fromDate}` : undefined),
-          toDate: (this.state.toDate ? `${this.state.toDate}` : undefined)
+          fromDate: ((this.state.fromDate && this.state.fromDate !== "") ? `${this.state.fromDate}` : undefined),
+          toDate: ((this.state.toDate && this.state.toDate !== "") ? `${this.state.toDate}` : undefined)
       })
       }
     ).then((res) => {
@@ -103,7 +129,7 @@ handleChangeTo = (e) => {
         <section className={classes.auth}>
           <div>
             <h1>Filters</h1>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <label>From:</label>
                   <input type='date' className="form-control" name='fromDate' onChange={this.handleChangeFrom} />
@@ -116,11 +142,19 @@ handleChangeTo = (e) => {
                 <br />
                 <button
                   type='button'
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
                   onClick={this.getQuestions}
                 >
                   Filter questions
+                </button>
+                <button
+                  type='button'
+                  className="btn btn-primary"
+                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
+                  onClick={this.getAllQuestions}
+                >
+                  Clear Filters
                 </button>
               </div>
           </div>

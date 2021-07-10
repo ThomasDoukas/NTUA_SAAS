@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import classes from '../Components/Auth/AuthForm.module.css'
-import { Redirect, useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 import AuthContext from "../source/auth-context";
 
 const EditProfile = () => {
@@ -17,13 +17,12 @@ const EditProfile = () => {
     const [prevFirstName, setPrevFirstName] = useState('');
     const [prevLastName, setPrevLastName] = useState('');
     const [prevUsername, setPrevUsername] = useState('');
-    const [prevBirthday, setPrevBirthday] = useState('');
 
     const authCtx = useContext(AuthContext);
 
     const getUserInfo = async (e) => {
         if (e) e.preventDefault();
-        await fetch(`http://localhost:3012/saas/microservices/browse/users/${authCtx.userId}`,
+        await fetch(`https://saas21-team47-ms-browse.herokuapp.com/saas/microservices/browse/users/${authCtx.userId}`,
                 {
                     method: 'GET',
                     headers: {
@@ -36,12 +35,10 @@ const EditProfile = () => {
                             setPrevEmail(data.email);
                             setPrevFirstName(data.firstName);
                             setPrevLastName(data.lastName);
-                            setPrevUsername(data.username);
-                            setPrevBirthday(data.birthday)                            
+                            setPrevUsername(data.username);                          
                         });
                     } else {
                         return res.json().then((data) => {
-                        console.log(data)
                         alert(data.message);
                         });
                     }
@@ -57,12 +54,12 @@ const EditProfile = () => {
         const username = unameInputRef.current.value;
         const birthday = bdayInputRef.current.value;
 
-        fetch(`http://localhost:3010/saas/microservices/authentication/${authCtx.userId}`,
+        fetch(`https://saas21-team47-ms-auth.herokuapp.com/saas/microservices/authentication/${authCtx.userId}`,
             {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                    'Authorization': `Bearer ${authCtx.jwt}`
                 },
                 body: JSON.stringify({
                     email: email,
@@ -97,6 +94,7 @@ const EditProfile = () => {
 
     useEffect(() => {
         getUserInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return(

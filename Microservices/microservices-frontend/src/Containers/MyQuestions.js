@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Question from './Question';
 import AuthContext from '../source/auth-context';
-import classes from '../Components/UI/CustomCard.module.css'
 
 const MyQuestions = () => {
 
@@ -10,27 +9,23 @@ const MyQuestions = () => {
 
     const getQuestions = async (e) => {
         if (e) e.preventDefault();
-        console.log(authCtx.jwt);
-        await fetch('http://localhost:3012/saas/microservices/browse/questions/userQuestions',
+        await fetch('https://saas21-team47-ms-browse.herokuapp.com/saas/microservices/browse/questions/usersQuestions',
                 {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     },
                     body: JSON.stringify({
                         email: authCtx.email
                     })
                 }).then(res => {
-                    console.log(res);
                     if (res.ok) {
                         return res.json().then((data) => {
-                            console.log(data);
                             setQuestions(data);
                             });
                     } else {
                         return res.json().then((data) => {
-                            console.log(data);
                             alert(data.message);
                         });
                     }
@@ -39,13 +34,12 @@ const MyQuestions = () => {
 
     const deleteQuestion = async (e, id) => {
         if (e) e.preventDefault();
-        console.log(id);
-        await fetch(`http://localhost:3014/saas/microservices/manageQuestions/${id}`,
+        await fetch(`https://saas21-team47-ms-mng-questions.herokuapp.com/saas/microservices/manageQuestions/${id}`,
                 {
                     method: 'DELETE',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     }
                 }).then(res => {
                     if (res.ok) {
@@ -62,10 +56,11 @@ const MyQuestions = () => {
 
     useEffect(() => {
         getQuestions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div class="container">
+        <div className="container">
             <section>
                 <div>
                     <br/>

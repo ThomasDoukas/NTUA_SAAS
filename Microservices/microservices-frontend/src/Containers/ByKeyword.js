@@ -10,7 +10,7 @@ class ByKeyword extends React.Component {
   getQuestions = async (e) => {
     if (e) e.preventDefault();
     await fetch(
-      "http://localhost:3011/saas/microservices/browse/analytics/labelQuestions",
+      "https://saas21-team47-ms-analytics.herokuapp.com/saas/microservices/browse/analytics/labelQuestions",
       {
         method: "GET",
         headers: {
@@ -28,7 +28,6 @@ class ByKeyword extends React.Component {
               return el.labelTitle;
             }),
           });
-          console.log(this.state.questionsCounter);
         });
       } else {
         return res.json().then((data) => {
