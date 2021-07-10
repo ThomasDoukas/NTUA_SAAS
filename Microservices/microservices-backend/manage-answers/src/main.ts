@@ -24,7 +24,7 @@ async function bootstrap() {
     app.connectMicroservice(microserviceOptions);
 
     await app.startAllMicroservicesAsync();
-    await app.listen(3013);
+    await app.listen(process.env.PORT || 3013);
     app.enableCors();
     logger.log('ManageAnswers Microservice is listening...')
 }
