@@ -29,7 +29,7 @@ const AuthForm = () => {
 
         setIsLoading(true);
         if (isLogin) {
-            fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+            fetch('http://localhost:3000/saas/soa/esb',
                 {
                     method: 'POST',
                     headers: {
@@ -66,7 +66,7 @@ const AuthForm = () => {
             const username = unameInputRef.current.value;
             const birthday = bdayInputRef.current.value;
 
-            fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+            fetch('http://localhost:3000/saas/soa/esb',
                 {
                     method: 'POST',
                     headers: {

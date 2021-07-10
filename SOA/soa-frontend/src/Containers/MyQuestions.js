@@ -9,20 +9,18 @@ const MyQuestions = () => {
 
     const getQuestions = async (e) => {
         if (e) e.preventDefault();
-        console.log(authCtx.jwt);
-        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+        await fetch('http://localhost:3000/saas/soa/esb',
                 {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
                         "url-destination": "saas/soa/questions/usersQuestions",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     },
                     body: JSON.stringify({
                         email: authCtx.email
                     })
                 }).then(res => {
-                    console.log(res);
                     if (res.ok) {
                         return res.json().then((data) => {
                             setQuestions(data);
@@ -37,18 +35,18 @@ const MyQuestions = () => {
 
     const deleteQuestion = async (e, id) => {
         if (e) e.preventDefault();
-        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
+        await fetch(`http://localhost:3000/saas/soa/esb`,
             {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
                     "url-destination": `saas/soa/questions/${id}`,
-                    'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                    'Authorization': `Bearer ${authCtx.jwt}`
                 }
             }).then(res => {
                 if (res.ok) {
                     return res.json().then(
-                        this.getQuestions()
+                        getQuestions()
                     );
                 } else {
                     return res.json().then((data) => {
@@ -60,10 +58,11 @@ const MyQuestions = () => {
 
     useEffect(() => {
         getQuestions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div class="container">
+        <div className="container">
             <section>
                 <div>
                     <br/>

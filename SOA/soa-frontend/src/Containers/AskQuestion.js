@@ -36,13 +36,13 @@ const AskQuestion = () => {
         if (e) e.preventDefault();
         const title = titleInputRef.current.value;
         const body = bodyInputRef.current.value;
-        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+        fetch('http://localhost:3000/saas/soa/esb',
                 {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
                         "url-destination": "saas/soa/questions",
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     },
                     body: JSON.stringify({
                         title: title,
@@ -69,14 +69,14 @@ const AskQuestion = () => {
 
                 <h1>Ask a Question</h1>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1">Question Title</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder='Add a title' rows="1" name='title' required ref={titleInputRef} />
+                        <textarea className="form-control" id="exampleFormControlTextarea1" placeholder='Add a title' rows="1" name='title' required ref={titleInputRef} />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1">Question Text</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder='Add a question body' rows="5" name='body' required ref={bodyInputRef} />
+                        <textarea className="form-control" id="exampleFormControlTextarea1" placeholder='Add a question body' rows="5" name='body' required ref={bodyInputRef} />
                     </div>
 
                     {labelsList.map((x, i) => {
@@ -85,7 +85,7 @@ const AskQuestion = () => {
                         <input
                         name="labelTitle"
                         rows="1"
-                        class="form-control"
+                        className="form-control"
                         placeholder='Add a keyword'
                         value={x.labelTitle}
                         onChange={e => handleInputChange(e, i)}
@@ -100,13 +100,13 @@ const AskQuestion = () => {
                     })}
                 <br/>
 
-                <div class="form-row">
-                    <div class="col-auto">
-                        <button class="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}} type="submit">Submit</button>
+                <div className="form-row">
+                    <div className="col-auto">
+                        <button className="btn btn-primary" style={{backgroundColor: "#AA06EE", borderColor: "#AA06EE"}} type="submit">Submit</button>
                     </div>
 
-                    <div class="col-auto">
-                        <a class="btn btn-danger" exact href="/" role="button">Cancel</a>
+                    <div className="col-auto">
+                        <a className="btn btn-danger" exact href="/" role="button">Cancel</a>
                     </div>
                 </div>
             </form>            

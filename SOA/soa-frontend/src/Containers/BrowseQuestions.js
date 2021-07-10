@@ -20,7 +20,7 @@ class BrowseQuestions extends React.Component {
 
     getAllQuestions = async (e) => {
         if (e) e.preventDefault();
-        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+        await fetch('http://localhost:3000/saas/soa/esb',
             {
                 method: 'POST',
                 headers: {
@@ -51,7 +51,7 @@ class BrowseQuestions extends React.Component {
         if (this.state.labelsList[0] !== '') {
             labels = this.state.labelsList
         }
-        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+        await fetch('http://localhost:3000/saas/soa/esb',
             {
                 method: 'POST',
                 headers: {
@@ -59,8 +59,8 @@ class BrowseQuestions extends React.Component {
                     "url-destination": "saas/soa/questions/search"
                 },
                 body: JSON.stringify({
-                    fromDate: ((this.state.fromDate && this.state.fromDate != "") ? `${this.state.fromDate}` : undefined),
-                    toDate: ((this.state.toDate && this.state.toDate != "") ? `${this.state.toDate}` : undefined),
+                    fromDate: ((this.state.fromDate && this.state.fromDate !== "") ? `${this.state.fromDate}` : undefined),
+                    toDate: ((this.state.toDate && this.state.toDate !== "") ? `${this.state.toDate}` : undefined),
                     email: (this.state.createdBy ? `${this.state.createdBy}` : undefined),
                     labels: labels,
                     textSearch: (this.state.textSearch ? `${this.state.textSearch}` : undefined)
@@ -82,13 +82,13 @@ class BrowseQuestions extends React.Component {
 
     deleteQuestion = async (e, id) => {
         if (e) e.preventDefault();
-        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
+        await fetch(`http://localhost:3000/saas/soa/esb`,
             {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
                     "url-destination": `saas/soa/questions/${id}`,
-                    'Authorization': 'Bearer ' + `${this.context.jwt}`
+                    'Authorization': `Bearer ${this.context.jwt}`
                 }
             }).then(res => {
                 if (res.ok) {
@@ -165,11 +165,11 @@ class BrowseQuestions extends React.Component {
 
     render() {
         return (
-            <div class="container">
-                <div class="row align-items-start">
+            <div className="container">
+                <div className="row align-items-start">
                     <section>
                             <div>
-                                <h1 for="questionTitle" name='title' style={{ width: "max-content" }}> Select Question </h1>
+                                <h1 htmlFor="questionTitle" name='title' style={{ width: "max-content" }}> Select Question </h1>
                                 {this.state.questions.map(questions =>
                                     <row>
                                         <Question
@@ -189,15 +189,15 @@ class BrowseQuestions extends React.Component {
                     <section className={classes.auth}>
                         <div>
                             <h1>Filters</h1>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <div>
                                     <label>User:</label>
-                                    <input class="form-control" type="email" name='createdBy' placeholder="ex. wena@indlovu.gr" onChange={this.handleChangeEmail} />
+                                    <input className="form-control" type="email" name='createdBy' placeholder="ex. wena@indlovu.gr" onChange={this.handleChangeEmail} />
                                 </div>
                                 <br />
                                 <div>
                                     <label>Text Search:</label>
-                                    <input class="form-control" type="text" name='textSearch' placeholder="Type a word to search from question body" onChange={this.handleChangeText} />
+                                    <input className="form-control" type="text" name='textSearch' placeholder="Type a word to search from question body" onChange={this.handleChangeText} />
                                 </div>
                                 <br />
                                 <div>
@@ -215,7 +215,7 @@ class BrowseQuestions extends React.Component {
                                 <div className={classes2.actions}>
                                     <input
                                     rows="1"
-                                    class="form-control"
+                                    className="form-control"
                                     placeholder='Add a keyword'
                                     value={x}
                                     onChange={e => this.handleInputChange(e, i)}
@@ -231,7 +231,7 @@ class BrowseQuestions extends React.Component {
                                 <br />
                                 <button
                                     type='button'
-                                    class="btn btn-primary"
+                                    className="btn btn-primary"
                                     style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                                     onClick={this.getQuestions}
                                 >
@@ -239,7 +239,7 @@ class BrowseQuestions extends React.Component {
                                 </button>
                                 <button
                                     type='button'
-                                    class="btn btn-primary"
+                                    className="btn btn-primary"
                                     style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                                     onClick={this.getAllQuestions}
                                 >

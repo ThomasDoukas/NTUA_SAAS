@@ -14,10 +14,10 @@ class Question extends React.Component {
                 <br />
                 <div> {this.props.body} </div>
                 <div> Tags: {this.props.labels} </div>
-                <p class="card-text text-muted"> Posted by: {this.props.createdBy} on {this.props.timeCreated.split('T')[0]} </p>
+                <p className="card-text text-muted"> Posted by: {this.props.createdBy} on {this.props.timeCreated.split('T')[0]} </p>
 
                 <div >
-                <Link class="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
+                <Link className="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                     to={{
                         pathname: "/answer",
                         state: {
@@ -32,10 +32,10 @@ class Question extends React.Component {
                     Answer
                     </Link>
 
-                    {((this.context.email == this.props.createdBy) && 
+                    {((this.context.email === this.props.createdBy) && 
                     <button
                         type='button'
-                        class="btn btn-primary"
+                        className="btn btn-primary"
                         style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                         onClick={e => this.props.deleteQuestion(e, this.props.id)}
                         >
@@ -44,8 +44,8 @@ class Question extends React.Component {
                     )}
                     
 
-                    {((this.context.email == this.props.createdBy) && 
-                    <Link class="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
+                    {((this.context.email === this.props.createdBy) && 
+                    <Link className="btn btn-primary" style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                         to={{ 
                         pathname: "/editquestion", 
                         state: {

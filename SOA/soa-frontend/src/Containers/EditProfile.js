@@ -17,19 +17,18 @@ const EditProfile = () => {
     const [prevFirstName, setPrevFirstName] = useState('');
     const [prevLastName, setPrevLastName] = useState('');
     const [prevUsername, setPrevUsername] = useState('');
-    const [prevBirthday, setPrevBirthday] = useState('');
 
     const authCtx = useContext(AuthContext);
 
     const getUserInfo = async (e) => {
         if (e) e.preventDefault();
-        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
+        await fetch(`http://localhost:3000/saas/soa/esb`,
                 {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
                         "url-destination": `saas/soa/users/${authCtx.userId}`,
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     }
                 }).then((res) => {
                     if (res.ok) {
@@ -37,8 +36,7 @@ const EditProfile = () => {
                             setPrevEmail(data.email);
                             setPrevFirstName(data.firstName);
                             setPrevLastName(data.lastName);
-                            setPrevUsername(data.username);
-                            setPrevBirthday(data.birthday)                            
+                            setPrevUsername(data.username);                           
                         });
                     } else {
                         return res.json().then((data) => {
@@ -57,13 +55,13 @@ const EditProfile = () => {
         const username = unameInputRef.current.value;
         const birthday = bdayInputRef.current.value;
 
-        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+        fetch('http://localhost:3000/saas/soa/esb',
             {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
                     "url-destination": `saas/soa/users/${authCtx.userId}`,
-                    'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                    'Authorization': `Bearer ${authCtx.jwt}`
                 },
                 body: JSON.stringify({
                     email: email,
@@ -98,6 +96,7 @@ const EditProfile = () => {
 
     useEffect(() => {
         getUserInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return(
