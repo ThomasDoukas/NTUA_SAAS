@@ -8,7 +8,7 @@ class MyProfile extends React.Component {
 
     deleteUser = async (e) => {
         if (e) e.preventDefault();
-        await fetch(`http://localhost:3000/saas/soa/esb`,
+        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
                 {
                     method: 'DELETE',
                     headers: {

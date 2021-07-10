@@ -11,7 +11,7 @@ const AskQuestion = () => {
 
     const authCtx = useContext(AuthContext);
 
-    const [labelsList, setLabelsList] = useState([{ label_title: ""}]);
+    const [labelsList, setLabelsList] = useState([{ labelTitle: ""}]);
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -29,14 +29,19 @@ const AskQuestion = () => {
        
       // handle click event of the Add button
       const handleAddClick = () => {
-        setLabelsList([...labelsList, { label_title: ""}]);
+        setLabelsList([...labelsList, { labelTitle: ""}]);
       };
 
     const submitFunc = (e) => {
         if (e) e.preventDefault();
         const title = titleInputRef.current.value;
         const body = bodyInputRef.current.value;
-        fetch('http://localhost:3000/saas/soa/esb',
+        const list = labelsList;
+        const help = list.filter(function(item) {
+            return item.labelTitle !== ""
+        });
+        setLabelsList(help);
+        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
                 {
                     method: 'POST',
                     headers: {
@@ -48,7 +53,7 @@ const AskQuestion = () => {
                         title: title,
                         body: body,
                         createdBy: authCtx.email,
-                        labels: labelsList
+                        labels: help
                     })
                 }).then(res => {
                     if (res.ok) {

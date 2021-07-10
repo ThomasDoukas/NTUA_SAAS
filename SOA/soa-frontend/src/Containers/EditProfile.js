@@ -22,7 +22,7 @@ const EditProfile = () => {
 
     const getUserInfo = async (e) => {
         if (e) e.preventDefault();
-        await fetch(`http://localhost:3000/saas/soa/esb`,
+        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
                 {
                     method: 'GET',
                     headers: {
@@ -55,7 +55,7 @@ const EditProfile = () => {
         const username = unameInputRef.current.value;
         const birthday = bdayInputRef.current.value;
 
-        fetch('http://localhost:3000/saas/soa/esb',
+        fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
             {
                 method: 'PATCH',
                 headers: {

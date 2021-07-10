@@ -12,7 +12,7 @@ class ByPeriod extends React.Component {
 
   getAllQuestions = async (e) => {
     if (e) e.preventDefault();
-    await fetch('http://localhost:3000/saas/soa/esb',
+    await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
         {
             method: 'POST',
             headers: {
@@ -40,7 +40,7 @@ class ByPeriod extends React.Component {
   getQuestions = async (e) => {
     if (e) e.preventDefault();
     await fetch(
-      "http://localhost:3000/saas/soa/esb",
+      "https://saas21-team47-soa.herokuapp.com/saas/soa/esb",
       {
         method: "POST",
         headers: {
