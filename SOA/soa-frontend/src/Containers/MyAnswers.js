@@ -10,13 +10,13 @@ const MyAnswers = () => {
 
     const getAnswers = async (e) => {
         if (e) e.preventDefault();
-        await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+        await fetch('http://localhost:3000/saas/soa/esb',
             {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                     "url-destination": "saas/soa/answers/usersAnswers",
-                    'Authorization': 'Bearer ' + authCtx.jwt
+                    'Authorization': `Bearer ${authCtx.jwt}`
                 },
                 body: JSON.stringify({
                     createdBy: authCtx.email
@@ -37,13 +37,13 @@ const MyAnswers = () => {
     const deleteAnswer = async (e, id) => {
         if (e) e.preventDefault();
         console.log(id);
-        await fetch(`https://saas21-team47-soa.herokuapp.com/saas/soa/esb`,
+        await fetch(`http://localhost:3000/saas/soa/esb`,
                 {
                     method: 'DELETE',
                     headers: {
                         "Content-Type": "application/json",
                         "url-destination": `saas/soa/answers/${id}`,
-                        'Authorization': 'Bearer ' + `${authCtx.jwt}`
+                        'Authorization': `Bearer ${authCtx.jwt}`
                     }
                 }).then(res => {
                     if (res.ok) {
@@ -60,10 +60,11 @@ const MyAnswers = () => {
 
     useEffect(() => {
         getAnswers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div class="container">
+        <div className="container">
             <section>
                 <div>
                     <br />

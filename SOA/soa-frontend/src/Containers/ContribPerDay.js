@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import Answer from "./Answer";
+import React from "react";
 import AuthContext from "../source/auth-context";
 import { Bar } from "react-chartjs-2";
 
@@ -14,7 +13,7 @@ class ContribPerDay extends React.Component {
 
   getContribs = async (e) => {
     if (e) e.preventDefault();
-    await fetch("https://saas21-team47-soa.herokuapp.com/saas/soa/esb", {
+    await fetch("http://localhost:3000/saas/soa/esb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +48,6 @@ class ContribPerDay extends React.Component {
   render() {
     return (
       <div>
-        {console.log(this.context)}
         <h1>Contributions per day page</h1>
         <Bar
           data={{

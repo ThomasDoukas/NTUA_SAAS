@@ -6,7 +6,7 @@ const Layout = (props) => {
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
             <NavBar />
-            <div class="container" style={{ minHeight: "65vh"}}>
+            <div className="container" style={{ minHeight: "65vh"}}>
                 <br/>
                 <br/>
                 <br/>

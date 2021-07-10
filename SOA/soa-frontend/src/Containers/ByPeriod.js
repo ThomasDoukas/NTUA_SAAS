@@ -12,7 +12,7 @@ class ByPeriod extends React.Component {
 
   getAllQuestions = async (e) => {
     if (e) e.preventDefault();
-    await fetch('https://saas21-team47-soa.herokuapp.com/saas/soa/esb',
+    await fetch('http://localhost:3000/saas/soa/esb',
         {
             method: 'POST',
             headers: {
@@ -40,7 +40,7 @@ class ByPeriod extends React.Component {
   getQuestions = async (e) => {
     if (e) e.preventDefault();
     await fetch(
-      "https://saas21-team47-soa.herokuapp.com/saas/soa/esb",
+      "http://localhost:3000/saas/soa/esb",
       {
         method: "POST",
         headers: {
@@ -48,8 +48,8 @@ class ByPeriod extends React.Component {
           "url-destination": "saas/soa/analytics/dateQuestions"
         },
         body: JSON.stringify({
-          fromDate: ((this.state.fromDate && this.state.fromDate != "") ? `${this.state.fromDate}` : undefined),
-          toDate: ((this.state.toDate && this.state.toDate != "") ? `${this.state.toDate}` : undefined)
+          fromDate: ((this.state.fromDate && this.state.fromDate !== "") ? `${this.state.fromDate}` : undefined),
+          toDate: ((this.state.toDate && this.state.toDate !== "") ? `${this.state.toDate}` : undefined)
       })
       }
     ).then((res) => {
@@ -131,7 +131,7 @@ handleChangeTo = (e) => {
         <section className={classes.auth}>
           <div>
             <h1>Filters</h1>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <label>From:</label>
                   <input type='date' className="form-control" name='fromDate' onChange={this.handleChangeFrom} />
@@ -144,7 +144,7 @@ handleChangeTo = (e) => {
                 <br />
                 <button
                   type='button'
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                   onClick={this.getQuestions}
                 >
@@ -152,7 +152,7 @@ handleChangeTo = (e) => {
                 </button>
                 <button
                   type='button'
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
                   onClick={this.getAllQuestions}
                 >
