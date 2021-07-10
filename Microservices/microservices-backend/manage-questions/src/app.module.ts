@@ -3,6 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { typeOrmQuestionsConfig, typeOrmUsersConfig } from './config/tyoeorm.config';
 import { Label } from './entites/label.entity';
 import { Question } from './entites/question.entity';
 import { User } from './entites/user.entity';
@@ -22,18 +23,24 @@ const defaultOptions = {
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            ...defaultOptions,
-            name: 'msManageQuestionsUsersConnection',
-            database: 'saas_ms_manage_questions_users',
-            entities: [User],
-        }),
-        TypeOrmModule.forRoot({
-            ...defaultOptions,
-            name: 'msManageQuestionsQuestionsConnection',
-            database: 'saas_ms_manage_questions_questions',
-            entities: [Question, Label],
-        }),
+        TypeOrmModule.forRoot(
+            typeOrmUsersConfig
+            // {
+            //     ...defaultOptions,
+            //     name: 'msManageQuestionsUsersConnection',
+            //     database: 'saas_ms_manage_questions_users',
+            //     entities: [User],
+            // }
+        ),
+        TypeOrmModule.forRoot(
+            typeOrmQuestionsConfig
+            // {
+            //     ...defaultOptions,
+            //     name: 'msManageQuestionsQuestionsConnection',
+            //     database: 'saas_ms_manage_questions_questions',
+            //     entities: [Question, Label],
+            // }
+        ),
         ClientsModule.register([
             {
                 name: "MANAGE_QUESTIONS",
