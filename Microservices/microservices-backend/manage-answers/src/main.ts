@@ -20,12 +20,12 @@ async function bootstrap() {
     //     logger.log('ManageAnswers Microservice is listening...')
     // });
 
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { cors: true });
     app.connectMicroservice(microserviceOptions);
 
     await app.startAllMicroservicesAsync();
     await app.listen(process.env.PORT || 3013);
-    app.enableCors();
+    // app.enableCors();
     logger.log('ManageAnswers Microservice is listening...')
 }
 bootstrap();

@@ -20,12 +20,12 @@ async function bootstrap() {
     //     logger.log('Browse Microservice is listening...')
     // });
 
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { cors: true });
     app.connectMicroservice(microserviceOptions);
 
     await app.startAllMicroservicesAsync();
     await app.listen(process.env.PORT || 3012);
-    app.enableCors();
+    // app.enableCors();
     logger.log('Browse Microservice is listening...')
 }
 bootstrap();
