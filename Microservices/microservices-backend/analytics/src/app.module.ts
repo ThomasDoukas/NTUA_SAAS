@@ -1,47 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Answer } from './entities/answer.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { Question } from './entities/question.entity';
-import { Label } from './entities/label.entity';
 import { JwtStrategy } from './users/strategies/jwt.strategy';
 import { typeOrmQuestionsConfig, typeOrmUsersConfig } from './config/tyoeorm.config';
-
-require('dotenv').config();
-
-// const defaultOptions = {
-// 	type: 'postgres' as 'postgres',
-// 	port: 5432,
-// 	username: 'postgres',
-// 	password: process.env.DATABASE_PASSWORD,
-// 	host: 'localhost',
-// 	synchronize: true,
-// };
 
 @Module({
 	imports: [
 		UsersModule,
-		TypeOrmModule.forRoot(
-			typeOrmUsersConfig
-			// {
-			// 	...defaultOptions,
-			// 	name: 'msAnalyticsUsersConnection',
-			// 	database: 'saas_ms_analytics_users',
-			// 	entities: [User],
-			// }
-		),
-		TypeOrmModule.forRoot(
-			typeOrmQuestionsConfig
-			// {
-			// 	...defaultOptions,
-			// 	name: 'mAnalyticsQuestionsConnection',
-			// 	database: 'saas_ms_analytics_questions',
-			// 	entities: [Question, Label, Answer],
-			// }
-		),
+		TypeOrmModule.forRoot(typeOrmUsersConfig),
+		TypeOrmModule.forRoot(typeOrmQuestionsConfig),
 	],
 	controllers: [AppController],
 	providers: [AppService, JwtStrategy],

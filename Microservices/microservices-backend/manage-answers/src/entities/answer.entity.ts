@@ -10,7 +10,6 @@ export class Answer {
     @Column()
     body: string
 
-    // createdBy email? 
     @Column()
     createdBy: string
 
@@ -19,9 +18,6 @@ export class Answer {
 
     @UpdateDateColumn({type: 'timestamptz'})
     timeModified: Date
-
-    // @Column({default: 0})
-    // upVotes: number
 
     @ManyToOne(() => Question, question => question.answers, {onDelete: 'CASCADE'})
     @JoinColumn({name: 'questionId' })

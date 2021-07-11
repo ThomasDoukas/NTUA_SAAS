@@ -14,7 +14,6 @@ export class Question {
     @Column()
     body: string
 
-    // createdBy email
     @Column()
     createdBy: string
 
@@ -26,9 +25,5 @@ export class Question {
     
     @OneToMany(type => Answer, answer => answer.question)
     answers: Answer[];
-
-    // @ManyToMany(type => Label, label => label.questions, {cascade: ['insert', 'update']})
-    // @JoinTable({name: 'Question_has_Labels'})
-    // labels: Label[];
 
 }

@@ -18,8 +18,6 @@ export class AppService {
         private jwtService: JwtService,
     ) { }
 
-    // Remove findAllUsers
-
     // Retrieve the user and validate password
     // Should return a user object if validation is successfully (as described in local.strategy)
     async validateUser(email: string, pass: string): Promise<any> {
@@ -71,11 +69,6 @@ export class AppService {
         })
     }
 
-    // Returns all users in database
-    async findAllUsers(): Promise<User[]> {
-        return await this.manager.find(User)
-    }
-
     // Returns userId
     async findOneUser(userId: number): Promise<User> {
         const userExists = await this.manager.findOne(User, userId);
@@ -99,8 +92,6 @@ export class AppService {
             const newUser = {...userNoPass, hashedPassword}
             manager.merge(User, userExists, newUser);
             const result = await manager.save(userExists);
-            // manager.merge(User, userExists, updateUserDto);
-            // const result = await manager.save(userExists);
 
             const pattern = {cmd: 'update_user' };
             const payload = {updateUserDto, userId: userId}

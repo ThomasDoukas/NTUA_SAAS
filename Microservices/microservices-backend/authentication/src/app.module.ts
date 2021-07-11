@@ -4,21 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LocalStrategy } from './strategies/local.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { typeOrmUsersConfig } from './config/tyoeorm.config';
-
-require('dotenv').config();
-
-// const defaultOptions = {
-//     type: 'postgres' as 'postgres',
-//     port: 5432,
-//     username: 'postgres',
-//     password: process.env.DATABASE_PASSWORD,
-//     host: 'localhost',
-//     synchronize: true,
-// };
 
 @Module({
     imports: [
@@ -26,15 +14,7 @@ require('dotenv').config();
             secret: process.env.JWT_SECRET,
             signOptions: { expiresIn: '6000s' }
         }),
-        TypeOrmModule.forRoot(
-            typeOrmUsersConfig
-            // {
-            // ...defaultOptions,
-            // name: 'msAuthenticationUsersConnection',
-            // database: 'saas_ms_auth_users',
-            // entities: [User],
-            // }
-        ),
+        TypeOrmModule.forRoot(typeOrmUsersConfig),
         ClientsModule.register([
             {
                 name: "AUTHENTICATE",

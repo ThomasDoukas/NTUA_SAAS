@@ -24,12 +24,6 @@ export class AppController {
         return this.appService.login(req.user);
     }
 
-    // Find all users WE DO NOT NEED THIS
-    @Get()
-    findAllUsers() {
-        return this.appService.findAllUsers();
-    }
-
     // Find single user
     @Get(':userId')
     findOneUser(@Param('userId') userId: number) {

@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { ContributionDto } from './dto/contribution.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { SearchQuestionDto } from './dto/search-question.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Answer } from './entities/answer.entity';
@@ -45,28 +44,6 @@ export class AppController {
         return this.appService.deleteAnswer(payload);
     }
 
-    // // Create question
-    // @UseGuards(JwtAuthGuard)
-    // @Post()
-    // createQuestion(
-    //     @Body() createQuestionDto: CreateQuestionDto,
-    //     @Request() req
-    // ) {
-    //     return this.questionsService.createQuestion(createQuestionDto, req.user);
-    // }
-
-    // // Find all questions REPLACED BY Search Questions
-    // @Get()
-    // findAllQuestions() {
-    //     return this.questionsService.findAllQuestions();
-    // }
-
-    // // Search Questions
-    // @Post('/search')
-    // searchQuestions(@Body() searchQuestionDto: SearchQuestionDto) {
-    //     return this.questionsService.searchQuestions(searchQuestionDto);
-    // }
-
     // Get Daily Contribution for Statistics
     @UseGuards(JwtAuthGuard)
     @Post('/myContr')
@@ -75,22 +52,6 @@ export class AppController {
         @Request() req) {
         return this.appService.findDailyContribution(contributionDto, req.user);
     }
-
-    // Find all labels DO NOT NEED THIS
-    // @Get('/getLabels')
-    // findAllLabels() {
-    //     return this.questionsService.findAllLabels();
-    // }
-
-    // // Get Users Questions DO NOT NEED THIS, CAN BE REPLACED BY CUSTOM SEARCH
-    // @UseGuards(JwtAuthGuard)
-    // @Post('/userQuestions')
-    // findUserQuestions(
-    //     @Body() searchQuestionDto: SearchQuestionDto,
-    //     @Request() req
-    // ) {
-    //     return this.questionsService.findUserQuestions(searchQuestionDto, req.user);
-    // }
 
     // Get Label Questions for Statistics
     @Get('/labelQuestions')
@@ -103,32 +64,5 @@ export class AppController {
     findDateQuestions(@Body() contributionDto: ContributionDto) {
         return this.appService.findDateQuestions(contributionDto);
     }
-
-    // // Find single question
-    // @Get(':questionId')
-    // findOneQuestion(@Param('questionId') questionId: number) {
-    //     return this.questionsService.findOneQuestion(questionId);
-    // }
-
-    // // Update question
-    // @UseGuards(JwtAuthGuard)
-    // @Patch(':questionId')
-    // updateQuestion(
-    //     @Param('questionId') questionId: number,
-    //     @Body() updateQuestionDto: UpdateQuestionDto,
-    //     @Request() res
-    // ) {
-    //     return this.questionsService.updateQuestion(questionId, updateQuestionDto, res.user);
-    // }
-
-    // // Delete question
-    // @UseGuards(JwtAuthGuard)
-    // @Delete(':questionId')
-    // removeQuestion(
-    //     @Param('questionId') questionId: number,
-    //     @Request() req
-    //     ) {
-    //     return this.questionsService.removeQuestion(questionId, req.user);
-    // }
 
 }

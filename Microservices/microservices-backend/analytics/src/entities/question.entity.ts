@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, CreateDateColumn, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Answer } from './answer.entity';
 import { Label } from './label.entity';
 
@@ -15,7 +15,6 @@ export class Question {
     @Column()
     body: string
 
-    // createdBy email
     @Column()
     createdBy: string
 
@@ -31,7 +30,5 @@ export class Question {
     @ManyToMany(type => Label, label => label.questions, {cascade: ['insert', 'update']})
     @JoinTable({name: 'Question_has_Labels'})
     labels: Label[];
-
-    // More ideas up-voters(like labels)
 
 }

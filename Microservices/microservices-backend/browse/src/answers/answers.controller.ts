@@ -25,22 +25,6 @@ export class AnswersController {
         return this.answersService.deleteAnswer(payload);
     }
 
-    // // Create answer
-    // @UseGuards(JwtAuthGuard)
-    // @Post()
-    // createAnswer(
-    //     @Body() createAnswerDto: CreateAnswerDto,
-    //     @Request() req
-    // ) {
-    //     return this.answersService.createAnswer(createAnswerDto, req.user);
-    // }
-
-    // // Find all answers DO NOT NEED THIS
-    // @Get()
-    // findAllAnswers() {
-    //     return this.answersService.findAllAnswers();
-    // }
-
     // Find users answers
     @UseGuards(JwtAuthGuard)
     @Post('usersAnswers')
@@ -57,23 +41,4 @@ export class AnswersController {
         return this.answersService.findOneAnswer(answerId);
     }
 
-    // // Update answer
-    // @UseGuards(JwtAuthGuard)
-    // @Patch(':answerId')
-    // updateAnswer(
-    //     @Param('answerId') answerId: number,
-    //     @Body() updateAnswerDto: UpdateAnswerDto,
-    //     @Request() req
-    // ) {
-    //     return this.answersService.updateAnswer(answerId, updateAnswerDto, req.user);
-    // }
-
-    // // Delete answer
-    // @UseGuards(JwtAuthGuard)
-    // @Delete(':answerId')
-    // removeAnswer(@Param('answerId') answerId: number,
-    //     @Request() req
-    // ) {
-    //     return this.answersService.removeAnswer(answerId, req.user);
-    // }
 }

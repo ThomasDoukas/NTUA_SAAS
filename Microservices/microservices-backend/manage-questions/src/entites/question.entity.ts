@@ -14,7 +14,6 @@ export class Question {
     @Column()
     body: string
 
-    // createdBy email
     @Column()
     createdBy: string
 

@@ -10,7 +10,6 @@ export class Answer {
     @Column()
     body: string
 
-    // createdBy email? 
     @Column()
     createdBy: string
 
