@@ -1,18 +1,22 @@
 import React from "react";
 import AuthContext from "../source/auth-context";
 import { Bar } from "react-chartjs-2";
+import classes from '../Components/Auth/AuthForm.module.css'
 
 class ContribPerDay extends React.Component {
   state = {
-    timeCreated: undefined,
-    answersCounter: undefined,
-    questionsCounter: undefined,
+    timeCreated: [],
+    answersCounter: [],
+    questionsCounter: [],
+    date: '2021-07'
   };
 
   static contextType = AuthContext;
 
   getContribs = async (e) => {
     if (e) e.preventDefault();
+    const year = parseInt(this.state.date.split('-')[0])
+    const month = parseInt(this.state.date.split('-')[1])
     await fetch("https://saas21-team47-soa.herokuapp.com/saas/soa/esb", {
       method: "POST",
       headers: {
@@ -21,17 +25,24 @@ class ContribPerDay extends React.Component {
         'Authorization': 'Bearer ' + this.context.jwt
       },
       body: JSON.stringify({
-        email: this.context.email,
+        year: year,
+        month: month,
+        email: this.context.email
       }),
     }).then((res) => {
       if (res.ok) {
-        return res.json().then((data) => {
+        return res.json().then((data) => {   
+          let days = []
+          let questions = []
+          let answers = []   
+          days.push(data.map((el) => {return parseInt(el.day)}));
+          questions.push(data.map((el) => {return parseInt(el.questions)}));
+          answers.push(data.map((el) => {return parseInt(el.answers)}));
           this.setState({
-            timeCreated: data.answers[0].timeCreated.split("T")[0],
-            questionsCounter: data.questions[0].questionsCounter,
-            answersCounter: data.answers[0].answersCounter,
+            timeCreated: days[0],
+            questionsCounter: questions[0],
+            answersCounter: answers[0]
           });
-          console.log(this.state.timeCreated);
         });
       } else {
         return res.json().then((data) => {
@@ -41,6 +52,12 @@ class ContribPerDay extends React.Component {
     });
   };
 
+  handleChange = (e) => {
+    this.setState({
+        date: `${e.target.value}`
+    });
+};
+
   componentDidMount() {
     this.getContribs();
   }
@@ -48,28 +65,31 @@ class ContribPerDay extends React.Component {
   render() {
     return (
       <div>
-        <h1>Contributions per day page</h1>
+      <section>
+        <br />
+        <h1>My Contributions</h1>
+        <br/>
         <Bar
           data={{
+            labels: this.state.timeCreated,
             datasets: [
               {
                 label: "Answers",
                 backgroundColor: "#06eeaa",
                 borderColor: "rgba(0,0,0,1)",
                 borderWidth: 1,
-                data: [`${this.state.answersCounter}`],
+                data: this.state.answersCounter,
               },
               {
                 label: "Questions",
                 backgroundColor: "#343a40",
                 borderColor: "rgba(0,0,0,1)",
                 borderWidth: 1,
-                data: [`${this.state.questionsCounter}`],
+                data: this.state.questionsCounter,
               },
             ],
           }}
           options={{
-            labels: [`${this.state.timeCreated}`],
             title: {
               display: true,
               text: "My Daily Contributions",
@@ -79,7 +99,7 @@ class ContribPerDay extends React.Component {
               display: true,
               position: "right",
             },
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             scales: {
               yAxes: [
                 {
@@ -91,6 +111,29 @@ class ContribPerDay extends React.Component {
             },
           }}
         />
+        </section>
+
+        <section className={classes.auth}>
+          <div>
+            <h1>Filters</h1>
+              <div className="form-group">
+                <div>
+                  <label>Show results for:</label>
+                  <input type='month' className="form-control" name='date' value={`${this.state.date}`} onChange={this.handleChange} />
+                </div>
+                <br />
+                <button
+                  type='button'
+                  className="btn btn-primary"
+                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
+                  onClick={this.getContribs}
+                >
+                  Filter 
+                </button>
+              </div>
+          </div>
+        </section>
+
       </div>
     );
   }

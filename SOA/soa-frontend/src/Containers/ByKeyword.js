@@ -21,9 +21,10 @@ class ByKeyword extends React.Component {
     ).then((res) => {
       if (res.ok) {
         return res.json().then((data) => {
+          console.log(data)
           this.setState({
             questionsCounter: data.map((el) => {
-              return el.questionCounter;
+              return el.counter;
             }),
             labelTitles: data.map((el) => {
               return el.labelTitle;
@@ -32,6 +33,7 @@ class ByKeyword extends React.Component {
         });
       } else {
         return res.json().then((data) => {
+          console.log(res);
           alert(data.message);
         });
       }
