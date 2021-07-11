@@ -3,7 +3,7 @@ import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { SearchQuestionDto } from './dto/search-question.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/authentication/auth/guards/jwt-auth.guard';
 
 @Controller('saas/soa/questions/')
 export class QuestionsController {
@@ -19,31 +19,13 @@ export class QuestionsController {
         return this.questionsService.createQuestion(createQuestionDto, req.user);
     }
 
-    // // Find all questions REPLACED BY Search Questions
-    // @Get()
-    // findAllQuestions() {
-    //     return this.questionsService.findAllQuestions();
-    // }
-
     // Search Questions
     @Post('/search')
     searchQuestions(@Body() searchQuestionDto: SearchQuestionDto) {
         return this.questionsService.searchQuestions(searchQuestionDto);
     }
 
-    // // Get Daily Contribution for Statistics
-    // @Post('/myContr')
-    // findDailyContribution(@Body() searchQuestionDto: SearchQuestionDto){
-    //     return this.questionsService.findDailyContribution(searchQuestionDto);
-    // }
-
-    // Find all labels DO NOT NEED THIS
-    // @Get('/getLabels')
-    // findAllLabels() {
-    //     return this.questionsService.findAllLabels();
-    // }
-
-    // Get Users Questions DO NOT NEED THIS, CAN BE REPLACED BY CUSTOM SEARCH
+    // Get Users Questions
     @UseGuards(JwtAuthGuard)
     @Post('/usersQuestions')
     findUserQuestions(
@@ -52,18 +34,6 @@ export class QuestionsController {
     ) {
         return this.questionsService.findUserQuestions(searchQuestionDto, req.user);
     }
-
-    // // Get Label Questions for Statistics
-    // @Get('/labelQuestions')
-    // findLabelQuestions(){
-    //     return this.questionsService.findLabelQuestions();
-    // }
-
-    // // Get Date Questions for Statistics
-    // @Post('/dateQuestions')
-    // findDateQuestions(@Body() searchQuestionDto: SearchQuestionDto){
-    //     return this.questionsService.findDateQuestions(searchQuestionDto);
-    // }
 
     // Find single question
     @Get(':questionId')

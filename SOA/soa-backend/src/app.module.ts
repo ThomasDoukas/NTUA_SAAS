@@ -1,27 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './authentication/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { QuestionsModule } from './questions/questions.module';
-import { AnswersModule } from './answers/answers.module';
-import { User } from './users/entities/user.entity';
-import { Label } from './questions/entities/label.entity';
-import { Answer } from './answers/entities/answer.entity';
-import { Question } from './questions/entities/question.entity';
+import { AuthModule } from './authentication/auth/auth.module';
+import { QuestionsModule } from './questions-answers/questions/questions.module';
+import { AnswersModule } from './questions-answers/answers/answers.module';
 import { EsbModule } from './esb/esb.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { typeOrmUsersConfig, typeOrmQuestionsConfig } from './config/typeorm.config'
 
-// const defaultOptions = {
-//     type: 'postgres' as 'postgres',
-//     port: 5432,
-//     username: 'postgres',
-//     password: process.env.DATABASE_PASSWORD || 'root',
-//     host: 'localhost',
-//     synchronize: true,
-// };
 
 @Module({
     imports: [
@@ -31,30 +19,8 @@ import { typeOrmUsersConfig, typeOrmQuestionsConfig } from './config/typeorm.con
         AnswersModule,
         AnalyticsModule,
         EsbModule,
-        TypeOrmModule.forRoot(
-            typeOrmUsersConfig
-            // {...defaultOptions,
-            // name: 'usersConnection',
-            // database: 'saas_dummy_users',
-            // entities: [User],
-            // migrationsTableName: 'users_migration_table',
-            // migrations: ['dist/migration/users/*{.ts,.js}'],
-            // cli: {
-            //     'migrationsDir': 'dist/migration/users'
-            // }}
-            ),
-        TypeOrmModule.forRoot(
-            typeOrmQuestionsConfig
-            // {...defaultOptions,
-            // name: 'questionsConnection',
-            // database: 'saas_dummy_questions',
-            // entities: [Question, Label, Answer],
-            // migrationsTableName: 'questions_migration_table',
-            // migrations: ['dist/migration/questions/*{.ts,.js}'],
-            // cli: {
-            //     'migrationsDir': 'dist/migration/questions'
-            // }}
-        )
+        TypeOrmModule.forRoot(typeOrmUsersConfig),
+        TypeOrmModule.forRoot(typeOrmQuestionsConfig)
     ],
     controllers: [AppController],
     providers: [AppService],

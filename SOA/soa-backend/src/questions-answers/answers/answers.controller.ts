@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Req } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/authentication/auth/guards/jwt-auth.guard';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
@@ -16,12 +16,6 @@ export class AnswersController {
         @Request() req
     ) {
         return this.answersService.createAnswer(createAnswerDto, req.user);
-    }
-
-    // Find all answers DO NOT NEED THIS
-    @Get()
-    findAllAnswers() {
-        return this.answersService.findAllAnswers();
     }
 
     // Find users answers

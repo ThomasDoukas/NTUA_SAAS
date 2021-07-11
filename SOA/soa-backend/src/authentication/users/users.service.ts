@@ -10,8 +10,6 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
     constructor(@InjectEntityManager('usersConnection') private manager: EntityManager) { }
 
-    // Remove findAllUsers
-
     // Create single user
     async createUser(createUserDto: CreateUserDto): Promise<User> {
         return this.manager.transaction(async manager => {
@@ -22,11 +20,6 @@ export class UsersService {
             const newUser = await manager.create(User, newUserDto);
             return await manager.save(newUser);
         })
-    }
-
-    // Returns all users in database
-    async findAllUsers(): Promise<User[]> {
-        return await this.manager.find(User)
     }
 
     // Returns userId

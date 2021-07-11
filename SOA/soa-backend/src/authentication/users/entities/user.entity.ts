@@ -5,7 +5,6 @@ export class User {
     @PrimaryGeneratedColumn()
     userId: number
 
-    // @Column({unique: true})
     @Column()
     username: string
 
@@ -24,5 +23,4 @@ export class User {
     @Column()
     password: string
 
-    // Will add questions, answers, userType(reward system -> accepted questions)
 }

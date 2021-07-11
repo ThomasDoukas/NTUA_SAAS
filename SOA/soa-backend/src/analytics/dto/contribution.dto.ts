@@ -1,4 +1,4 @@
-import { IsDate, IsEmail, IsNumber, IsString } from "class-validator"
+import { IsEmail, IsNumber } from "class-validator"
 
 export class ContributionDto {
     @IsNumber()

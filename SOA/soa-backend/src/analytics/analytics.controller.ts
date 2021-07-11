@@ -1,8 +1,7 @@
 import { Controller, Get, Post, Body, UseGuards, Request} from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/authentication/auth/guards/jwt-auth.guard';
 import { AnalyticsService } from './analytics.service';
 import { ContributionDto } from './dto/contribution.dto';
-import { SearchQuestionDto } from './dto/search-question.dto';
 
 @Controller('saas/soa/analytics')
 export class AnalyticsController {

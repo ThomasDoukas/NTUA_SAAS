@@ -14,12 +14,6 @@ export class UsersController {
         return this.usersService.createUser(createUserDto);
     }
 
-    // Find all users
-    @Get()
-    findAllUsers() {
-        return this.usersService.findAllUsers();
-    }
-
     // Find single user
     @Get(':userId')
     findOneUser(@Param('userId') userId: number) {
@@ -44,12 +38,7 @@ export class UsersController {
     removeUser(
         @Param('userId') userId: number,
         @Request() req
-    ) {
-        // console.log(req.headers);
-        
-        // console.log(userId);
-        // console.log(req.user.userId);
-        
+    ) {        
         if(userId != req.user.userId) throw new ConflictException('userId does not match jwt.userId')
         return this.usersService.removeUser(req.user.userId);
     }

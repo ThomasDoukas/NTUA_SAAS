@@ -1,8 +1,8 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { Answer } from "src/answers/entities/answer.entity";
-import { Label } from "src/questions/entities/label.entity";
-import { Question } from "src/questions/entities/question.entity";
-import { User } from "src/users/entities/user.entity";
+import { Answer } from "src/questions-answers/answers/entities/answer.entity";
+import { Label } from "src/questions-answers/questions/entities/label.entity";
+import { Question } from "src/questions-answers/questions/entities/question.entity";
+import { User } from "src/authentication/users/entities/user.entity";
 
 export const typeOrmUsersConfig: TypeOrmModuleOptions = {
     ssl: process.env.PROD=='false' ? false: true || false,

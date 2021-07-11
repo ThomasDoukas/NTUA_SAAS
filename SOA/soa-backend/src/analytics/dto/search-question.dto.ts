@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsDate, IsDateString, IsEmail, IsOptional, IsString } from 'class-validator'
+import { IsArray, IsDateString, IsEmail, IsOptional, IsString } from 'class-validator'
 
 export class SearchQuestionDto {
     @IsString()

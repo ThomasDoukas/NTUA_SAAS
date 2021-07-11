@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post, Delete, Request, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Delete, Patch } from '@nestjs/common';
 import { EsbService } from './esb.service';
 
 @Controller('saas/soa/esb/')
@@ -32,7 +32,7 @@ export class EsbController {
         users: createUser
         questions: createQuestion, searchQuestions, findDailyContribution, findUserQuestion, findDateQuestions
         answers: createAnswer, findUserAnswers
-        auth: login, signup
+        auth: logIn, signUp
     */
     @Post()
     async executePostRequests(
