@@ -137,13 +137,13 @@ class BrowseQuestions extends React.Component {
 
     handleChangeFrom = (e) => {
         this.setState({
-            fromDate: [`${e.target.value}`]
+            fromDate: `${e.target.value}`
         });
     };
 
     handleChangeTo = (e) => {
         this.setState({
-            toDate: [`${e.target.value}`]
+            toDate: `${e.target.value}`
         });
     };
 
