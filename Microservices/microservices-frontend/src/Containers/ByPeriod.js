@@ -1,43 +1,22 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import classes from '../Components/Auth/AuthForm.module.css'
+import AuthContext from "../source/auth-context";
 
 class ByPeriod extends React.Component {
   state = {
     questionsCounter: [],
     timeCreated: [],
-    fromDate: undefined,
-    toDate: undefined
+    answersCounter: [],
+    date: '2021-07'
   };
 
-  getAllQuestions = async (e) => {
-    if (e) e.preventDefault();
-    await fetch("http://localhost:3011/saas/microservices/browse/analytics/dateQuestions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-            body: JSON.stringify({
-            })
-        }).then(res => {
-            if (res.ok) {
-                return res.json().then((data) => {
-                    this.setState({
-                      questionsCounter: data.map((el) => {return el.questionsCounter}),
-                      timeCreated: data.map((el) => {return el.timeCreated.split("T")[0]})
-                    });
-                });
-            } else {
-                return res.json().then((data) => {
-                    alert(data.message);
-                });
-            }
-        });
-}
+  static contextType = AuthContext;
 
   getQuestions = async (e) => {
     if (e) e.preventDefault();
+    const year = parseInt(this.state.date.split('-')[0])
+    const month = parseInt(this.state.date.split('-')[1])
     await fetch(
       "https://saas21-team47-ms-analytics.herokuapp.com/saas/microservices/browse/analytics/dateQuestions",
       {
@@ -46,17 +25,25 @@ class ByPeriod extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          fromDate: ((this.state.fromDate && this.state.fromDate !== "") ? `${this.state.fromDate}` : undefined),
-          toDate: ((this.state.toDate && this.state.toDate !== "") ? `${this.state.toDate}` : undefined)
+          year: year,
+          month: month,
+          email: this.context.email
       })
       }
     ).then((res) => {
       if (res.ok) {
         return res.json().then((data) => {
-            this.setState({
-              questionsCounter: data.map((el) => {return el.questionsCounter}),
-              timeCreated: data.map((el) => {return el.timeCreated.split("T")[0]}),
-            });
+          let days = []
+          let questions = []
+          let answers = []   
+          days.push(data.map((el) => {return parseInt(el.day)}));
+          questions.push(data.map((el) => {return parseInt(el.questions)}));
+          answers.push(data.map((el) => {return parseInt(el.answers)}));
+          this.setState({
+            timeCreated: days[0],
+            questionsCounter: questions[0],
+            answersCounter: answers[0]
+          });
         });
       } else {
         return res.json().then((data) => {
@@ -70,15 +57,9 @@ class ByPeriod extends React.Component {
     this.getQuestions();
   }
 
-  handleChangeFrom = (e) => {
+  handleChange = (e) => {
     this.setState({
-        fromDate: [`${e.target.value}`]
-    });
-};
-
-handleChangeTo = (e) => {
-    this.setState({
-        toDate: [`${e.target.value}`]
+        date: `${e.target.value}`
     });
 };
 
@@ -94,18 +75,25 @@ handleChangeTo = (e) => {
             labels: this.state.timeCreated,
             datasets: [
               {
-                label: "Questions:",
+                label: "Answers",
                 backgroundColor: "#06eeaa",
                 borderColor: "rgba(0,0,0,1)",
                 borderWidth: 1,
+                data: this.state.answersCounter,
+              },
+              {
+                label: "Questions",
+                backgroundColor: "#343a40",
+                borderColor: "rgba(0,0,0,1)",
+                borderWidth: 1,
                 data: this.state.questionsCounter,
-              }
+              },
             ],
           }}
           options={{
             title: {
               display: true,
-              text: "Keywords",
+              text: "My Daily Contributions",
               fontSize: 20,
             },
             legend: {
@@ -131,30 +119,17 @@ handleChangeTo = (e) => {
             <h1>Filters</h1>
               <div className="form-group">
                 <div>
-                  <label>From:</label>
-                  <input type='date' className="form-control" name='fromDate' onChange={this.handleChangeFrom} />
+                  <label>Show results for:</label>
+                  <input type='month' className="form-control" name='date' value={`${this.state.date}`} onChange={this.handleChange} />
                 </div>
                 <br />
-                <div>
-                    <label>To:</label>
-                    <input type='date' className="form-control" name='toDate' onChange={this.handleChangeTo} />
-                </div>
-                <br />
-                <button
-                  type='button'
-                  className="btn btn-primary"
-                  style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE" }}
-                  onClick={this.getQuestions}
-                >
-                  Filter questions
-                </button>
                 <button
                   type='button'
                   className="btn btn-primary"
                   style={{ backgroundColor: "#AA06EE", borderColor: "#AA06EE", marginInline: '0.2rem' }}
-                  onClick={this.getAllQuestions}
+                  onClick={this.getQuestions}
                 >
-                  Clear Filters
+                  Filter questions
                 </button>
               </div>
           </div>

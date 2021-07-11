@@ -57,7 +57,7 @@ const AskQuestion = () => {
                 }).then(res => {
                     if (res.ok) {
                         alert('Question submitted succesfully!');
-                        history.replace('/')
+                        history.replace('/browse')
                         return res.json();
                     } else {
                         return res.json().then((data) => {

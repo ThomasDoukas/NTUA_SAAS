@@ -22,7 +22,7 @@ class ByKeyword extends React.Component {
         return res.json().then((data) => {
           this.setState({
             questionsCounter: data.map((el) => {
-              return el.questionCounter;
+              return el.counter;
             }),
             labelTitles: data.map((el) => {
               return el.labelTitle;
