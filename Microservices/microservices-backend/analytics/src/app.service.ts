@@ -202,55 +202,93 @@ export class AppService {
 
     // Get questions for each date - statistic purposes
     async findDateQuestions(contributionDto: ContributionDto): Promise<any> {
-        return this.manager.transaction(async manager => {
-            const query = await manager.createQueryBuilder(Question, "q")
-                .select('EXTRACT(DAY FROM q.timeCreated)', 'day')
-                .addSelect('COUNT(*)', 'questions')
-                .addSelect('a.answers', 'answers')
-                .leftJoin(subQuery =>
-                    subQuery
-                        .select('EXTRACT(DAY FROM ans.timeCreated)', 'day')
-                        .addSelect('COUNT(*)', 'answers')
-                        .addFrom(Answer, 'ans')
-                        .where('EXTRACT(YEAR FROM ans.timeCreated) = :year', { year: contributionDto.year })
-                        .andWhere('EXTRACT(MONTH FROM ans.timeCreated) = :month', { month: contributionDto.month })
-                        .addGroupBy('EXTRACT(DAY FROM ans.timeCreated)'),
-                    'a', 'a.day = EXTRACT(DAY FROM q.timeCreated)')
-                .where('EXTRACT(YEAR FROM q.timeCreated) = :year', { year: contributionDto.year })
-                .andWhere('EXTRACT(MONTH FROM q.timeCreated) = :month', { month: contributionDto.month })
-                .addGroupBy('EXTRACT(DAY FROM q.timeCreated)')
-                .addGroupBy('a.answers')
-                .getRawMany()
+        // return this.manager.transaction(async manager => {
+        // const query = await this.manager.createQueryBuilder(Question, "q")
+        // .select('EXTRACT(DAY FROM q.timeCreated)', 'day')
+        // .addSelect('COUNT(*)', 'questions')
+        // .addSelect('a.answers', 'answers')
+        // .leftJoin(subQuery =>
+        //     subQuery
+        //         .select('EXTRACT(DAY FROM ans.timeCreated)', 'day')
+        //         .addSelect('COUNT(*)', 'answers')
+        //         .addFrom(Answer, 'ans')
+        //         .where('ans.createdBy = :email', { email: contributionDto.email })
+        //         .andWhere('EXTRACT(YEAR FROM ans.timeCreated) = :year', { year: contributionDto.year })
+        //         .andWhere('EXTRACT(MONTH FROM ans.timeCreated) = :month', { month: contributionDto.month })
+        //         .addGroupBy('EXTRACT(DAY FROM ans.timeCreated)'),
+        //     'a', 'a.day = EXTRACT(DAY FROM q.timeCreated)')
+        // .where('q.createdBy = :email', { email: contributionDto.email })
+        // .andWhere('EXTRACT(YEAR FROM q.timeCreated) = :year', { year: contributionDto.year })
+        // .andWhere('EXTRACT(MONTH FROM q.timeCreated) = :month', { month: contributionDto.month })
+        // .addGroupBy('EXTRACT(DAY FROM q.timeCreated)')
+        // .addGroupBy('a.answers')
+        // .getRawMany()
+        const query = await this.manager
+            .query(`
+                    SELECT EXTRACT(DAY FROM "q"."timeCreated") AS "day", COUNT(*) AS "questions", a.answers AS "answers"
+                    FROM "Questions" AS "q" 
+                    LEFT JOIN(
+                            SELECT EXTRACT(DAY FROM "ans"."timeCreated") AS "day", COUNT(*) AS "answers"
+                            FROM "Answers" "ans"
+                            WHERE EXTRACT(YEAR FROM "ans"."timeCreated") = ${contributionDto.year} AND EXTRACT(MONTH FROM "ans"."timeCreated") = ${contributionDto.month}
+                            GROUP BY EXTRACT(DAY FROM "ans"."timeCreated")
+                        )
+                    "a" ON a.day = EXTRACT(DAY FROM "q"."timeCreated")
+                    WHERE EXTRACT(YEAR FROM "q"."timeCreated") = ${contributionDto.year} AND EXTRACT(MONTH FROM "q"."timeCreated") = ${contributionDto.month}
+                    GROUP BY EXTRACT(DAY FROM "q"."timeCreated"), a.answers
+                `)
 
-            return query;
-        })
+        const res = query.map(function (obj) {
+            obj.answers = (obj.answers === null ? 0 : obj.answers);
+            return obj;
+        });
+        return res;
+        // })
     }
 
     async findDailyContribution(contributionDto: ContributionDto, user): Promise<any> {
         if (!contributionDto.email) throw new BadRequestException('Please provide user email!')
         if (contributionDto.email != user.email) throw new ConflictException('User email does not match jwt email.')
+        // const query = await this.manager.createQueryBuilder(Question, "q")
+        //     .select('EXTRACT(DAY FROM q.timeCreated)', 'day')
+        //     .addSelect('COUNT(*)', 'questions')
+        //     .addSelect('a.answers', 'answers')
+        //     .leftJoin(subQuery =>
+        //         subQuery
+        //             .select('EXTRACT(DAY FROM ans.timeCreated)', 'day')
+        //             .addSelect('COUNT(*)', 'answers')
+        //             .addFrom(Answer, 'ans')
+        //             .where('ans.createdBy = :email', { email: contributionDto.email })
+        //             .andWhere('EXTRACT(YEAR FROM ans.timeCreated) = :year', { year: contributionDto.year })
+        //             .andWhere('EXTRACT(MONTH FROM ans.timeCreated) = :month', { month: contributionDto.month })
+        //             .addGroupBy('EXTRACT(DAY FROM ans.timeCreated)'),
+        //         'a', 'a.day = EXTRACT(DAY FROM q.timeCreated)')
+        //     .where('q.createdBy = :email', { email: contributionDto.email })
+        //     .andWhere('EXTRACT(YEAR FROM q.timeCreated) = :year', { year: contributionDto.year })
+        //     .andWhere('EXTRACT(MONTH FROM q.timeCreated) = :month', { month: contributionDto.month })
+        //     .addGroupBy('EXTRACT(DAY FROM q.timeCreated)')
+        //     .addGroupBy('a.answers')
+        //     .getRawMany()
+        const query = await this.manager
+            .query(`
+                SELECT EXTRACT(DAY FROM "q"."timeCreated") AS "day", COUNT(*) AS "questions", a.answers AS "answers"
+                FROM "Questions" "q"
+                LEFT JOIN
+                (
+                    SELECT EXTRACT(DAY FROM "ans"."timeCreated") AS "day", COUNT(*) AS "answers" 
+                    FROM "Answers" "ans" 
+                    WHERE "ans"."createdBy" = '${contributionDto.email}' AND EXTRACT(YEAR FROM "ans"."timeCreated") = ${contributionDto.year} AND EXTRACT(MONTH FROM "ans"."timeCreated") = ${contributionDto.month}
+                    GROUP BY EXTRACT(DAY FROM "ans"."timeCreated")
+                )
+                "a" ON a.day = EXTRACT(DAY FROM "q"."timeCreated") WHERE "q"."createdBy" = '${contributionDto.email}' AND EXTRACT(YEAR FROM "q"."timeCreated") = ${contributionDto.year} AND EXTRACT(MONTH FROM "q"."timeCreated") = ${contributionDto.month} 
+                GROUP BY EXTRACT(DAY FROM "q"."timeCreated"), a.answers
+            `)
 
-        const query = await this.manager.createQueryBuilder(Question, "q")
-            .select('EXTRACT(DAY FROM q.timeCreated)', 'day')
-            .addSelect('COUNT(*)', 'questions')
-            .addSelect('a.answers', 'answers')
-            .leftJoin(subQuery =>
-                subQuery
-                    .select('EXTRACT(DAY FROM ans.timeCreated)', 'day')
-                    .addSelect('COUNT(*)', 'answers')
-                    .addFrom(Answer, 'ans')
-                    .where('ans.createdBy = :email', { email: contributionDto.email })
-                    .andWhere('EXTRACT(YEAR FROM ans.timeCreated) = :year', { year: contributionDto.year })
-                    .andWhere('EXTRACT(MONTH FROM ans.timeCreated) = :month', { month: contributionDto.month })
-                    .addGroupBy('EXTRACT(DAY FROM ans.timeCreated)'),
-                'a', 'a.day = EXTRACT(DAY FROM q.timeCreated)')
-            .where('q.createdBy = :email', { email: contributionDto.email })
-            .andWhere('EXTRACT(YEAR FROM q.timeCreated) = :year', { year: contributionDto.year })
-            .andWhere('EXTRACT(MONTH FROM q.timeCreated) = :month', { month: contributionDto.month })
-            .addGroupBy('EXTRACT(DAY FROM q.timeCreated)')
-            .addGroupBy('a.answers')
-            .getRawMany()
-        return query;
+        const res = query.map(function (obj) {
+            obj.answers = (obj.answers === null ? 0 : obj.answers);
+            return obj;
+        });
+        return res;
     }
     // // Get questions for each date - statistic purposes
     // async findDateQuestions(searchQuestionDto): Promise<any> {
