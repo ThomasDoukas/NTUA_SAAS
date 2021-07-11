@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
+import { ContributionDto } from './dto/contribution.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { SearchQuestionDto } from './dto/search-question.dto';
@@ -8,6 +9,7 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Answer } from './entities/answer.entity';
 import { Question } from './entities/question.entity';
+import { JwtAuthGuard } from './users/guards/jwt-auth.guard';
 
 @Controller('saas/microservices/browse/analytics')
 export class AppController {
@@ -66,9 +68,12 @@ export class AppController {
     // }
 
     // Get Daily Contribution for Statistics
+    @UseGuards(JwtAuthGuard)
     @Post('/myContr')
-    findDailyContribution(@Body() searchQuestionDto: SearchQuestionDto) {
-        return this.appService.findDailyContribution(searchQuestionDto);
+    findDailyContribution(
+        @Body() contributionDto: ContributionDto,
+        @Request() req) {
+        return this.appService.findDailyContribution(contributionDto, req.user);
     }
 
     // Find all labels DO NOT NEED THIS
@@ -95,8 +100,8 @@ export class AppController {
 
     // Get Date Questions for Statistics
     @Post('/dateQuestions')
-    findDateQuestions(@Body() searchQuestionDto: SearchQuestionDto) {
-        return this.appService.findDateQuestions(searchQuestionDto);
+    findDateQuestions(@Body() contributionDto: ContributionDto) {
+        return this.appService.findDateQuestions(contributionDto);
     }
 
     // // Find single question

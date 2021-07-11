@@ -77,7 +77,7 @@ export const services = {
                 "parameters": "Question title, Question body, User email(createdBy), Question labels as request body",
                 "results": "New question as stored in database",
                 "url_destination": BASE_URL + "saas/soa/questions",
-                "comment" : "Requires valid JWT. Question labels must have specific stricture: [{\"label_title\": \"label1\"}, {\"label_title\": \"label2\"} , ...]"
+                "comment" : "Requires valid JWT. Question labels must have specific stricture: [{\"labelTitle\": \"label1\"}, {\"labelTitle\": \"label2\"} , ...]"
             },
             {
                 "endpoint_title": "Custom search questions",
@@ -112,7 +112,7 @@ export const services = {
                 "parameters": "Question title, Question body, User email(createdBy), and Question labels as request params and Question Id as URL param.",
                 "results": "New question as stored in database in JSON format",
                 "url_destination": BASE_URL + "saas/soa/questions/:questionId",
-                "comment": "Requires valid JWT. Question labels must have specific stricture: [{\"label_title\": \"label1\"}, {\"label_title\": \"label2\"} , ...]"
+                "comment": "Requires valid JWT. Question labels must have specific stricture: [{\"labelTitle\": \"label1\"}, {\"labelTitle\": \"label2\"} , ...]"
             },
             {
                 "endpoint_title": "Delete question",

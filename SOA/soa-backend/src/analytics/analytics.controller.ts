@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, UseGuards, Request} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AnalyticsService } from './analytics.service';
+import { ContributionDto } from './dto/contribution.dto';
 import { SearchQuestionDto } from './dto/search-question.dto';
 
 @Controller('saas/soa/analytics')
@@ -11,10 +12,10 @@ export class AnalyticsController {
     @UseGuards(JwtAuthGuard)
 	@Post('/myContr')
 	findDailyContribution(
-        @Body() searchQuestionDto: SearchQuestionDto,
+        @Body() contributionDto: ContributionDto,
         @Request() req
     ) {
-		return this.analyticsService.findDailyContribution(searchQuestionDto, req.user);
+		return this.analyticsService.findDailyContribution(contributionDto, req.user);
 	}
 
     // Get Questions under specific label for Statistics
@@ -25,7 +26,7 @@ export class AnalyticsController {
 
     // Get Date Questions for Statistics
     @Post('/dateQuestions')
-    findDateQuestions(@Body() searchQuestionDto: SearchQuestionDto){
-        return this.analyticsService.findDateQuestions(searchQuestionDto);
+    findDateQuestions(@Body() contributionDto: ContributionDto){
+        return this.analyticsService.findDateQuestions(contributionDto);
     }
 }
