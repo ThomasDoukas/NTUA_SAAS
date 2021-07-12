@@ -27,7 +27,7 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executeGetRequests(headers);
-            response.status(result.status).send(result.data);
+            response.status(result.status).send(result);
         }
         catch(err) {
             response.status(err.response.data.statusCode).send(err.response.data.message);
@@ -49,7 +49,7 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executePostRequests(headers, body);
-            response.status(result.status).send(result.data);
+            response.status(result.status).send(result);
         }
         catch(err) {
             response.status(err.response.data.statusCode).send(err.response.data.message);
@@ -69,7 +69,7 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executeDeleteRequests(headers);
-            response.status(result.status).send(result.data);
+            response.status(result.status).send(result);
         }
         catch(err) {
             response.status(err.response.data.statusCode).send(err.response.data.message);
@@ -90,7 +90,7 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executePatchRequests(headers, body);
-            response.status(result.status).send(result.data);
+            response.status(result.status).send(result);
         }
         catch(err) {
             response.status(err.response.data.statusCode).send(err.response.data.message);
