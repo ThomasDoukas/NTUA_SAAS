@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Headers, Post, Delete, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Delete, Patch, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { EsbService } from './esb.service';
 
 @Controller('saas/soa/esb/')
@@ -18,13 +19,19 @@ export class EsbController {
         questions: findLabelQuestions, findOneQuestion
         answers: findAllAnswers, findOneAnswer
         auth: -
-
-        findDateQuestions PROBLEM SHOULD BE POST REQUEST
         */
     @Get()
-    async executeGetRequests(@Headers() headers) {
-        const result = await this.esbService.executeGetRequests(headers);
-        return result;
+    async executeGetRequests(
+        @Headers() headers,
+        @Res() response: Response
+    ) {
+        try {
+            const result = await this.esbService.executeGetRequests(headers);
+            response.status(result.status).send(result.data);
+        }
+        catch(err) {
+            response.status(err.response.data.statusCode).send(err.response.data.message);
+        }
     }
 
     /*
@@ -37,10 +44,16 @@ export class EsbController {
     @Post()
     async executePostRequests(
         @Headers() headers,
-        @Body() body
-    ) {        
-        const result = await this.esbService.executePostRequests(headers, body);
-        return result;
+        @Body() body,
+        @Res() response: Response
+    ) {
+        try {
+            const result = await this.esbService.executePostRequests(headers, body);
+            response.status(result.status).send(result.data);
+        }
+        catch(err) {
+            response.status(err.response.data.statusCode).send(err.response.data.message);
+        }
     }
 
     /*
@@ -50,9 +63,17 @@ export class EsbController {
         answers: deleteAnswer
     */
     @Delete()
-    async executeDeleteRequests(@Headers() headers) {
-        const result = await this.esbService.executeDeleteRequests(headers);
-        return result;
+    async executeDeleteRequests(
+        @Headers() headers,
+        @Res() response: Response
+    ) {
+        try {
+            const result = await this.esbService.executeDeleteRequests(headers);
+            response.status(result.status).send(result.data);
+        }
+        catch(err) {
+            response.status(err.response.data.statusCode).send(err.response.data.message);
+        }
     }
 
     /*
@@ -62,9 +83,18 @@ export class EsbController {
         answers: updateAnswer
     */
     @Patch()
-    async executePatchRequests(@Headers() headers, @Body() body) {
-        const result = await this.esbService.executePatchRequests(headers, body);
-        return result;
+    async executePatchRequests(
+        @Headers() headers,
+        @Body() body,
+        @Res() response: Response
+    ) {
+        try {
+            const result = await this.esbService.executePatchRequests(headers, body);
+            response.status(result.status).send(result.data);
+        }
+        catch(err) {
+            response.status(err.response.data.statusCode).send(err.response.data.message);
+        }
     }
 
 
