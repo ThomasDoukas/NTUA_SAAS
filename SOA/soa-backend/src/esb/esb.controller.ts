@@ -22,18 +22,10 @@ export class EsbController {
         */
     @Get()
     async executeGetRequests(
-        @Headers() headers,
-        @Res() response: Response
+        @Headers() headers
     ) {
-        try {
-            const result = await this.esbService.executeGetRequests(headers);
-            console.log('res', result);
-            response.send(result);
-        }
-        catch(err) {
-            console.log('err', err);
-            response.send(err);
-        }
+        const result = await this.esbService.executeGetRequests(headers);
+        return result
     }
 
     /*
@@ -46,18 +38,9 @@ export class EsbController {
     @Post()
     async executePostRequests(
         @Headers() headers,
-        @Body() body,
-        @Res() response: Response
-    ) {
-        try {
-            const result = await this.esbService.executePostRequests(headers, body);
-            console.log('res', result);
-            response.send(result);
-        }
-        catch(err) {
-            console.log('err', err);
-            response.send(err);
-        }
+        @Body() body) {
+        const result = await this.esbService.executePostRequests(headers, body);
+        return result
     }
 
     /*
@@ -68,18 +51,10 @@ export class EsbController {
     */
     @Delete()
     async executeDeleteRequests(
-        @Headers() headers,
-        @Res() response: Response
+        @Headers() headers
     ) {
-        try {
-            const result = await this.esbService.executeDeleteRequests(headers);
-            console.log('res', result);
-            response.send(result);
-        }
-        catch(err) {
-            console.log('err', err);
-            response.send(err);
-        }
+        const result = await this.esbService.executeDeleteRequests(headers);
+        return result;
     }
 
     /*
@@ -91,18 +66,10 @@ export class EsbController {
     @Patch()
     async executePatchRequests(
         @Headers() headers,
-        @Body() body,
-        @Res() response: Response
+        @Body() body
     ) {
-        try {
-            const result = await this.esbService.executePatchRequests(headers, body);
-            console.log('res', result);
-            response.send(result);
-        }
-        catch(err) {
-            console.log('err', err);
-            response.send(err);
-        }
+        const result = await this.esbService.executePatchRequests(headers, body);
+        return result;
     }
 
 
