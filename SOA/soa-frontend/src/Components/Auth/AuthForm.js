@@ -52,8 +52,14 @@ const AuthForm = () => {
                     }
                 })
                 .then((data) => {
-                    authCtx.login(data.access_token, email, data.userId);
-                    history.replace('/myprofile');
+                    if (data.statusCode) {
+                        let alertMessage = data.message;
+                        throw new Error(alertMessage);
+                    }
+                    else {
+                        authCtx.login(data.access_token, email, data.userId);
+                        history.replace('/myprofile');
+                    }
                 })
                 .catch((err) => {
                     alert(err.message);
@@ -101,10 +107,10 @@ const AuthForm = () => {
         }
     }
 
-    return(
+    return (
         <section className={classes.auth}>
             <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-            <form onSubmit = {submitHandler}>
+            <form onSubmit={submitHandler}>
                 <div className={classes.control}>
                     <label> Email address </label>
                     <input type="email" className="form-control" placeholder="ex. wena@indlovu.gr" name='email' required ref={emailInputRef} />
@@ -133,11 +139,11 @@ const AuthForm = () => {
                     {!isLoading && <button>{isLogin ? 'Login' : 'Create account'}</button>}
                     {isLoading && <p> Loading... </p>}
                     <button
-                     type='button'
-                     className={classes.toggle}
-                     onClick={switchAuthModeHandler}
+                        type='button'
+                        className={classes.toggle}
+                        onClick={switchAuthModeHandler}
                     >
-                     {isLogin ? 'Create new account' : 'Login with existing account'}
+                        {isLogin ? 'Create new account' : 'Login with existing account'}
                     </button>
                 </div>
             </form>
