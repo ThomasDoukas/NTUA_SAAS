@@ -11,7 +11,7 @@ export class EsbService {
 		const destination = BASE_URL + headers['url-destination'];
 		const response = await axios.get(destination, {headers})
 		.then(res => res.data)
-		.catch(err => err);
+		.catch(err => err.response.data);
 		return response;
 	}
 
@@ -19,7 +19,7 @@ export class EsbService {
 		const destination = BASE_URL + headers['url-destination'];
 		const response = await axios.post(destination, body, {headers})
 		.then(res => res.data)
-		.catch(err => err);
+		.catch(err => err.response.data);
 		return response;
 	}
 
@@ -27,7 +27,7 @@ export class EsbService {
 		const destination = BASE_URL + headers['url-destination'];
 		const response = await axios.delete(destination, {headers})
 		.then(res => res.data)
-		.catch(err => err);
+		.catch(err => err.response.data);
 		return response;
 	}
 
@@ -35,7 +35,7 @@ export class EsbService {
 		const destination = BASE_URL + headers['url-destination'];
 		const response = await axios.patch(destination, body, {headers})
 		.then(res => res.data)
-		.catch(err => err);
+		.catch(err => err.response.data);
 		return response
 	}
 
