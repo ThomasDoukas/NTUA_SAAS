@@ -30,7 +30,7 @@ export class EsbController {
             response.status(result.status).send(result);
         }
         catch(err) {
-            response.status(err.response.data.statusCode).send(err.response.data.message);
+            response.status(err.response.statusCode).send(err.response);
         }
     }
 
