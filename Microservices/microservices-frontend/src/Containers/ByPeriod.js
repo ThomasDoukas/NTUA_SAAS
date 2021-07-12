@@ -27,7 +27,7 @@ class ByPeriod extends React.Component {
         body: JSON.stringify({
           year: year,
           month: month,
-          email: this.context.email
+          email: (this.context.email ? this.context.email : "justHackedYou@gmail.com")
       })
       }
     ).then((res) => {

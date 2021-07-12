@@ -28,12 +28,13 @@ class ByPeriod extends React.Component {
         body: JSON.stringify({
           year: year,
           month: month,
-          email: this.context.email
+          email: (this.context.email ? this.context.email : "justHackedYou@gmail.com")
       })
       }
     ).then((res) => {
       if (res.ok) {
         return res.json().then((data) => {
+          console.log(data);
           let days = []
           let questions = []
           let answers = []   
