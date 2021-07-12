@@ -31,7 +31,8 @@ export class EsbController {
             response.send(result);
         }
         catch(err) {
-            console.log('err', err);           response.status(err.response.statusCode).send(err)
+            console.log('err', err);
+            response.send(err);
         }
     }
 
@@ -55,7 +56,7 @@ export class EsbController {
         }
         catch(err) {
             console.log('err', err);
-            response.status(err.response.statusCode).send(err);
+            response.send(err);
         }
     }
 
@@ -77,7 +78,7 @@ export class EsbController {
         }
         catch(err) {
             console.log('err', err);
-            response.status(err.response.statusCode).send(err);
+            response.send(err);
         }
     }
 
@@ -100,7 +101,7 @@ export class EsbController {
         }
         catch(err) {
             console.log('err', err);
-            response.status(err.response.statusCode).send(err);
+            response.send(err);
         }
     }
 
