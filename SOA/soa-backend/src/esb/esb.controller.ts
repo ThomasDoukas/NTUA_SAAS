@@ -28,7 +28,7 @@ export class EsbController {
         try {
             const result = await this.esbService.executeGetRequests(headers);
             console.log(result);
-            response.status(result.status).send(result);
+            response.send(result);
         }
         catch(err) {
             console.log(err);
@@ -52,7 +52,7 @@ export class EsbController {
         try {
             const result = await this.esbService.executePostRequests(headers, body);
             console.log(result);
-            response.status(result.status).send(result);
+            response.send(result);
         }
         catch(err) {
             console.log(err);
@@ -74,7 +74,7 @@ export class EsbController {
         try {
             const result = await this.esbService.executeDeleteRequests(headers);
             console.log(result);
-            response.status(result.status).send(result);
+            response.send(result);
         }
         catch(err) {
             console.log(err);
@@ -97,7 +97,7 @@ export class EsbController {
         try {
             const result = await this.esbService.executePatchRequests(headers, body);
             console.log(result);
-            response.status(result.status).send(result);
+            response.send(result);
         }
         catch(err) {
             console.log(err);
