@@ -27,12 +27,11 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executeGetRequests(headers);
-            console.log(result);
+            console.log('res', result);
             response.send(result);
         }
         catch(err) {
-            console.log(err);
-            response.status(err.response.statusCode).send(err)
+            console.log('err', err);           response.status(err.response.statusCode).send(err)
         }
     }
 
@@ -51,11 +50,11 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executePostRequests(headers, body);
-            console.log(result);
+            console.log('res', result);
             response.send(result);
         }
         catch(err) {
-            console.log(err);
+            console.log('err', err);
             response.status(err.response.statusCode).send(err);
         }
     }
@@ -73,11 +72,11 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executeDeleteRequests(headers);
-            console.log(result);
+            console.log('res', result);
             response.send(result);
         }
         catch(err) {
-            console.log(err);
+            console.log('err', err);
             response.status(err.response.statusCode).send(err);
         }
     }
@@ -96,11 +95,11 @@ export class EsbController {
     ) {
         try {
             const result = await this.esbService.executePatchRequests(headers, body);
-            console.log(result);
+            console.log('res', result);
             response.send(result);
         }
         catch(err) {
-            console.log(err);
+            console.log('err', err);
             response.status(err.response.statusCode).send(err);
         }
     }
