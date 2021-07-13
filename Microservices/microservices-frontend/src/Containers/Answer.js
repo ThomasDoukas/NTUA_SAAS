@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../Components/UI/CustomCard.module.css';
+import AuthContext from '../source/auth-context';
 
 class Answer extends React.Component {
+
+    static contextType = AuthContext;
 
     render() {
         return (
